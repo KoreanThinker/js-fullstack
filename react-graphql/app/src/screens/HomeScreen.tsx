@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 import BaseButton from '../components/BaseButton'
 import { useNavigation } from '@react-navigation/native'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const HomeScreen = () => {
 
@@ -14,7 +15,7 @@ const HomeScreen = () => {
                 style={{ flex: 1 }}
                 onPress={() => navigate('PostDetail')}
             >
-                <Text>PostDetail</Text>
+                <Icon name='home' size={50} />
             </BaseButton>
         </View>
     )
