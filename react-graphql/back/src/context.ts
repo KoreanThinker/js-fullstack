@@ -2,15 +2,10 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-async function main() {
-    const allUsers = await prisma.user.findMany()
-    console.log(allUsers)
+export interface Context {
+    prisma: PrismaClient
 }
 
-main()
-    .catch(e => {
-        throw e
-    })
-    .finally(async () => {
-        await prisma.$disconnect()
-    })
+export function createContext(): Context {
+    return { prisma }
+}
