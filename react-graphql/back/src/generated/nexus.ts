@@ -9,8 +9,8 @@ import * as Context from "../context"
 
 declare global {
   interface NexusGenCustomOutputProperties<TypeName extends string> {
+    crud: NexusPrisma<TypeName, 'crud'>
     model: NexusPrisma<TypeName, 'model'>
-    crud: any
   }
 }
 
@@ -19,6 +19,13 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  PostWhereUniqueInput: { // input type
+    id?: number | null; // Int
+  }
+  UserWhereUniqueInput: { // input type
+    email?: string | null; // String
+    id?: number | null; // Int
+  }
 }
 
 export interface NexusGenEnums {
@@ -43,6 +50,7 @@ export interface NexusGenRootTypes {
   }
   Query: {};
   User: { // root type
+    age: number; // Int!
     email: string; // String!
     id: number; // Int!
     name?: string | null; // String
@@ -50,6 +58,8 @@ export interface NexusGenRootTypes {
 }
 
 export interface NexusGenAllTypes extends NexusGenRootTypes {
+  PostWhereUniqueInput: NexusGenInputs['PostWhereUniqueInput'];
+  UserWhereUniqueInput: NexusGenInputs['UserWhereUniqueInput'];
   String: NexusGenScalars['String'];
   Int: NexusGenScalars['Int'];
   Float: NexusGenScalars['Float'];
@@ -59,8 +69,9 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
 
 export interface NexusGenFieldTypes {
   Mutation: { // field return type
-    createDraft: NexusGenRootTypes['Post']; // Post!
-    publish: NexusGenRootTypes['Post'] | null; // Post
+    createPost: NexusGenRootTypes['Post']; // Post!
+    deletePost: NexusGenRootTypes['Post'] | null; // Post
+    publishPost: NexusGenRootTypes['Post'] | null; // Post
   }
   Post: { // field return type
     author: NexusGenRootTypes['User'] | null; // User
@@ -71,10 +82,14 @@ export interface NexusGenFieldTypes {
     title: string; // String!
   }
   Query: { // field return type
-    feed: NexusGenRootTypes['Post'][]; // [Post!]!
     filterPosts: NexusGenRootTypes['Post'][]; // [Post!]!
+    longestPostTitle: string; // String!
+    post: NexusGenRootTypes['Post'] | null; // Post
+    posts: NexusGenRootTypes['Post'][]; // [Post!]!
+    user: NexusGenRootTypes['User'] | null; // User
   }
   User: { // field return type
+    age: number; // Int!
     email: string; // String!
     id: number; // Int!
     name: string | null; // String
@@ -84,18 +99,27 @@ export interface NexusGenFieldTypes {
 
 export interface NexusGenArgTypes {
   Mutation: {
-    createDraft: { // args
+    createPost: { // args
       authorEmail: string; // String!
       content?: string | null; // String
       title: string; // String!
     }
-    publish: { // args
+    deletePost: { // args
+      id?: number | null; // Int
+    }
+    publishPost: { // args
       id?: number | null; // Int
     }
   }
   Query: {
     filterPosts: { // args
       searchString?: string | null; // String
+    }
+    post: { // args
+      id: number; // Int!
+    }
+    user: { // args
+      where: NexusGenInputs['UserWhereUniqueInput']; // UserWhereUniqueInput!
     }
   }
 }
@@ -107,7 +131,7 @@ export interface NexusGenInheritedFields {}
 
 export type NexusGenObjectNames = "Mutation" | "Post" | "Query" | "User";
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = "PostWhereUniqueInput" | "UserWhereUniqueInput";
 
 export type NexusGenEnumNames = never;
 

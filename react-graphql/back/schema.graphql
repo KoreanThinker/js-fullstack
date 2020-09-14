@@ -3,8 +3,9 @@
 
 
 type Mutation {
-  createDraft(authorEmail: String!, content: String, title: String!): Post!
-  publish(id: Int): Post
+  createPost(authorEmail: String!, content: String, title: String!): Post!
+  deletePost(id: Int): Post
+  publishPost(id: Int): Post
 }
 
 type Post {
@@ -16,14 +17,27 @@ type Post {
   title: String!
 }
 
+input PostWhereUniqueInput {
+  id: Int
+}
+
 type Query {
-  feed: [Post!]!
   filterPosts(searchString: String): [Post!]!
+  longestPostTitle: String!
+  post(id: Int!): Post
+  posts: [Post!]!
+  user(where: UserWhereUniqueInput!): User
 }
 
 type User {
+  age: Int!
   email: String!
   id: Int!
   name: String
   posts: [Post!]!
+}
+
+input UserWhereUniqueInput {
+  email: String
+  id: Int
 }
