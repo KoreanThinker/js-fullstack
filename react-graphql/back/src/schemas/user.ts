@@ -16,6 +16,7 @@ const User = objectType({
             }
         })
         t.model.age()
+        t.model.test()
     }
 })
 

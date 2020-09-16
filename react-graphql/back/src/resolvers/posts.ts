@@ -1,6 +1,6 @@
 import { ObjectDefinitionBlock, stringArg } from "@nexus/schema/dist/core"
 
-//query
+//Query
 export const posts = (t: ObjectDefinitionBlock<"Query">) => t.list.field('posts', {
     type: 'Post',
     resolve: (_, args, ctx) => {

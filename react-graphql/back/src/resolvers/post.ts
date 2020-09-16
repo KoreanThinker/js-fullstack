@@ -1,6 +1,6 @@
 import { intArg, ObjectDefinitionBlock, objectType, stringArg } from "@nexus/schema/dist/core"
 
-//query
+//Query
 export const post = (t: ObjectDefinitionBlock<"Query">) => t.field('post', {
     type: 'Post',
     args: {
@@ -28,7 +28,7 @@ export const longestPostTitle = (t: ObjectDefinitionBlock<"Query">) => t.string(
 })
 
 
-// mutation
+// Mutation
 export const createPost = (t: ObjectDefinitionBlock<"Mutation">) => t.field('createPost', {
     type: 'Post',
     args: {

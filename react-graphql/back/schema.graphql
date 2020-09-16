@@ -6,6 +6,7 @@ type Mutation {
   createPost(authorEmail: String!, content: String, title: String!): Post!
   deletePost(id: Int): Post
   publishPost(id: Int): Post
+  updateUser(id: Int!, test: Int!): User!
 }
 
 type Post {
@@ -37,4 +38,5 @@ type User {
   password: String!
   postNum: Int!
   posts(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int): [Post!]!
+  test: Int
 }
