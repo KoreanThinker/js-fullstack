@@ -1,6 +1,15 @@
 import { ObjectDefinitionBlock, stringArg } from "@nexus/schema/dist/core"
 
 //query
+export const posts = (t: ObjectDefinitionBlock<"Query">) => t.list.field('posts', {
+    type: 'Post',
+    resolve: (_, args, ctx) => {
+        return ctx.prisma.post.findMany({
+            where: { published: true },
+        })
+    },
+})
+
 export const filterPosts = (t: ObjectDefinitionBlock<"Query">) => t.list.field('filterPosts', {
     type: 'Post',
     args: {
@@ -14,15 +23,6 @@ export const filterPosts = (t: ObjectDefinitionBlock<"Query">) => t.list.field('
                     { content: { contains: searchString } },
                 ],
             },
-        })
-    },
-})
-
-export const posts = (t: ObjectDefinitionBlock<"Query">) => t.list.field('posts', {
-    type: 'Post',
-    resolve: (_, args, ctx) => {
-        return ctx.prisma.post.findMany({
-            where: { published: true },
         })
     },
 })

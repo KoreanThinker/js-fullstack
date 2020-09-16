@@ -9,8 +9,8 @@ import * as Context from "../context"
 
 declare global {
   interface NexusGenCustomOutputProperties<TypeName extends string> {
-    crud: NexusPrisma<TypeName, 'crud'>
     model: NexusPrisma<TypeName, 'model'>
+    crud: any
   }
 }
 
@@ -20,10 +20,6 @@ declare global {
 
 export interface NexusGenInputs {
   PostWhereUniqueInput: { // input type
-    id?: number | null; // Int
-  }
-  UserWhereUniqueInput: { // input type
-    email?: string | null; // String
     id?: number | null; // Int
   }
 }
@@ -50,7 +46,7 @@ export interface NexusGenRootTypes {
   }
   Query: {};
   User: { // root type
-    age: number; // Int!
+    age?: number | null; // Int
     email: string; // String!
     id: number; // Int!
     name?: string | null; // String
@@ -59,7 +55,6 @@ export interface NexusGenRootTypes {
 
 export interface NexusGenAllTypes extends NexusGenRootTypes {
   PostWhereUniqueInput: NexusGenInputs['PostWhereUniqueInput'];
-  UserWhereUniqueInput: NexusGenInputs['UserWhereUniqueInput'];
   String: NexusGenScalars['String'];
   Int: NexusGenScalars['Int'];
   Float: NexusGenScalars['Float'];
@@ -89,10 +84,11 @@ export interface NexusGenFieldTypes {
     user: NexusGenRootTypes['User'] | null; // User
   }
   User: { // field return type
-    age: number; // Int!
+    age: number | null; // Int
     email: string; // String!
     id: number; // Int!
     name: string | null; // String
+    postNum: number; // Int!
     posts: NexusGenRootTypes['Post'][]; // [Post!]!
   }
 }
@@ -119,7 +115,15 @@ export interface NexusGenArgTypes {
       id: number; // Int!
     }
     user: { // args
-      where: NexusGenInputs['UserWhereUniqueInput']; // UserWhereUniqueInput!
+      id: number; // Int!
+    }
+  }
+  User: {
+    posts: { // args
+      after?: NexusGenInputs['PostWhereUniqueInput'] | null; // PostWhereUniqueInput
+      before?: NexusGenInputs['PostWhereUniqueInput'] | null; // PostWhereUniqueInput
+      first?: number | null; // Int
+      last?: number | null; // Int
     }
   }
 }
@@ -131,7 +135,7 @@ export interface NexusGenInheritedFields {}
 
 export type NexusGenObjectNames = "Mutation" | "Post" | "Query" | "User";
 
-export type NexusGenInputNames = "PostWhereUniqueInput" | "UserWhereUniqueInput";
+export type NexusGenInputNames = "PostWhereUniqueInput";
 
 export type NexusGenEnumNames = never;
 

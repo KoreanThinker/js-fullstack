@@ -2,21 +2,22 @@ import { nexusSchemaPrisma } from "nexus-plugin-prisma/schema";
 import { makeSchema, objectType } from '@nexus/schema'
 
 
-import { createPost, deletePost, longestPostTitle, post, publishPost } from './post'
+import Post, { createPost, deletePost, longestPostTitle, post, publishPost } from './post'
 import { filterPosts, posts } from "./posts";
+import User, { user } from "./user";
 
 
 const Query = objectType({
     name: 'Query',
     definition(t) {
-        t.crud.user()
-        t.crud.post()
         //posts
-        filterPosts(t)
         posts(t)
+        filterPosts(t)
         //post
         post(t)
         longestPostTitle(t)
+        //user
+        user(t)
     },
 })
 
@@ -30,34 +31,10 @@ const Mutation = objectType({
     }
 })
 
-const Post = objectType({
-    name: 'Post',
-    definition(t) {
-        t.model.id()
-        t.model.title()
-        t.model.content()
-        t.model.published()
-        t.model.author()
-        t.model.authorId()
-    },
-})
-
-const User = objectType({
-    name: 'User',
-    definition(t) {
-        t.model.id()
-        t.model.name()
-        t.model.email()
-        t.model.posts({
-            pagination: false
-        })
-        t.model.age()
-    },
-})
 
 export const schema = makeSchema({
     types: [Query, Mutation, Post, User],
-    plugins: [nexusSchemaPrisma({ experimentalCRUD: true })],
+    plugins: [nexusSchemaPrisma({})],
     outputs: {
         schema: __dirname + '/../../schema.graphql',
         typegen: __dirname + '/../generated/nexus.ts',

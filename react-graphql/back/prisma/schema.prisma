@@ -12,7 +12,7 @@ model User {
   email String  @unique
   name  String?
   posts Post[]
-  age   Int
+  age   Int?
 }
 
 model Post {

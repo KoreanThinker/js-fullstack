@@ -26,18 +26,14 @@ type Query {
   longestPostTitle: String!
   post(id: Int!): Post
   posts: [Post!]!
-  user(where: UserWhereUniqueInput!): User
+  user(id: Int!): User
 }
 
 type User {
-  age: Int!
+  age: Int
   email: String!
   id: Int!
   name: String
-  posts: [Post!]!
-}
-
-input UserWhereUniqueInput {
-  email: String
-  id: Int
+  postNum: Int!
+  posts(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int): [Post!]!
 }

@@ -1,4 +1,18 @@
-import { intArg, ObjectDefinitionBlock, stringArg } from "@nexus/schema/dist/core"
+import { intArg, ObjectDefinitionBlock, objectType, stringArg } from "@nexus/schema/dist/core"
+
+
+const Post = objectType({
+    name: 'Post',
+    definition(t) {
+        t.model.id()
+        t.model.title()
+        t.model.content()
+        t.model.published()
+        t.model.author()
+        t.model.authorId()
+    },
+})
+
 
 //query
 export const post = (t: ObjectDefinitionBlock<"Query">) => t.field('post', {
@@ -76,3 +90,5 @@ export const deletePost = (t: ObjectDefinitionBlock<"Mutation">) => t.field('del
         })
     }
 })
+
+export default Post
