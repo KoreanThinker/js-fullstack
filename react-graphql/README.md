@@ -18,9 +18,10 @@
 - prisma
 
 ### DATABASE
-- mongodb
+- mysql
 
 # TODO
 front, app에서 로그인 front에서 post, app 에서 인피니티스크롤 front & app chatting
+- JWT 인증 (kakao, facebook, email)
 - search
 - 결제모듈

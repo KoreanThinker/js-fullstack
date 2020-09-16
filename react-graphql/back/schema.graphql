@@ -34,6 +34,7 @@ type User {
   email: String!
   id: Int!
   name: String
+  password: String!
   postNum: Int!
   posts(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int): [Post!]!
 }

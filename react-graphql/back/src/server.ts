@@ -1,13 +1,34 @@
 import express from 'express'
 import { ApolloServer } from 'apollo-server-express'
+
 import { createContext } from './context'
 import { schema } from './schemas'
+require('dotenv').config()
 
 const app = express()
 
 const server = new ApolloServer({
   schema,
-  context: (expressContext) => createContext(expressContext)
+  context: createContext
+});
+
+
+if (process.env.NODE_ENV === 'production') {
+  // app.use(morgan('combined'))
+  // app.use(cors({
+  //   origin: ['http://xxx.com'],
+  //   credentials: true
+  // }))
+} else {
+  // app.use(morgan('dev'))
+  // app.use(cors({
+  //   origin: true,
+  //   credentials: true
+  // }))
+}
+
+app.get('/', (req, res) => {
+  res.send('Server is running');
 });
 
 server.applyMiddleware({ app })

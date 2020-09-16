@@ -1,35 +1,11 @@
 import { nexusSchemaPrisma } from "nexus-plugin-prisma/schema";
-import { makeSchema, objectType } from '@nexus/schema'
+import { makeSchema } from '@nexus/schema'
 
 
-import Post, { createPost, deletePost, longestPostTitle, post, publishPost } from './post'
-import { filterPosts, posts } from "./posts";
-import User, { user } from "./user";
-
-
-const Query = objectType({
-    name: 'Query',
-    definition(t) {
-        //posts
-        posts(t)
-        filterPosts(t)
-        //post
-        post(t)
-        longestPostTitle(t)
-        //user
-        user(t)
-    },
-})
-
-const Mutation = objectType({
-    name: 'Mutation',
-    definition(t) {
-        //post
-        createPost(t)
-        publishPost(t)
-        deletePost(t)
-    }
-})
+import Query from "./Query";
+import Mutation from "./Mutation";
+import Post from "./Post";
+import User from "./User";
 
 
 export const schema = makeSchema({

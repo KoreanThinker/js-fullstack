@@ -1,8 +1,5 @@
 {
   "name": "back",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
     "start": "node dist/server",
     "dev": "ts-node-dev --notify --respawn --transpile-only src/server.ts",
@@ -16,23 +13,22 @@
     "generate:nexus": "cross-env NODE_ENV=development ts-node --transpile-only src/schemas",
     "studio:prisma": "prisma studio --experimental "
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@nexus/schema": "0.15.0",
     "apollo-server-express": "^2.17.0",
-    "compression": "^1.7.4",
+    "bcrypt": "^5.0.0",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "graphql": "^15.3.0",
+    "morgan": "^1.10.0",
     "nexus-plugin-prisma": "0.18.2"
   },
   "devDependencies": {
-    "@types/compression": "^1.7.0",
     "@types/graphql": "^14.5.0",
     "@types/node": "^14.10.1",
+    "@types/bcrypt": "^3.0.0",
+    "@types/morgan": "^1.9.1",
     "graphql-depth-limit": "^1.1.0",
     "graphql-import": "^1.0.2",
     "graphql-import-node": "0.0.4",
