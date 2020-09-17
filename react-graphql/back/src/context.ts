@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client'
 import { ExpressContext } from 'apollo-server-express/dist/ApolloServer'
-import { getUserId } from './utils'
 
 export const prisma = new PrismaClient()
 
