@@ -36,6 +36,10 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenRootTypes {
+  Auth: { // root type
+    token: string; // String!
+    user?: NexusGenRootTypes['User'] | null; // User
+  }
   Mutation: {};
   Post: { // root type
     authorId?: number | null; // Int
@@ -65,10 +69,16 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
 }
 
 export interface NexusGenFieldTypes {
+  Auth: { // field return type
+    token: string; // String!
+    user: NexusGenRootTypes['User'] | null; // User
+  }
   Mutation: { // field return type
     createPost: NexusGenRootTypes['Post']; // Post!
     deletePost: NexusGenRootTypes['Post'] | null; // Post
+    login: NexusGenRootTypes['Auth']; // Auth!
     publishPost: NexusGenRootTypes['Post'] | null; // Post
+    signup: NexusGenRootTypes['Auth']; // Auth!
     updateUser: NexusGenRootTypes['User']; // User!
   }
   Post: { // field return type
@@ -108,8 +118,16 @@ export interface NexusGenArgTypes {
     deletePost: { // args
       id?: number | null; // Int
     }
+    login: { // args
+      email: string; // String!
+      password: string; // String!
+    }
     publishPost: { // args
       id?: number | null; // Int
+    }
+    signup: { // args
+      email: string; // String!
+      password: string; // String!
     }
     updateUser: { // args
       id: number; // Int!
@@ -142,7 +160,7 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "Mutation" | "Post" | "Query" | "User";
+export type NexusGenObjectNames = "Auth" | "Mutation" | "Post" | "Query" | "User";
 
 export type NexusGenInputNames = "PostWhereUniqueInput";
 

@@ -2,10 +2,17 @@
 ### Do not make changes to this file directly
 
 
+type Auth {
+  token: String!
+  user: User
+}
+
 type Mutation {
   createPost(authorEmail: String!, content: String, title: String!): Post!
   deletePost(id: Int): Post
+  login(email: String!, password: String!): Auth!
   publishPost(id: Int): Post
+  signup(email: String!, password: String!): Auth!
   updateUser(id: Int!, test: Int!): User!
 }
 
