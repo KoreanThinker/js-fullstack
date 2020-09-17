@@ -4,7 +4,7 @@ const Auth = objectType({
     name: 'Auth',
     definition(t) {
         t.string('token')
-        t.field('user', { type: 'User', nullable: true, })
+        t.field('user', { type: 'User', nullable: true })
     }
 })
 

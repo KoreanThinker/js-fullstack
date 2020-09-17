@@ -91,7 +91,6 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     filterPosts: NexusGenRootTypes['Post'][]; // [Post!]!
-    longestPostTitle: string; // String!
     post: NexusGenRootTypes['Post'] | null; // Post
     posts: NexusGenRootTypes['Post'][]; // [Post!]!
     user: NexusGenRootTypes['User'] | null; // User
@@ -111,12 +110,11 @@ export interface NexusGenFieldTypes {
 export interface NexusGenArgTypes {
   Mutation: {
     createPost: { // args
-      authorEmail: string; // String!
       content?: string | null; // String
       title: string; // String!
     }
     deletePost: { // args
-      id?: number | null; // Int
+      id: number; // Int!
     }
     login: { // args
       email: string; // String!

@@ -8,8 +8,8 @@ type Auth {
 }
 
 type Mutation {
-  createPost(authorEmail: String!, content: String, title: String!): Post!
-  deletePost(id: Int): Post
+  createPost(content: String, title: String!): Post!
+  deletePost(id: Int!): Post
   login(email: String!, password: String!): Auth!
   publishPost(id: Int): Post
   signup(email: String!, password: String!): Auth!
@@ -31,7 +31,6 @@ input PostWhereUniqueInput {
 
 type Query {
   filterPosts(searchString: String): [Post!]!
-  longestPostTitle: String!
   post(id: Int!): Post
   posts: [Post!]!
   user(id: Int!): User

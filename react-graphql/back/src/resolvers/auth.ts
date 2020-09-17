@@ -18,7 +18,7 @@ export const signup = (t: ObjectDefinitionBlock<"Mutation">) => t.field('signup'
                 password: hashedPassword
             }
         })
-        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET as string)
+        const token = jwt.sign({ userId: String(user.id) }, process.env.JWT_SECRET as string)
         return { token, user }
     }
 })
@@ -36,7 +36,7 @@ export const login = (t: ObjectDefinitionBlock<"Mutation">) => t.field('login', 
         const valid = await bcrypt.compare(password, user.password)
         if (!valid) throw new Error('Invalid password')
 
-        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET as string)
+        const token = jwt.sign({ userId: String(user.id) }, process.env.JWT_SECRET as string)
         return { token, user }
     }
 })
