@@ -1,17 +1,12 @@
 import React from 'react'
-import Head from 'next/head'
-import Link from 'next/link'
+import Layout from '../components/Layout'
+
 
 const Home = () => {
   return (
-    <div>
-      <Head>
-        <title>Home</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <Layout>
       <h1>Home</h1>
-      <Link href='/signup'><a>123</a></Link>
-    </div>
+    </Layout>
   )
 
 }
