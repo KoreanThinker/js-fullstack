@@ -1,106 +1,83 @@
-import React, { useEffect } from 'react'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { NAV_ROUTES } from '../constants/values'
+import { Button, Layout as MyLayout, Menu, Space } from 'antd';
+import { NAV_ROUTES } from '../constants/values';
 
-const NavBar = styled.div({
-    height: 80,
+
+const Header = styled(MyLayout.Header)({
+    display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingLeft: 16,
-    paddingRight: 16,
-    boxShadow: '0 2px 6px 0 rgba(0,0,0,.12), inset 0 -1px 0 0 #dadce0'
+    justifyContent: 'space-between',
+    backgroundColor: '#fff',
+    boxShadow: '0 2px 8px #f0f1f2',
+    zIndex: 10
+})
+
+const Content = styled(MyLayout.Content)({
+    backgroundColor: '#fff',
+    padding: 0
+})
+
+const Footer = styled(MyLayout.Footer)({
+    textAlign: 'center'
 })
 
 const Icon = styled.img({
-    width: 56,
-    height: 56
+    width: 48,
+    height: 48,
+    marginRight: 24
 })
 
-const NavItem = styled.span<{ isCurrentRoute: boolean }>(({ isCurrentRoute }) => ({
-    color: isCurrentRoute ? '#3f20cc' : '#000',
-    marginLeft: 20,
-    fontSize: 20
-}))
-
-const Left = styled.div({
-    flexDirection: 'row',
-    alignItems: 'center'
-})
-
-const Right = styled.div({
-    flexDirection: 'row',
-    alignItems: 'center'
-})
-
-const SignUp = styled.span({
-    marginRight: 20,
-    color: '#000'
-})
-
-const ConsoleBox = styled.div({
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#3f20cc',
-    padding: 16,
-    ":hover": {
-        backgroundColor: '#3f20ba'
-    }
-})
-
-const Console = styled.span({
-    color: '#fff'
-})
-
-const Footer = styled.div({
-    backgroundColor: '#ddd',
-    height: 100
-})
-
-const MainLayout: React.FC = ({ children }) => {
+const Layout: React.FC = ({ children }) => {
 
     const router = useRouter()
-    const currentRoute = router.route.split('/')[1] || '/'
+    // const currentRoute = router.route.split('/')[1] || '/'
 
-    useEffect(() => {
-        console.log(currentRoute)
-    }, [currentRoute])
+    const navigate = useCallback((route: string) => () => {
+        router.push(route)
+    }, [])
+
+    const onSignup = useCallback(() => {
+        router.push('/signup')
+        // router.push('/logout')
+    }, [])
+
+    const onConsole = useCallback(() => {
+        router.push('/login')
+        // router.push('/console')
+    }, [])
+
 
     return (
-        <div >
-            <NavBar>
-                <Left>
-                    <Link href='/'>
-                        <a>
-                            <Icon src='/favicon.ico' alt='logo' />
-                        </a>
-                    </Link>
-                    {NAV_ROUTES.map(v =>
-                        <Link href={`/${v}`}>
-                            <a><NavItem isCurrentRoute={currentRoute === v} >{v}</NavItem></a>
-                        </Link>
-                    )}
-
-                </Left>
-                <Right>
-                    <Link href='/signup' >
-                        <a><SignUp>Signup</SignUp></a>
-                    </Link>
-                    <a href='https://www.github.com/KoreanThinker' target='_blank'>
-                        <ConsoleBox>
-                            <Console>Console</Console>
-                        </ConsoleBox>
-                    </a>
-                </Right>
-            </NavBar>
-            {children}
-            <Footer>
-
-            </Footer>
-        </div>
+        <MyLayout>
+            <Header>
+                <Space>
+                    <Link href='/'><a><Icon src='/icon.png' /></a></Link>
+                    <Menu mode="horizontal">
+                        {NAV_ROUTES.map((route) =>
+                            <Menu.Item
+                                key={route}
+                                onClick={navigate(route)}
+                            >
+                                {route}
+                            </Menu.Item>
+                        )}
+                    </Menu>
+                </Space>
+                <Space>
+                    <Button type='text' onClick={onSignup} >SignUp</Button>
+                    <Button type='primary' onClick={onConsole} >Login</Button>
+                </Space>
+            </Header >
+            <Content>
+                {children}
+            </Content>
+            <Footer style={{ textAlign: 'center' }}>Korean Thinker ©2020 Created by React GraphQL Apollo Antd</Footer>
+        </MyLayout >
     )
 }
 
-export default MainLayout
+export default Layout
