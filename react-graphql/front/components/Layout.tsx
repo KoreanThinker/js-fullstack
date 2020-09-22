@@ -2,11 +2,16 @@ import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { Button, Layout as MyLayout, Menu, Space } from 'antd';
+import { Button, Layout as AntdLayout, Menu, Space } from 'antd';
 import { NAV_ROUTES } from '../constants/values';
 
 
-const Header = styled(MyLayout.Header)({
+const MyLayout = styled(AntdLayout)({
+    minHeight: '100vh',
+    minWidth: '100vw'
+})
+
+const Header = styled(AntdLayout.Header)({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -16,12 +21,12 @@ const Header = styled(MyLayout.Header)({
     zIndex: 10
 })
 
-const Content = styled(MyLayout.Content)({
+const Content = styled(AntdLayout.Content)({
     backgroundColor: '#fff',
-    padding: 0
+    padding: 0,
 })
 
-const Footer = styled(MyLayout.Footer)({
+const Footer = styled(AntdLayout.Footer)({
     textAlign: 'center'
 })
 
@@ -76,7 +81,7 @@ const Layout: React.FC = ({ children }) => {
                 {children}
             </Content>
             <Footer style={{ textAlign: 'center' }}>Korean Thinker ©2020 Created by React GraphQL Apollo Antd</Footer>
-        </MyLayout >
+        </MyLayout>
     )
 }
 
