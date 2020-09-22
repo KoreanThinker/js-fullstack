@@ -27,6 +27,10 @@ const signup = () => {
     const router = useRouter()
     const [signupRequrest, { loading, data, error }] = useMutation(SIGHUP)
 
+    useEffect(() => { //when user has token replace to home
+        if (localStorage.getItem('token')) router.replace('/')
+    }, [])
+
     useEffect(() => {
         if (data && data.signup && data.signup.token) {
             console.log(data.signup.token)
@@ -36,7 +40,7 @@ const signup = () => {
     }, [data])
 
     useEffect(() => {
-        if (error) toast.error(error.message)
+        if (error && error.message) toast.error(error.message)
     }, [error])
 
     const onFinish = useCallback((values) => {

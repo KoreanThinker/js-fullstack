@@ -52,7 +52,7 @@ const Icon = styled.img({
 const Layout: React.FC = ({ children }) => {
 
     const router = useRouter()
-    const { data } = useQuery(GET_I_USER, { client })
+    const { data, error } = useQuery(GET_I_USER, { client })
     const [iUser, setIUser] = useState<IUser | null>(null)
     // const currentRoute = router.route.split('/')[1] || '/'
 
@@ -62,6 +62,10 @@ const Layout: React.FC = ({ children }) => {
             setIUser(data.iUser as IUser)
         }
     }, [data])
+
+    useEffect(() => { //trash token
+        if (error) localStorage.removeItem('token')
+    }, [error])
 
     const navigate = useCallback((route: string) => () => {
         router.push(route)
