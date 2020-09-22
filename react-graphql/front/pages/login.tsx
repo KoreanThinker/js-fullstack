@@ -7,14 +7,14 @@ const Container = styled.div({
 })
 
 
-const showcase = () => {
+const login = () => {
     return (
         <Layout>
             <Container>
-                <h1>ShowCase</h1>
+                <h1>login</h1>
             </Container>
         </Layout>
     )
 }
 
-export default showcase
+export default login

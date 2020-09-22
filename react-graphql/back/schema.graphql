@@ -12,7 +12,7 @@ type Mutation {
   deletePost(id: Int!): Post
   login(email: String!, password: String!): Auth!
   publishPost(id: Int): Post
-  signup(email: String!, password: String!): Auth!
+  signup(email: String!, name: String!, password: String!): Auth!
   updateUser(id: Int!, test: Int!): User!
 }
 

@@ -1,8 +1,23 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import styled from 'styled-components'
 import { Button, Form, Input, Space } from 'antd'
 import Layout from '../components/Layout'
 import { toast } from 'react-toastify';
+import { gql, useMutation } from '@apollo/client';
+
+const SIGHUP = gql`
+  mutation signup($email: String!, $password: String!, $name: String!) {
+    signup(email: $email, password: $password, name: $name) {
+        token
+        user {
+            id
+            name
+            email
+            password
+        }
+    }
+  }
+`
 
 const Container = styled.div({
     padding: 64
@@ -14,11 +29,26 @@ const FormContainer = styled(Space)({
 
 const signup = () => {
 
+    const [signupRequrest, { loading, data, error }] = useMutation(SIGHUP)
+
+    useEffect(() => {
+        if (data) {
+            console.log(data)
+        }
+    }, [data])
+
+    useEffect(() => {
+        if (error) {
+            toast.error(error.message)
+        }
+    }, [error])
+
     const onFinish = useCallback((values) => {
-        const { password, passwordCheck } = values
+        const { password, passwordCheck, email, name } = values
         if (password !== passwordCheck) {
             toast.error("Password and password check is not equal")
         }
+        signupRequrest({ variables: { email, password, name } })
     }, [])
 
     const onFinishFailed = useCallback((errorInfo) => {
@@ -77,7 +107,7 @@ const signup = () => {
                             <Input placeholder="Name" />
                         </Form.Item>
                         <Form.Item >
-                            <Button type="primary" htmlType="submit">Submit</Button>
+                            <Button loading={loading} type="primary" htmlType="submit">Submit</Button>
                         </Form.Item>
                     </FormContainer>
                 </Form>

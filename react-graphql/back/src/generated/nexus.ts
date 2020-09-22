@@ -125,6 +125,7 @@ export interface NexusGenArgTypes {
     }
     signup: { // args
       email: string; // String!
+      name: string; // String!
       password: string; // String!
     }
     updateUser: { // args

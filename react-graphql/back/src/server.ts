@@ -3,6 +3,7 @@ import { ApolloServer } from 'apollo-server-express'
 
 import { createContext } from './context'
 import { schema } from './schemas'
+import morgan from 'morgan'
 require('dotenv').config()
 
 const app = express()
@@ -20,7 +21,7 @@ if (process.env.NODE_ENV === 'production') {
   //   credentials: true
   // }))
 } else {
-  // app.use(morgan('dev'))
+  app.use(morgan('dev'))
   // app.use(cors({
   //   origin: true,
   //   credentials: true

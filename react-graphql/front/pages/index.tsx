@@ -6,7 +6,7 @@ const Container = styled.div({
   padding: 64
 })
 
-const Home = () => {
+const home = () => {
   return (
     <Layout>
       <Container >
@@ -21,4 +21,4 @@ const Home = () => {
   )
 
 }
-export default Home
+export default home

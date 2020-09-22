@@ -8,14 +8,16 @@ export const signup = (t: ObjectDefinitionBlock<"Mutation">) => t.field('signup'
     type: 'Auth',
     args: {
         email: stringArg({ required: true }),
-        password: stringArg({ required: true })
+        password: stringArg({ required: true }),
+        name: stringArg({ required: true })
     },
-    resolve: async (_, { email, password }, ctx) => {
+    resolve: async (_, { email, password, name }, ctx) => {
         const hashedPassword = await bcrypt.hash(password, 12)
         const user = await ctx.prisma.user.create({
             data: {
                 email,
-                password: hashedPassword
+                password: hashedPassword,
+                name
             }
         })
         const token = jwt.sign({ userId: String(user.id) }, process.env.JWT_SECRET as string)
