@@ -31,6 +31,7 @@ input PostWhereUniqueInput {
 
 type Query {
   filterPosts(searchString: String): [Post!]!
+  iUser: User
   post(id: Int!): Post
   posts: [Post!]!
   user(id: Int!): User

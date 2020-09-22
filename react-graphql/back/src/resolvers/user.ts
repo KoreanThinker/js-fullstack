@@ -1,4 +1,5 @@
 import { intArg, ObjectDefinitionBlock } from "@nexus/schema/dist/core"
+import { getUserId } from "../utils"
 
 //Query
 export const user = (t: ObjectDefinitionBlock<"Query">) => t.field('user', {
@@ -11,6 +12,23 @@ export const user = (t: ObjectDefinitionBlock<"Query">) => t.field('user', {
         return ctx.prisma.user.findOne({
             where: { id: Number(id) }
         })
+    }
+})
+
+export const iUser = (t: ObjectDefinitionBlock<"Query">) => t.field('iUser', {
+    type: 'User',
+    nullable: true,
+    resolve: async (_, { }, ctx) => {
+        try {
+            const userId = getUserId(ctx)
+            console.log(userId)
+            const user = ctx.prisma.user.findOne({
+                where: { id: Number(userId) }
+            })
+            return user
+        } catch (error) {
+            throw new Error('Invalid Error')
+        }
     }
 })
 

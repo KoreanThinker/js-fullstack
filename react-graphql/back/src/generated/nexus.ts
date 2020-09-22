@@ -91,6 +91,7 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     filterPosts: NexusGenRootTypes['Post'][]; // [Post!]!
+    iUser: NexusGenRootTypes['User'] | null; // User
     post: NexusGenRootTypes['Post'] | null; // Post
     posts: NexusGenRootTypes['Post'][]; // [Post!]!
     user: NexusGenRootTypes['User'] | null; // User
