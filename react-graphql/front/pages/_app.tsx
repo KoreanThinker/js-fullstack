@@ -3,13 +3,11 @@ import React from 'react'
 import '../styles/global.css'
 import 'antd/dist/antd.css';
 import { ToastContainer } from 'react-toastify';
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
 
-const client = new ApolloClient({
-  uri: process.env.GRAPHQL_SERVER_URL,
-  cache: new InMemoryCache()
-});
+import client from '../apollo/client'
+
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   return <>

@@ -12,16 +12,23 @@ export const signup = (t: ObjectDefinitionBlock<"Mutation">) => t.field('signup'
         name: stringArg({ required: true })
     },
     resolve: async (_, { email, password, name }, ctx) => {
-        const hashedPassword = await bcrypt.hash(password, 12)
-        const user = await ctx.prisma.user.create({
-            data: {
-                email,
-                password: hashedPassword,
-                name
+        try {
+            const hashedPassword = await bcrypt.hash(password, 12)
+            const user = await ctx.prisma.user.create({
+                data: {
+                    email,
+                    password: hashedPassword,
+                    name
+                }
+            })
+            const token = jwt.sign({ userId: String(user.id) }, process.env.JWT_SECRET as string)
+            return { token, user }
+        } catch (error) {
+            switch (error.code) {
+                case 'P2002': throw new Error('Duplicated email')
+                default: throw new Error('Invalid Error')
             }
-        })
-        const token = jwt.sign({ userId: String(user.id) }, process.env.JWT_SECRET as string)
-        return { token, user }
+        }
     }
 })
 

@@ -4,17 +4,12 @@ import { Button, Form, Input, Space } from 'antd'
 import Layout from '../components/Layout'
 import { toast } from 'react-toastify';
 import { gql, useMutation } from '@apollo/client';
+import { useRouter } from 'next/router';
 
 const SIGHUP = gql`
   mutation signup($email: String!, $password: String!, $name: String!) {
     signup(email: $email, password: $password, name: $name) {
         token
-        user {
-            id
-            name
-            email
-            password
-        }
     }
   }
 `
@@ -29,18 +24,19 @@ const FormContainer = styled(Space)({
 
 const signup = () => {
 
+    const router = useRouter()
     const [signupRequrest, { loading, data, error }] = useMutation(SIGHUP)
 
     useEffect(() => {
-        if (data) {
-            console.log(data)
+        if (data && data.signup && data.signup.token) {
+            console.log(data.signup.token)
+            localStorage.setItem('token', data.signup.token)
+            router.replace('/')
         }
     }, [data])
 
     useEffect(() => {
-        if (error) {
-            toast.error(error.message)
-        }
+        if (error) toast.error(error.message)
     }, [error])
 
     const onFinish = useCallback((values) => {

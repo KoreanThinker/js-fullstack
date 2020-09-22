@@ -1,9 +1,11 @@
 import express from 'express'
 import { ApolloServer } from 'apollo-server-express'
+import morgan from 'morgan'
+import cors from 'cors'
 
 import { createContext } from './context'
 import { schema } from './schemas'
-import morgan from 'morgan'
+
 require('dotenv').config()
 
 const app = express()
@@ -15,17 +17,17 @@ const server = new ApolloServer({
 
 
 if (process.env.NODE_ENV === 'production') {
-  // app.use(morgan('combined'))
-  // app.use(cors({
-  //   origin: ['http://xxx.com'],
-  //   credentials: true
-  // }))
+  app.use(morgan('combined'))
+  app.use(cors({
+    origin: ['http://xxx.com'],
+    credentials: true
+  }))
 } else {
   app.use(morgan('dev'))
-  // app.use(cors({
-  //   origin: true,
-  //   credentials: true
-  // }))
+  app.use(cors({
+    origin: '*',
+    credentials: true
+  }))
 }
 
 app.get('/', (req, res) => {

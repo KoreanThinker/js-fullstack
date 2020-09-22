@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Layout from '../components/Layout'
 
@@ -7,6 +7,11 @@ const Container = styled.div({
 })
 
 const home = () => {
+
+  useEffect(() => {
+    //login
+  }, [])
+
   return (
     <Layout>
       <Container >

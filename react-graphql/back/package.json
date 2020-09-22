@@ -23,6 +23,7 @@
     "express": "^4.17.1",
     "graphql": "^15.3.0",
     "jsonwebtoken": "^8.5.1",
+    "migrate": "^1.7.0",
     "morgan": "^1.10.0",
     "nexus-plugin-prisma": "0.18.2"
   },
