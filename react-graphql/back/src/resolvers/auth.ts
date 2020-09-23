@@ -1,6 +1,8 @@
 import { ObjectDefinitionBlock, stringArg } from '@nexus/schema/dist/core'
 import bcrypt from 'bcrypt'
+import getUserId from '../utils/getUserId'
 import jwtSign from '../utils/jwtSign'
+import { ACCESS_TOKEN_NAME } from '../values'
 
 
 
@@ -49,5 +51,28 @@ export const login = (t: ObjectDefinitionBlock<"Mutation">) => t.field('login', 
 
         jwtSign(String(user.id), ctx)
         return user
+    }
+})
+
+export const logout = (t: ObjectDefinitionBlock<"Mutation">) => t.field('logout', {
+    type: 'Boolean',
+    resolve: async (_, { }, ctx) => {
+        ctx.expressContext.res.clearCookie(ACCESS_TOKEN_NAME)
+        return true
+    }
+})
+
+export const isLoggedIn = (t: ObjectDefinitionBlock<"Query">) => t.field('isLoggedIn', {
+    type: 'Boolean',
+    resolve: async (_, { }, ctx) => {
+        try {
+            const userId = getUserId(ctx)
+            const user = await ctx.prisma.user.findOne({ where: { id: Number(userId) } })
+            return !!user
+        } catch (error) {
+            // console.error(error)
+            ctx.expressContext.res.clearCookie(ACCESS_TOKEN_NAME)
+            return false
+        }
     }
 })

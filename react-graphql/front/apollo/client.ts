@@ -1,17 +1,9 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
-
-
-const link = createHttpLink({
-    uri: process.env.GRAPHQL_SERVER_URL,
-    credentials: 'include',
-    // headers: {
-    //     'Access-Control-Allow-Origin': '*'
-    // }
-});
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 const client = new ApolloClient({
-    link,
+    uri: process.env.GRAPHQL_SERVER_URL,
     cache: new InMemoryCache(),
+    credentials: 'include',
 })
 
 export default client

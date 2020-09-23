@@ -7,9 +7,9 @@ import { gql, useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 
 const SIGHUP = gql`
-  mutation signup($email: String!, $password: String!, $name: String!) {
+  mutation ($email: String!, $password: String!, $name: String!) {
     signup(email: $email, password: $password, name: $name) {
-        token
+        id
     }
   }
 `
@@ -27,14 +27,12 @@ const signup = () => {
     const router = useRouter()
     const [signupRequrest, { loading, data, error }] = useMutation(SIGHUP)
 
-    useEffect(() => { //when user has token replace to home
-        if (localStorage.getItem('token')) router.replace('/')
+    useEffect(() => { //when user already loggedin
+
     }, [])
 
     useEffect(() => {
-        if (data && data.signup && data.signup.token) {
-            console.log(data.signup.token)
-            localStorage.setItem('token', data.signup.token)
+        if (data && data.signup && data.signup.id) {
             router.replace('/')
         }
     }, [data])

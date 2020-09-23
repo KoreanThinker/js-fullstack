@@ -1,5 +1,6 @@
 import { intArg, ObjectDefinitionBlock } from "@nexus/schema/dist/core"
 import getUserId from "../utils/getUserId"
+import { ACCESS_TOKEN_NAME } from "../values"
 
 //Query
 export const user = (t: ObjectDefinitionBlock<"Query">) => t.field('user', {
@@ -21,12 +22,13 @@ export const iUser = (t: ObjectDefinitionBlock<"Query">) => t.field('iUser', {
     resolve: async (_, { }, ctx) => {
         try {
             const userId = getUserId(ctx)
-            console.log(userId)
             const user = ctx.prisma.user.findOne({
                 where: { id: Number(userId) }
             })
+            if (!user) throw new Error('Invalid User')
             return user
         } catch (error) {
+            ctx.expressContext.res.clearCookie(ACCESS_TOKEN_NAME)
             throw new Error('Invalid Error')
         }
     }

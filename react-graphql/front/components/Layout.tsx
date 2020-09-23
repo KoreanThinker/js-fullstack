@@ -1,23 +1,25 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Button, Layout as AntdLayout, Menu, Space } from 'antd';
 import { NAV_ROUTES } from '../constants/values';
-import { gql, useQuery } from '@apollo/client';
-import { IUser } from '../constants/types';
-import client from '../apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import { toast } from 'react-toastify';
 
-const GET_I_USER = gql`
-  query getIUser {
-    iUser {
-      email
-      name
-      id
-    }
+const LOGOUT = gql`
+  mutation {
+    logout 
   }
 `
+
+
+const IS_LOGGED_IN = gql`
+  query {
+    isLoggedIn
+  }
+`
+
 
 const MyLayout = styled(AntdLayout)({
     minHeight: '100vh',
@@ -52,43 +54,35 @@ const Icon = styled.img({
 const Layout: React.FC = ({ children }) => {
 
     const router = useRouter()
-    const { data, error } = useQuery(GET_I_USER, { client })
-    const [iUser, setIUser] = useState<IUser | null>(null)
-    // const currentRoute = router.route.split('/')[1] || '/'
+    const [logoutRequest] = useMutation(LOGOUT)
+    const { data, refetch } = useQuery(IS_LOGGED_IN, { fetchPolicy: 'network-only' })
+    const isLoggedIn = data?.isLoggedIn
 
-    useEffect(() => {
-        console.log(data)
-        if (data) {
-            setIUser(data.iUser as IUser)
-        }
-    }, [data])
-
-    useEffect(() => { //trash token
-        if (error) localStorage.removeItem('token')
-    }, [error])
 
     const navigate = useCallback((route: string) => () => {
         router.push(route)
     }, [])
 
-    const onSignup = useCallback(() => {
-        if (iUser) {
-            //logout
-            client.clearStore()
-                .then(() => setIUser(null))
-                .catch(() => toast.error('Try again'))
+    const onSignup = useCallback(async () => {
+        if (isLoggedIn) {
+            try {
+                await logoutRequest()
+                refetch()
+            } catch (error) {
+                toast.error('Logout Error please try again')
+            }
         } else {
             router.push('/signup')
         }
-    }, [iUser])
+    }, [isLoggedIn])
 
     const onConsole = useCallback(() => {
-        if (iUser) {
+        if (isLoggedIn) {
             router.push('/console')
         } else {
             router.push('/login')
         }
-    }, [iUser])
+    }, [isLoggedIn])
 
 
     return (
@@ -108,8 +102,8 @@ const Layout: React.FC = ({ children }) => {
                     </Menu>
                 </Space>
                 <Space>
-                    <Button type='text' onClick={onSignup} >{iUser ? 'Logout' : 'SignUp'}</Button>
-                    <Button type='primary' onClick={onConsole} >{iUser ? 'Console' : 'Login'}</Button>
+                    <Button type='text' onClick={onSignup} >{isLoggedIn ? 'Logout' : 'SignUp'}</Button>
+                    <Button type='primary' onClick={onConsole} >{isLoggedIn ? 'Console' : 'Login'}</Button>
                 </Space>
             </Header >
             <Content>

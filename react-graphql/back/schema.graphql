@@ -11,6 +11,7 @@ type Mutation {
   createPost(content: String, title: String!): Post!
   deletePost(id: Int!): Post
   login(email: String!, password: String!): User!
+  logout: Boolean!
   publishPost(id: Int): Post
   signup(email: String!, name: String!, password: String!): User!
   updateUser(id: Int!, test: Int!): User!
@@ -31,6 +32,7 @@ input PostWhereUniqueInput {
 
 type Query {
   filterPosts(searchString: String): [Post!]!
+  isLoggedIn: Boolean!
   iUser: User
   post(id: Int!): Post
   posts: [Post!]!

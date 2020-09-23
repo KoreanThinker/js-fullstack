@@ -10,7 +10,7 @@ const jwtSign = (userId: string, ctx: Context) => {
         httpOnly: true,
         // secure: true
     })
-    console.log(token)
+    return
 }
 
 export default jwtSign

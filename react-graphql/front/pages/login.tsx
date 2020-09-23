@@ -28,20 +28,19 @@ const login = () => {
     const router = useRouter()
     const [loginRequest, { loading, data, error }] = useMutation(LOGIN)
 
-    useEffect(() => { //when user has token replace to home
-        if (localStorage.getItem('token')) router.replace('/')
+    useEffect(() => { //when user already loggedin
+
     }, [])
 
-    useEffect(() => {
-        console.log(data)
-        if (data && data.login && data.login.token) {
-            // console.log(data.login.token)
-            // localStorage.setItem('token', data.login.token)
-            // router.replace('/')
+    useEffect(() => { // success login
+        if (data && data.login && data.login.id) {
+            setTimeout(() => {
+                router.replace('/')
+            }, 1000);
         }
     }, [data])
 
-    useEffect(() => {
+    useEffect(() => { //fail login
         if (error && error.message) toast.error(error.message)
     }, [error])
 

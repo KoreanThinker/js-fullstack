@@ -77,6 +77,7 @@ export interface NexusGenFieldTypes {
     createPost: NexusGenRootTypes['Post']; // Post!
     deletePost: NexusGenRootTypes['Post'] | null; // Post
     login: NexusGenRootTypes['User']; // User!
+    logout: boolean; // Boolean!
     publishPost: NexusGenRootTypes['Post'] | null; // Post
     signup: NexusGenRootTypes['User']; // User!
     updateUser: NexusGenRootTypes['User']; // User!
@@ -91,6 +92,7 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     filterPosts: NexusGenRootTypes['Post'][]; // [Post!]!
+    isLoggedIn: boolean; // Boolean!
     iUser: NexusGenRootTypes['User'] | null; // User
     post: NexusGenRootTypes['Post'] | null; // Post
     posts: NexusGenRootTypes['Post'][]; // [Post!]!

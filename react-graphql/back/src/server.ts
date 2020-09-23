@@ -15,6 +15,7 @@ const app = express()
 const server = new ApolloServer({
   schema,
   context: createContext,
+  tracing: true
 });
 
 

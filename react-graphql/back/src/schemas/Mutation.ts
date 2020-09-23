@@ -1,5 +1,5 @@
 import { objectType } from "@nexus/schema"
-import { login, signup } from "../resolvers/auth"
+import { login, logout, signup } from "../resolvers/auth"
 import { createPost, deletePost, publishPost } from "../resolvers/post"
 import { updateUser } from "../resolvers/user"
 
@@ -9,6 +9,7 @@ const Mutation = objectType({
         //auth
         signup(t)
         login(t)
+        logout(t)
         //post
         createPost(t)
         publishPost(t)
