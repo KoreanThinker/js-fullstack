@@ -9,7 +9,7 @@ import Layout from '../components/Layout'
 const LOGIN = gql`
   mutation ($email: String!, $password: String!) {
     login(email: $email, password: $password) {
-        token
+        id
     }
   }
 `
@@ -33,10 +33,11 @@ const login = () => {
     }, [])
 
     useEffect(() => {
+        console.log(data)
         if (data && data.login && data.login.token) {
-            console.log(data.login.token)
-            localStorage.setItem('token', data.login.token)
-            router.replace('/')
+            // console.log(data.login.token)
+            // localStorage.setItem('token', data.login.token)
+            // router.replace('/')
         }
     }, [data])
 

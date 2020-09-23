@@ -10,9 +10,9 @@ type Auth {
 type Mutation {
   createPost(content: String, title: String!): Post!
   deletePost(id: Int!): Post
-  login(email: String!, password: String!): Auth!
+  login(email: String!, password: String!): User!
   publishPost(id: Int): Post
-  signup(email: String!, name: String!, password: String!): Auth!
+  signup(email: String!, name: String!, password: String!): User!
   updateUser(id: Int!, test: Int!): User!
 }
 

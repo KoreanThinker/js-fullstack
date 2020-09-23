@@ -1,11 +1,12 @@
 import { ObjectDefinitionBlock, stringArg } from '@nexus/schema/dist/core'
 import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
+import jwtSign from '../utils/jwtSign'
+
 
 
 //Mutation
 export const signup = (t: ObjectDefinitionBlock<"Mutation">) => t.field('signup', {
-    type: 'Auth',
+    type: 'User',
     args: {
         email: stringArg({ required: true }),
         password: stringArg({ required: true }),
@@ -21,8 +22,9 @@ export const signup = (t: ObjectDefinitionBlock<"Mutation">) => t.field('signup'
                     name
                 }
             })
-            const token = jwt.sign({ userId: String(user.id) }, process.env.JWT_SECRET as string)
-            return { token, user }
+            jwtSign(String(user.id), ctx)
+
+            return user
         } catch (error) {
             switch (error.code) {
                 case 'P2002': throw new Error('Duplicated email')
@@ -33,7 +35,7 @@ export const signup = (t: ObjectDefinitionBlock<"Mutation">) => t.field('signup'
 })
 
 export const login = (t: ObjectDefinitionBlock<"Mutation">) => t.field('login', {
-    type: 'Auth',
+    type: 'User',
     args: {
         email: stringArg({ required: true }),
         password: stringArg({ required: true })
@@ -45,7 +47,7 @@ export const login = (t: ObjectDefinitionBlock<"Mutation">) => t.field('login', 
         const valid = await bcrypt.compare(password, user.password)
         if (!valid) throw new Error('Invalid password')
 
-        const token = jwt.sign({ userId: String(user.id) }, process.env.JWT_SECRET as string)
-        return { token, user }
+        jwtSign(String(user.id), ctx)
+        return user
     }
 })

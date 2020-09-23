@@ -74,7 +74,6 @@ const Layout: React.FC = ({ children }) => {
     const onSignup = useCallback(() => {
         if (iUser) {
             //logout
-            localStorage.removeItem('token')
             client.clearStore()
                 .then(() => setIUser(null))
                 .catch(() => toast.error('Try again'))

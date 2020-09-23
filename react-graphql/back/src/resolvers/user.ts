@@ -1,5 +1,5 @@
 import { intArg, ObjectDefinitionBlock } from "@nexus/schema/dist/core"
-import { getUserId } from "../utils"
+import getUserId from "../utils/getUserId"
 
 //Query
 export const user = (t: ObjectDefinitionBlock<"Query">) => t.field('user', {
