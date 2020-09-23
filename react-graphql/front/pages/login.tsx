@@ -1,18 +1,12 @@
-import { gql, useMutation } from '@apollo/client'
 import { Button, Form, Input, Space } from 'antd'
 import { useRouter } from 'next/router'
 import React, { useCallback, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import styled from 'styled-components'
 import Layout from '../components/Layout'
+import { useIsLoggedIn, useLogin } from '../graphql/auth'
 
-const LOGIN = gql`
-  mutation ($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-        id
-    }
-  }
-`
+
 
 const Container = styled.div({
     padding: 64
@@ -26,18 +20,15 @@ const FormContainer = styled(Space)({
 const login = () => {
 
     const router = useRouter()
-    const [loginRequest, { loading, data, error }] = useMutation(LOGIN)
+    const { data: isLoggedInData } = useIsLoggedIn()
+    const [loginRequest, { loading, data, error }] = useLogin()
 
     useEffect(() => { //when user already loggedin
-
-    }, [])
+        if (isLoggedInData?.isLoggedIn) router.replace('/')
+    }, [isLoggedInData])
 
     useEffect(() => { // success login
-        if (data && data.login && data.login.id) {
-            setTimeout(() => {
-                router.replace('/')
-            }, 1000);
-        }
+        if (data?.login?.id) router.replace('/')
     }, [data])
 
     useEffect(() => { //fail login

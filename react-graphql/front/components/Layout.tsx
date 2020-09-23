@@ -1,24 +1,11 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Button, Layout as AntdLayout, Menu, Space } from 'antd';
 import { NAV_ROUTES } from '../constants/values';
-import { gql, useMutation, useQuery } from '@apollo/client';
 import { toast } from 'react-toastify';
-
-const LOGOUT = gql`
-  mutation {
-    logout 
-  }
-`
-
-
-const IS_LOGGED_IN = gql`
-  query {
-    isLoggedIn
-  }
-`
+import { useIsLoggedIn, useLogout } from '../graphql/auth';
 
 
 const MyLayout = styled(AntdLayout)({
@@ -54,8 +41,8 @@ const Icon = styled.img({
 const Layout: React.FC = ({ children }) => {
 
     const router = useRouter()
-    const [logoutRequest] = useMutation(LOGOUT)
-    const { data, refetch } = useQuery(IS_LOGGED_IN, { fetchPolicy: 'network-only' })
+    const [logoutRequest] = useLogout()
+    const { data, refetch } = useIsLoggedIn()
     const isLoggedIn = data?.isLoggedIn
 
 

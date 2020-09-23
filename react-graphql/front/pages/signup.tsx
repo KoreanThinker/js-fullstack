@@ -3,16 +3,9 @@ import styled from 'styled-components'
 import { Button, Form, Input, Space } from 'antd'
 import Layout from '../components/Layout'
 import { toast } from 'react-toastify';
-import { gql, useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
+import { useIsLoggedIn, useSignup } from '../graphql/auth';
 
-const SIGHUP = gql`
-  mutation ($email: String!, $password: String!, $name: String!) {
-    signup(email: $email, password: $password, name: $name) {
-        id
-    }
-  }
-`
 
 const Container = styled.div({
     padding: 64
@@ -25,16 +18,15 @@ const FormContainer = styled(Space)({
 const signup = () => {
 
     const router = useRouter()
-    const [signupRequrest, { loading, data, error }] = useMutation(SIGHUP)
+    const { data: isLoggedInData } = useIsLoggedIn()
+    const [signupRequrest, { loading, data, error }] = useSignup()
 
     useEffect(() => { //when user already loggedin
-
-    }, [])
+        if (isLoggedInData?.isLoggedIn) router.replace('/')
+    }, [isLoggedInData])
 
     useEffect(() => {
-        if (data && data.signup && data.signup.id) {
-            router.replace('/')
-        }
+        if (data?.signup?.id) router.replace('/')
     }, [data])
 
     useEffect(() => {
