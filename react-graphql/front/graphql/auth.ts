@@ -1,8 +1,10 @@
-import { gql, MutationHookOptions, QueryHookOptions, useMutation, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
+
 
 
 // QUERY/IS_LOGGED_IN
-const IS_LOGGED_IN = gql`
+export const IS_LOGGED_IN = gql`
   query {
     isLoggedIn
   }
@@ -13,11 +15,7 @@ interface IsLoggedInData {
 interface IsLoggedInVars {
 
 }
-export const useIsLoggedIn = <Data = IsLoggedInData, Vars = IsLoggedInVars>(options?: QueryHookOptions<Data, Vars>) => useQuery<Data, Vars>(IS_LOGGED_IN, {
-  fetchPolicy: 'network-only',
-  ...options
-})
-
+export const useIsLoggedIn = () => createQueryHook<IsLoggedInData, IsLoggedInVars>(IS_LOGGED_IN) // SSR 
 
 // MUTATION/SIGNUP
 const SIGHUP = gql`
@@ -37,7 +35,7 @@ interface SignupVars {
   password: string
   name: string
 }
-export const useSignup = <Data = SignupData, Vars = SignupVars>(options?: MutationHookOptions<Data, Vars>) => useMutation<Data, Vars>(SIGHUP, options)
+export const useSignup = () => createMutationHook<SignupData, SignupVars>(SIGHUP)
 
 // MUTATION/LOGIN
 const LOGIN = gql`
@@ -56,7 +54,7 @@ interface LoginVars {
   email: string
   password: string
 }
-export const useLogin = <Data = LoginData, Vars = LoginVars>(options?: MutationHookOptions<Data, Vars>) => useMutation<Data, Vars>(LOGIN, options)
+export const useLogin = () => createMutationHook<LoginData, LoginVars>(LOGIN)
 
 // MUTATION/LOGOUT
 const LOGOUT = gql`
@@ -70,4 +68,4 @@ interface LogoutData {
 interface LogoutVars {
 
 }
-export const useLogout = <Data = LogoutData, Vars = LogoutVars>(options?: MutationHookOptions<Data, Vars>) => useMutation<Data, Vars>(LOGOUT, options)
+export const useLogout = () => createMutationHook<LogoutData, LogoutVars>(LOGOUT)

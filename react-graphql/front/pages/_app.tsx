@@ -1,17 +1,19 @@
-import { AppProps } from 'next/dist/next-server/lib/router/router'
 import React from 'react'
 import '../styles/global.css'
 import 'antd/dist/antd.css';
 import { ToastContainer } from 'react-toastify';
 import { ApolloProvider } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
-
-import client from '../apollo/client'
+import { useApollo } from '../lib/apollo';
+import { AppProps } from 'next/app';
 
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
+
+  const apolloClient = useApollo(pageProps.initialApolloState)
+
   return <>
-    <ApolloProvider client={client}>
+    <ApolloProvider client={apolloClient}>
       <Component {...pageProps} />
       <ToastContainer />
     </ApolloProvider>

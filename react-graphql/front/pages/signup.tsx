@@ -4,7 +4,9 @@ import { Button, Form, Input, Space } from 'antd'
 import Layout from '../components/Layout'
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
-import { useIsLoggedIn, useSignup } from '../graphql/auth';
+import { IS_LOGGED_IN, useIsLoggedIn, useSignup } from '../graphql/auth';
+import { initializeApollo } from '../lib/apollo';
+import { GetServerSideProps } from 'next';
 
 
 const Container = styled.div({
@@ -16,7 +18,6 @@ const FormContainer = styled(Space)({
 })
 
 const signup = () => {
-
     const router = useRouter()
     const { data: isLoggedInData } = useIsLoggedIn()
     const [signupRequrest, { loading, data, error }] = useSignup()
@@ -104,6 +105,13 @@ const signup = () => {
             </Container>
         </Layout>
     )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const apolloClient = initializeApollo()
+    await apolloClient.query({ query: IS_LOGGED_IN, context: context.req, fetchPolicy: 'network-only' })
+
+    return { props: { initialApolloState: apolloClient.cache.extract() } }
 }
 
 export default signup

@@ -39,7 +39,6 @@ const Icon = styled.img({
 })
 
 const Layout: React.FC = ({ children }) => {
-
     const router = useRouter()
     const [logoutRequest] = useLogout()
     const { data, refetch } = useIsLoggedIn()
@@ -100,5 +99,7 @@ const Layout: React.FC = ({ children }) => {
         </MyLayout>
     )
 }
+
+
 
 export default Layout

@@ -6,6 +6,7 @@ require('dotenv').config()
 
 const getUserId = (ctx: Context) => {
     const accessToken = ctx.expressContext.req.cookies[ACCESS_TOKEN_NAME]
+    console.log('ACCESS_TOKEN : ' + accessToken)
     if (accessToken) {
         const { userId } = jwt.verify(accessToken, process.env.JWT_SECRET as string) as { userId: string }
         return userId
