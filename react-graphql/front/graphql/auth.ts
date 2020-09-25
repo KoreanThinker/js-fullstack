@@ -15,7 +15,9 @@ interface IsLoggedInData {
 interface IsLoggedInVars {
 
 }
-export const useIsLoggedIn = () => createQueryHook<IsLoggedInData, IsLoggedInVars>(IS_LOGGED_IN) // SSR 
+export const useIsLoggedIn = () => createQueryHook<IsLoggedInData, IsLoggedInVars>(IS_LOGGED_IN, {
+  fetchPolicy: 'cache-first'
+}) // SSR 
 
 // MUTATION/SIGNUP
 const SIGHUP = gql`

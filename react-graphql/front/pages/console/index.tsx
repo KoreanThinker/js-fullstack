@@ -1,27 +1,13 @@
 import { GetServerSideProps } from 'next'
-import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import React from 'react'
 import ConsoleLayout from '../../components/ConsoleLayout'
-import { IS_LOGGED_IN, useIsLoggedIn } from '../../graphql/auth'
+import { IS_LOGGED_IN } from '../../graphql/auth'
 import { initializeApollo } from '../../lib/apollo'
 
 const console = () => {
-
-    const router = useRouter()
-    const { data } = useIsLoggedIn()
-
-    useEffect(() => {
-        if (!data?.isLoggedIn) {
-            alert('No Access') // layout?
-            router.back()
-        }
-    }, [data?.isLoggedIn])
-
-
-    if (!data?.isLoggedIn) return null
-
     return (
         <ConsoleLayout>
+            <div>Console</div>
         </ConsoleLayout>
     )
 }
