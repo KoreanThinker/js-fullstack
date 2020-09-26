@@ -1,7 +1,9 @@
 import { objectType } from "@nexus/schema"
 import { isLoggedIn } from "../resolvers/auth"
-import { post } from "../resolvers/post"
-import { filterPosts, posts } from "../resolvers/posts"
+import { image } from "../resolvers/image"
+import { item } from "../resolvers/item"
+import { order } from "../resolvers/order"
+import { partner } from "../resolvers/partner"
 import { iUser, user } from "../resolvers/user"
 
 const Query = objectType({
@@ -9,14 +11,17 @@ const Query = objectType({
     definition(t) {
         //auth
         isLoggedIn(t)
-        //posts
-        posts(t)
-        filterPosts(t)
-        //post
-        post(t)
         //user
         user(t)
         iUser(t)
+        //image
+        image(t)
+        //item
+        item(t)
+        //order
+        order(t)
+        //partner
+        partner(t)
     },
 })
 

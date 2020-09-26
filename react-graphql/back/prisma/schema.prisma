@@ -7,21 +7,57 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id       Int     @default(autoincrement()) @id
-  email    String  @unique
-  password String
-  name     String?
-  posts    Post[]
-  age      Int?
-  test     Int?
+model Partner {
+  id        Int      @default(autoincrement()) @id
+  createdAt DateTime @default(now())
+  email     String   @unique
+  password  String
+  name      String
+  profit    Int      @default(0)
+  items     Item[]
+  orders    Order[]
 }
 
-model Post {
-  id        Int     @default(autoincrement()) @id
-  authorId  Int?
-  content   String?
-  published Boolean @default(false)
-  title     String
-  author    User?   @relation(fields: [authorId], references: [id])
+model Order {
+  id        Int      @default(autoincrement()) @id
+  createdAt DateTime @default(now())
+  price     Int
+  item      Item?    @relation(fields: [itemId], references: [id])
+  buyer     User?    @relation(fields: [buyerId], references: [id])
+  partner   Partner? @relation(fields: [partnerId], references: [id])
+  buyerId   Int?
+  itemId    Int?
+  partnerId Int?
+}
+
+model Item {
+  id        Int      @default(autoincrement()) @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(true)
+  partner   Partner? @relation(fields: [partnerId], references: [id])
+  buyers    User[]
+  partnerId Int?
+  order     Order[]
+  price     Int
+  name      Int      @unique
+  images    Image[]
+}
+
+model Image {
+  id        Int      @default(autoincrement()) @id
+  createdAt DateTime @default(now())
+  src       String
+  item      Item?    @relation(fields: [itemId], references: [id])
+  itemId    Int?
+}
+
+model User {
+  id        Int      @default(autoincrement()) @id
+  createdAt DateTime @default(now())
+  email     String   @unique
+  password  String
+  name      String
+  orders    Order[]
+  boughts   Item[]
 }

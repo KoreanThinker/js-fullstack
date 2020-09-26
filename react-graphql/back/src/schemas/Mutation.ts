@@ -1,7 +1,5 @@
 import { objectType } from "@nexus/schema"
 import { login, logout, signup } from "../resolvers/auth"
-import { createPost, deletePost, publishPost } from "../resolvers/post"
-import { updateUser } from "../resolvers/user"
 
 const Mutation = objectType({
     name: 'Mutation',
@@ -11,11 +9,6 @@ const Mutation = objectType({
         login(t)
         logout(t)
         //post
-        createPost(t)
-        publishPost(t)
-        deletePost(t)
-        //user
-        updateUser(t)
     }
 })
 

@@ -19,7 +19,18 @@ declare global {
 }
 
 export interface NexusGenInputs {
-  PostWhereUniqueInput: { // input type
+  ImageWhereUniqueInput: { // input type
+    id?: number | null; // Int
+  }
+  ItemWhereUniqueInput: { // input type
+    id?: number | null; // Int
+    name?: number | null; // Int
+  }
+  OrderWhereUniqueInput: { // input type
+    id?: number | null; // Int
+  }
+  UserWhereUniqueInput: { // input type
+    email?: string | null; // String
     id?: number | null; // Int
   }
 }
@@ -33,114 +44,189 @@ export interface NexusGenScalars {
   Float: number
   Boolean: boolean
   ID: string
+  DateTime: any
 }
 
 export interface NexusGenRootTypes {
-  Auth: { // root type
-    token: string; // String!
-    user?: NexusGenRootTypes['User'] | null; // User
+  Image: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: number; // Int!
+    itemId?: number | null; // Int
+    src: string; // String!
+  }
+  Item: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: number; // Int!
+    name: number; // Int!
+    partnerId?: number | null; // Int
+    price: number; // Int!
+    published: boolean; // Boolean!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   Mutation: {};
-  Post: { // root type
-    authorId?: number | null; // Int
-    content?: string | null; // String
+  Order: { // root type
+    buyerId?: number | null; // Int
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: number; // Int!
-    published: boolean; // Boolean!
-    title: string; // String!
+    itemId?: number | null; // Int
+    partnerId?: number | null; // Int
+    price: number; // Int!
+  }
+  Partner: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    email: string; // String!
+    id: number; // Int!
+    name: string; // String!
+    password: string; // String!
+    profit: number; // Int!
   }
   Query: {};
   User: { // root type
-    age?: number | null; // Int
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
     email: string; // String!
     id: number; // Int!
-    name?: string | null; // String
+    name: string; // String!
     password: string; // String!
-    test?: number | null; // Int
   }
 }
 
 export interface NexusGenAllTypes extends NexusGenRootTypes {
-  PostWhereUniqueInput: NexusGenInputs['PostWhereUniqueInput'];
+  ImageWhereUniqueInput: NexusGenInputs['ImageWhereUniqueInput'];
+  ItemWhereUniqueInput: NexusGenInputs['ItemWhereUniqueInput'];
+  OrderWhereUniqueInput: NexusGenInputs['OrderWhereUniqueInput'];
+  UserWhereUniqueInput: NexusGenInputs['UserWhereUniqueInput'];
   String: NexusGenScalars['String'];
   Int: NexusGenScalars['Int'];
   Float: NexusGenScalars['Float'];
   Boolean: NexusGenScalars['Boolean'];
   ID: NexusGenScalars['ID'];
+  DateTime: NexusGenScalars['DateTime'];
 }
 
 export interface NexusGenFieldTypes {
-  Auth: { // field return type
-    token: string; // String!
-    user: NexusGenRootTypes['User'] | null; // User
+  Image: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: number; // Int!
+    item: NexusGenRootTypes['Item'] | null; // Item
+    itemId: number | null; // Int
+    src: string; // String!
+  }
+  Item: { // field return type
+    buyers: NexusGenRootTypes['User'][]; // [User!]!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: number; // Int!
+    images: NexusGenRootTypes['Image'][]; // [Image!]!
+    name: number; // Int!
+    order: NexusGenRootTypes['Order'][]; // [Order!]!
+    partner: NexusGenRootTypes['Partner'] | null; // Partner
+    partnerId: number | null; // Int
+    price: number; // Int!
+    published: boolean; // Boolean!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   Mutation: { // field return type
-    createPost: NexusGenRootTypes['Post']; // Post!
-    deletePost: NexusGenRootTypes['Post'] | null; // Post
     login: NexusGenRootTypes['User']; // User!
     logout: boolean; // Boolean!
-    publishPost: NexusGenRootTypes['Post'] | null; // Post
     signup: NexusGenRootTypes['User']; // User!
-    updateUser: NexusGenRootTypes['User']; // User!
   }
-  Post: { // field return type
-    author: NexusGenRootTypes['User'] | null; // User
-    authorId: number | null; // Int
-    content: string | null; // String
+  Order: { // field return type
+    buyer: NexusGenRootTypes['User'] | null; // User
+    buyerId: number | null; // Int
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: number; // Int!
-    published: boolean; // Boolean!
-    title: string; // String!
+    item: NexusGenRootTypes['Item'] | null; // Item
+    itemId: number | null; // Int
+    partner: NexusGenRootTypes['Partner'] | null; // Partner
+    partnerId: number | null; // Int
+    price: number; // Int!
+  }
+  Partner: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    email: string; // String!
+    id: number; // Int!
+    items: NexusGenRootTypes['Item'][]; // [Item!]!
+    name: string; // String!
+    orders: NexusGenRootTypes['Order'][]; // [Order!]!
+    password: string; // String!
+    profit: number; // Int!
   }
   Query: { // field return type
-    filterPosts: NexusGenRootTypes['Post'][]; // [Post!]!
+    image: NexusGenRootTypes['Image'] | null; // Image
     isLoggedIn: boolean; // Boolean!
+    item: NexusGenRootTypes['Item'] | null; // Item
     iUser: NexusGenRootTypes['User'] | null; // User
-    post: NexusGenRootTypes['Post'] | null; // Post
-    posts: NexusGenRootTypes['Post'][]; // [Post!]!
+    order: NexusGenRootTypes['Order'] | null; // Order
+    partner: NexusGenRootTypes['Partner'] | null; // Partner
     user: NexusGenRootTypes['User'] | null; // User
   }
   User: { // field return type
-    age: number | null; // Int
+    boughts: NexusGenRootTypes['Item'][]; // [Item!]!
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
     email: string; // String!
     id: number; // Int!
-    name: string | null; // String
+    name: string; // String!
+    orders: NexusGenRootTypes['Order'][]; // [Order!]!
     password: string; // String!
-    postNum: number; // Int!
-    posts: NexusGenRootTypes['Post'][]; // [Post!]!
-    test: number | null; // Int
   }
 }
 
 export interface NexusGenArgTypes {
+  Item: {
+    buyers: { // args
+      after?: NexusGenInputs['UserWhereUniqueInput'] | null; // UserWhereUniqueInput
+      before?: NexusGenInputs['UserWhereUniqueInput'] | null; // UserWhereUniqueInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    images: { // args
+      after?: NexusGenInputs['ImageWhereUniqueInput'] | null; // ImageWhereUniqueInput
+      before?: NexusGenInputs['ImageWhereUniqueInput'] | null; // ImageWhereUniqueInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    order: { // args
+      after?: NexusGenInputs['OrderWhereUniqueInput'] | null; // OrderWhereUniqueInput
+      before?: NexusGenInputs['OrderWhereUniqueInput'] | null; // OrderWhereUniqueInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+  }
   Mutation: {
-    createPost: { // args
-      content?: string | null; // String
-      title: string; // String!
-    }
-    deletePost: { // args
-      id: number; // Int!
-    }
     login: { // args
       email: string; // String!
       password: string; // String!
-    }
-    publishPost: { // args
-      id?: number | null; // Int
     }
     signup: { // args
       email: string; // String!
       name: string; // String!
       password: string; // String!
     }
-    updateUser: { // args
-      id: number; // Int!
-      test: number; // Int!
+  }
+  Partner: {
+    items: { // args
+      after?: NexusGenInputs['ItemWhereUniqueInput'] | null; // ItemWhereUniqueInput
+      before?: NexusGenInputs['ItemWhereUniqueInput'] | null; // ItemWhereUniqueInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    orders: { // args
+      after?: NexusGenInputs['OrderWhereUniqueInput'] | null; // OrderWhereUniqueInput
+      before?: NexusGenInputs['OrderWhereUniqueInput'] | null; // OrderWhereUniqueInput
+      first?: number | null; // Int
+      last?: number | null; // Int
     }
   }
   Query: {
-    filterPosts: { // args
-      searchString?: string | null; // String
+    image: { // args
+      id: number; // Int!
     }
-    post: { // args
+    item: { // args
+      id: number; // Int!
+    }
+    order: { // args
+      id: number; // Int!
+    }
+    partner: { // args
       id: number; // Int!
     }
     user: { // args
@@ -148,9 +234,15 @@ export interface NexusGenArgTypes {
     }
   }
   User: {
-    posts: { // args
-      after?: NexusGenInputs['PostWhereUniqueInput'] | null; // PostWhereUniqueInput
-      before?: NexusGenInputs['PostWhereUniqueInput'] | null; // PostWhereUniqueInput
+    boughts: { // args
+      after?: NexusGenInputs['ItemWhereUniqueInput'] | null; // ItemWhereUniqueInput
+      before?: NexusGenInputs['ItemWhereUniqueInput'] | null; // ItemWhereUniqueInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+    }
+    orders: { // args
+      after?: NexusGenInputs['OrderWhereUniqueInput'] | null; // OrderWhereUniqueInput
+      before?: NexusGenInputs['OrderWhereUniqueInput'] | null; // OrderWhereUniqueInput
       first?: number | null; // Int
       last?: number | null; // Int
     }
@@ -162,15 +254,15 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "Auth" | "Mutation" | "Post" | "Query" | "User";
+export type NexusGenObjectNames = "Image" | "Item" | "Mutation" | "Order" | "Partner" | "Query" | "User";
 
-export type NexusGenInputNames = "PostWhereUniqueInput";
+export type NexusGenInputNames = "ImageWhereUniqueInput" | "ItemWhereUniqueInput" | "OrderWhereUniqueInput" | "UserWhereUniqueInput";
 
 export type NexusGenEnumNames = never;
 
 export type NexusGenInterfaceNames = never;
 
-export type NexusGenScalarNames = "Boolean" | "Float" | "ID" | "Int" | "String";
+export type NexusGenScalarNames = "Boolean" | "DateTime" | "Float" | "ID" | "Int" | "String";
 
 export type NexusGenUnionNames = never;
 

@@ -2,50 +2,93 @@
 ### Do not make changes to this file directly
 
 
-type Auth {
-  token: String!
-  user: User
-}
+scalar DateTime
 
-type Mutation {
-  createPost(content: String, title: String!): Post!
-  deletePost(id: Int!): Post
-  login(email: String!, password: String!): User!
-  logout: Boolean!
-  publishPost(id: Int): Post
-  signup(email: String!, name: String!, password: String!): User!
-  updateUser(id: Int!, test: Int!): User!
-}
-
-type Post {
-  author: User
-  authorId: Int
-  content: String
+type Image {
+  createdAt: DateTime!
   id: Int!
-  published: Boolean!
-  title: String!
+  item: Item
+  itemId: Int
+  src: String!
 }
 
-input PostWhereUniqueInput {
+input ImageWhereUniqueInput {
   id: Int
 }
 
+type Item {
+  buyers(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int): [User!]!
+  createdAt: DateTime!
+  id: Int!
+  images(after: ImageWhereUniqueInput, before: ImageWhereUniqueInput, first: Int, last: Int): [Image!]!
+  name: Int!
+  order(after: OrderWhereUniqueInput, before: OrderWhereUniqueInput, first: Int, last: Int): [Order!]!
+  partner: Partner
+  partnerId: Int
+  price: Int!
+  published: Boolean!
+  updatedAt: DateTime!
+}
+
+input ItemWhereUniqueInput {
+  id: Int
+  name: Int
+}
+
+type Mutation {
+  login(email: String!, password: String!): User!
+  logout: Boolean!
+  signup(email: String!, name: String!, password: String!): User!
+}
+
+type Order {
+  buyer: User
+  buyerId: Int
+  createdAt: DateTime!
+  id: Int!
+  item: Item
+  itemId: Int
+  partner: Partner
+  partnerId: Int
+  price: Int!
+}
+
+input OrderWhereUniqueInput {
+  id: Int
+}
+
+type Partner {
+  createdAt: DateTime!
+  email: String!
+  id: Int!
+  items(after: ItemWhereUniqueInput, before: ItemWhereUniqueInput, first: Int, last: Int): [Item!]!
+  name: String!
+  orders(after: OrderWhereUniqueInput, before: OrderWhereUniqueInput, first: Int, last: Int): [Order!]!
+  password: String!
+  profit: Int!
+}
+
 type Query {
-  filterPosts(searchString: String): [Post!]!
+  image(id: Int!): Image
   isLoggedIn: Boolean!
+  item(id: Int!): Item
   iUser: User
-  post(id: Int!): Post
-  posts: [Post!]!
+  order(id: Int!): Order
+  partner(id: Int!): Partner
   user(id: Int!): User
 }
 
 type User {
-  age: Int
+  boughts(after: ItemWhereUniqueInput, before: ItemWhereUniqueInput, first: Int, last: Int): [Item!]!
+  createdAt: DateTime!
   email: String!
   id: Int!
-  name: String
+  name: String!
+  orders(after: OrderWhereUniqueInput, before: OrderWhereUniqueInput, first: Int, last: Int): [Order!]!
   password: String!
-  postNum: Int!
-  posts(after: PostWhereUniqueInput, before: PostWhereUniqueInput, first: Int, last: Int): [Post!]!
-  test: Int
+}
+
+input UserWhereUniqueInput {
+  email: String
+  id: Int
 }

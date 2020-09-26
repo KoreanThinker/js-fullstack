@@ -35,16 +35,3 @@ export const iUser = (t: ObjectDefinitionBlock<"Query">) => t.field('iUser', {
 })
 
 //Mutation
-export const updateUser = (t: ObjectDefinitionBlock<"Mutation">) => t.field('updateUser', {
-    type: 'User',
-    args: {
-        id: intArg({ required: true }),
-        test: intArg({ required: true }),
-    },
-    resolve: (_, { id, test }, ctx) => {
-        return ctx.prisma.user.update({
-            where: { id },
-            data: { test }
-        })
-    }
-})

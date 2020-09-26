@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { Button, Layout as AntdLayout, Menu, Space } from 'antd';
 import { toast } from 'react-toastify';
 import { useLogout } from '../graphql/auth';
-import { UserOutlined, DollarCircleOutlined, MessageOutlined, BarcodeOutlined, BarsOutlined } from '@ant-design/icons';
+import { UserOutlined, MessageOutlined, BarcodeOutlined, BarsOutlined } from '@ant-design/icons';
 import LoginRequire from './LoginRequire';
 
 const { SubMenu } = Menu
