@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 
 import { createContext } from './context'
-import { schema } from './schemas'
+import { schema } from './schema'
 
 require('dotenv').config()
 

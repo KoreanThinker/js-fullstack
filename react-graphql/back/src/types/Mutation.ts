@@ -1,7 +1,7 @@
 import { objectType } from "@nexus/schema"
 import { partnerLogin, partnerLogout, partnerSignup } from "../resolvers/partner"
 
-const Mutation = objectType({
+export const Mutation = objectType({
     name: 'Mutation',
     definition(t) {
         //partner
@@ -10,6 +10,3 @@ const Mutation = objectType({
         partnerLogout(t)
     }
 })
-
-
-export default Mutation

@@ -1,6 +1,6 @@
 import { objectType } from "@nexus/schema"
 
-const User = objectType({
+export const User = objectType({
     name: 'User',
     definition(t) {
         t.model.id()
@@ -13,5 +13,3 @@ const User = objectType({
         t.model.sns()
     }
 })
-
-export default User

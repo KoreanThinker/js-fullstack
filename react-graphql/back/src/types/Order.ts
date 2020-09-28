@@ -1,6 +1,6 @@
 import { objectType } from "@nexus/schema"
 
-const Order = objectType({
+export const Order = objectType({
     name: 'Order',
     definition(t) {
         t.model.id()
@@ -14,5 +14,3 @@ const Order = objectType({
         t.model.price()
     }
 })
-
-export default Order

@@ -5,7 +5,7 @@ import { order } from "../resolvers/order"
 import { iPartner, isPartnerLoggedIn, partner } from "../resolvers/partner"
 import { iUser, user } from "../resolvers/user"
 
-const Query = objectType({
+export const Query = objectType({
     name: 'Query',
     definition(t) {
         //user
@@ -23,5 +23,3 @@ const Query = objectType({
         isPartnerLoggedIn(t)
     },
 })
-
-export default Query

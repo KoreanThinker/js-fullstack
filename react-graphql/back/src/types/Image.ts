@@ -1,6 +1,6 @@
 import { objectType } from "@nexus/schema"
 
-const Image = objectType({
+export const Image = objectType({
     name: 'Image',
     definition(t) {
         t.model.id()
@@ -10,5 +10,3 @@ const Image = objectType({
         t.model.src()
     }
 })
-
-export default Image

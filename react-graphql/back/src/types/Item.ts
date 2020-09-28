@@ -1,6 +1,6 @@
-import { objectType } from "@nexus/schema"
+import { inputObjectType, objectType } from "@nexus/schema"
 
-const Item = objectType({
+export const Item = objectType({
     name: 'Item',
     definition(t) {
         t.model.id()
@@ -16,5 +16,3 @@ const Item = objectType({
         t.model.updatedAt()
     }
 })
-
-export default Item

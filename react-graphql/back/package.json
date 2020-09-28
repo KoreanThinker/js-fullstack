@@ -10,7 +10,7 @@
     "migrate:up": "prisma migrate up --experimental",
     "generate": "npm -s run generate:prisma && npm -s run generate:nexus",
     "generate:prisma": "prisma generate",
-    "generate:nexus": "cross-env NODE_ENV=development ts-node --transpile-only src/schemas",
+    "generate:nexus": "cross-env NODE_ENV=development ts-node --transpile-only src/schema",
     "studio:prisma": "prisma studio --experimental "
   },
   "dependencies": {

@@ -1,6 +1,6 @@
 import { objectType } from "@nexus/schema"
 
-const Partner = objectType({
+export const Partner = objectType({
     name: 'Partner',
     definition(t) {
         t.model.id()
@@ -13,5 +13,3 @@ const Partner = objectType({
         t.model.profit()
     }
 })
-
-export default Partner
