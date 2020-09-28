@@ -49,7 +49,7 @@ model Item {
   partnerId Int?
   order     Order[]
   price     Int
-  name      Int      @unique
+  name      String   @unique
   images    Image[]
 }
 

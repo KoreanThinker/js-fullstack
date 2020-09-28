@@ -24,7 +24,7 @@ export interface NexusGenInputs {
   }
   ItemWhereUniqueInput: { // input type
     id?: number | null; // Int
-    name?: number | null; // Int
+    name?: string | null; // String
   }
   OrderWhereUniqueInput: { // input type
     id?: number | null; // Int
@@ -58,7 +58,7 @@ export interface NexusGenRootTypes {
   Item: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: number; // Int!
-    name: number; // Int!
+    name: string; // String!
     partnerId?: number | null; // Int
     price: number; // Int!
     published: boolean; // Boolean!
@@ -87,7 +87,6 @@ export interface NexusGenRootTypes {
     email: string; // String!
     id: number; // Int!
     name: string; // String!
-    password: string; // String!
     sns: NexusGenEnums['SnsLogin']; // SnsLogin!
   }
 }
@@ -119,7 +118,7 @@ export interface NexusGenFieldTypes {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: number; // Int!
     images: NexusGenRootTypes['Image'][]; // [Image!]!
-    name: number; // Int!
+    name: string; // String!
     order: NexusGenRootTypes['Order'][]; // [Order!]!
     partner: NexusGenRootTypes['Partner'] | null; // Partner
     partnerId: number | null; // Int
@@ -128,9 +127,12 @@ export interface NexusGenFieldTypes {
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   Mutation: { // field return type
+    createItem: NexusGenRootTypes['Item'] | null; // Item
+    deleteItem: boolean | null; // Boolean
     partnerLogin: NexusGenRootTypes['Partner']; // Partner!
     partnerLogout: boolean; // Boolean!
     partnerSignup: NexusGenRootTypes['Partner']; // Partner!
+    updateItem: NexusGenRootTypes['Item'] | null; // Item
   }
   Order: { // field return type
     buyer: NexusGenRootTypes['User'] | null; // User
@@ -158,6 +160,7 @@ export interface NexusGenFieldTypes {
     iPartner: NexusGenRootTypes['Partner'] | null; // Partner
     isPartnerLoggedIn: boolean; // Boolean!
     item: NexusGenRootTypes['Item'] | null; // Item
+    items: NexusGenRootTypes['Item'][] | null; // [Item!]
     iUser: NexusGenRootTypes['User'] | null; // User
     order: NexusGenRootTypes['Order'] | null; // Order
     partner: NexusGenRootTypes['Partner'] | null; // Partner
@@ -170,7 +173,6 @@ export interface NexusGenFieldTypes {
     id: number; // Int!
     name: string; // String!
     orders: NexusGenRootTypes['Order'][]; // [Order!]!
-    password: string; // String!
     sns: NexusGenEnums['SnsLogin']; // SnsLogin!
   }
 }
@@ -197,6 +199,14 @@ export interface NexusGenArgTypes {
     }
   }
   Mutation: {
+    createItem: { // args
+      images: string[]; // [String!]!
+      name: string; // String!
+      price: number; // Int!
+    }
+    deleteItem: { // args
+      id: number; // Int!
+    }
     partnerLogin: { // args
       email: string; // String!
       password: string; // String!
@@ -205,6 +215,13 @@ export interface NexusGenArgTypes {
       email: string; // String!
       name: string; // String!
       password: string; // String!
+    }
+    updateItem: { // args
+      id: number; // Int!
+      images?: string[] | null; // [String!]
+      name?: string | null; // String
+      price?: number | null; // Int
+      published?: boolean | null; // Boolean
     }
   }
   Partner: {

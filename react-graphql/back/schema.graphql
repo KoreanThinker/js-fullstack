@@ -21,7 +21,7 @@ type Item {
   createdAt: DateTime!
   id: Int!
   images(after: ImageWhereUniqueInput, before: ImageWhereUniqueInput, first: Int, last: Int): [Image!]!
-  name: Int!
+  name: String!
   order(after: OrderWhereUniqueInput, before: OrderWhereUniqueInput, first: Int, last: Int): [Order!]!
   partner: Partner
   partnerId: Int
@@ -32,13 +32,16 @@ type Item {
 
 input ItemWhereUniqueInput {
   id: Int
-  name: Int
+  name: String
 }
 
 type Mutation {
+  createItem(images: [String!]!, name: String!, price: Int!): Item
+  deleteItem(id: Int!): Boolean
   partnerLogin(email: String!, password: String!): Partner!
   partnerLogout: Boolean!
   partnerSignup(email: String!, name: String!, password: String!): Partner!
+  updateItem(id: Int!, images: [String!], name: String, price: Int, published: Boolean): Item
 }
 
 type Order {
@@ -73,6 +76,7 @@ type Query {
   iPartner: Partner
   isPartnerLoggedIn: Boolean!
   item(id: Int!): Item
+  items: [Item!]
   iUser: User
   order(id: Int!): Order
   partner(id: Int!): Partner
@@ -94,7 +98,6 @@ type User {
   id: Int!
   name: String!
   orders(after: OrderWhereUniqueInput, before: OrderWhereUniqueInput, first: Int, last: Int): [Order!]!
-  password: String!
   sns: SnsLogin!
 }
 

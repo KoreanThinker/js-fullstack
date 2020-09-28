@@ -6,7 +6,7 @@ export const User = objectType({
         t.model.id()
         t.model.name()
         t.model.email()
-        t.model.password()
+        // t.model.password()
         t.model.boughts()
         t.model.createdAt()
         t.model.orders()

@@ -1,7 +1,8 @@
-import { arg, intArg, ObjectDefinitionBlock, stringArg } from "@nexus/schema/dist/core"
+import { arg, booleanArg, intArg, ObjectDefinitionBlock, stringArg } from "@nexus/schema/dist/core"
 import getPartnerId from '../utils/getPartnerId'
+import { partner } from "./partner"
 //Query
-export const item = (t: ObjectDefinitionBlock<"Query">) => t.field('item', {
+export const item = (t: ObjectDefinitionBlock<'Query'>) => t.field('item', {
     type: 'Item',
     args: {
         id: intArg({ required: true }),
@@ -14,26 +15,78 @@ export const item = (t: ObjectDefinitionBlock<"Query">) => t.field('item', {
     }
 })
 
+export const items = (t: ObjectDefinitionBlock<'Query'>) => t.list.field('items', {
+    type: 'Item',
+    nullable: true,
+    resolve: (_, { }, ctx) => {
+        return ctx.prisma.item.findMany({
+            where: { published: true },
+            orderBy: { createdAt: 'desc' }
+        })
+    }
+})
+
+
 
 //Mutation
-// export const createItem = (t: ObjectDefinitionBlock<"Mutation">) => t.field('createItem', {
-//     type: 'Item',
-//     args: {
-//         name: stringArg({ required: true }),
-//         price: intArg({ required: true }),
-//         images: stringArg({ list: true })
-//     },
-//     nullable: true,
-//     resolve: async (_, { name, price }, ctx) => {
-//         const parterId = getPartnerId(ctx)
-//         return ctx.prisma.item.create({
-//             data: {
-//                 name,
-//                 price,
-//                 images: ,
-//                 partner: parterId
+export const createItem = (t: ObjectDefinitionBlock<'Mutation'>) => t.field('createItem', {
+    type: 'Item',
+    args: {
+        name: stringArg({ required: true }),
+        price: intArg({ required: true }),
+        images: stringArg({ list: true, required: true })
+    },
+    nullable: true,
+    resolve: async (_, { name, price, images }, ctx) => {
+        const partnerId = getPartnerId(ctx)
+        return ctx.prisma.item.create({
+            data: {
+                name,
+                price,
+                images: { create: images.map((src) => ({ src })) },
+                partner: { connect: { id: partnerId } }
+            }
+        })
+    }
+})
 
-//             }
-//         })
-//     }
-// })
+export const deleteItem = (t: ObjectDefinitionBlock<'Mutation'>) => t.field('deleteItem', {
+    type: 'Boolean',
+    args: {
+        id: intArg({ required: true })
+    },
+    nullable: true,
+    resolve: async (_, { id }, ctx) => {
+        const partnerId = getPartnerId(ctx)
+        const item = await ctx.prisma.item.findOne({ where: { id } })
+        if (item?.partnerId !== partnerId) throw new Error('No Access')
+        await ctx.prisma.item.delete({ where: { id } })
+        return true
+    }
+})
+
+export const updateItem = (t: ObjectDefinitionBlock<'Mutation'>) => t.field('updateItem', {
+    type: 'Item',
+    args: {
+        id: intArg({ required: true }),
+        name: stringArg({ nullable: true }),
+        price: intArg({ nullable: true }),
+        images: stringArg({ list: true, nullable: true }),
+        published: booleanArg({ nullable: true })
+    },
+    nullable: true,
+    resolve: async (_, { id, name, price, images, published }, ctx) => {
+        const partnerId = getPartnerId(ctx)
+        const item = await ctx.prisma.item.findOne({ where: { id } })
+        if (item?.partnerId !== partnerId) throw new Error('No Access')
+        return await ctx.prisma.item.update({
+            where: { id },
+            data: {
+                name: name || undefined,
+                price: price || undefined,
+                published: typeof published === 'boolean' ? published : undefined,
+                images: images ? { deleteMany: { itemId: id }, create: images.map(src => ({ src })) } : undefined
+            }
+        })
+    }
+})
