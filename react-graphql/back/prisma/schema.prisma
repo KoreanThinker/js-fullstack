@@ -19,15 +19,24 @@ model Partner {
 }
 
 model Order {
-  id        Int      @default(autoincrement()) @id
-  createdAt DateTime @default(now())
+  id        Int       @default(autoincrement()) @id
+  createdAt DateTime  @default(now())
   price     Int
-  item      Item?    @relation(fields: [itemId], references: [id])
-  buyer     User?    @relation(fields: [buyerId], references: [id])
-  partner   Partner? @relation(fields: [partnerId], references: [id])
+  itemState ItemState @default(receiving)
+  item      Item?     @relation(fields: [itemId], references: [id])
+  buyer     User?     @relation(fields: [buyerId], references: [id])
+  partner   Partner?  @relation(fields: [partnerId], references: [id])
   buyerId   Int?
   itemId    Int?
   partnerId Int?
+}
+
+enum ItemState {
+  receiving
+  receiptCompleted
+  deliveryProgress
+  deliveryCompleted
+  canceled
 }
 
 model Item {
@@ -56,8 +65,18 @@ model User {
   id        Int      @default(autoincrement()) @id
   createdAt DateTime @default(now())
   email     String   @unique
+  sns       SnsLogin
+  //token???
   password  String
   name      String
   orders    Order[]
   boughts   Item[]
+}
+
+enum SnsLogin {
+  em
+  ka
+  fa
+  go
+  na
 }

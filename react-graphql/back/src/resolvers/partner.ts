@@ -1,4 +1,9 @@
-import { intArg, ObjectDefinitionBlock } from "@nexus/schema/dist/core"
+import { intArg, ObjectDefinitionBlock, stringArg } from "@nexus/schema/dist/core"
+import bcrypt from 'bcrypt'
+import getPartnerId from '../utils/getPartnerId'
+import jwtSign from '../utils/jwtPartnerSign'
+import { PARTNER_ACCESS_TOKEN_NAME } from '../values'
+
 
 //Query
 export const partner = (t: ObjectDefinitionBlock<"Query">) => t.field('partner', {
@@ -13,3 +18,95 @@ export const partner = (t: ObjectDefinitionBlock<"Query">) => t.field('partner',
         })
     }
 })
+
+export const iPartner = (t: ObjectDefinitionBlock<"Query">) => t.field('iPartner', {
+    type: 'Partner',
+    nullable: true,
+    resolve: async (_, { }, ctx) => {
+        try {
+            const partnerId = getPartnerId(ctx)
+            console.log(partnerId)
+            const partner = ctx.prisma.partner.findOne({
+                where: { id: Number(partnerId) }
+            })
+            if (!partner) throw new Error('Invalid Partner')
+            return partner
+        } catch (error) {
+            ctx.expressContext.res.clearCookie(PARTNER_ACCESS_TOKEN_NAME)
+            throw new Error('Invalid Error')
+        }
+    }
+})
+
+
+//Mutation
+export const partnerSignup = (t: ObjectDefinitionBlock<"Mutation">) => t.field('partnerSignup', {
+    type: 'Partner',
+    args: {
+        email: stringArg({ required: true }),
+        password: stringArg({ required: true }),
+        name: stringArg({ required: true })
+    },
+    resolve: async (_, { email, password, name }, ctx) => {
+        try {
+            const hashedPassword = await bcrypt.hash(password, 12)
+            const partner = await ctx.prisma.partner.create({
+                data: {
+                    email,
+                    password: hashedPassword,
+                    name
+                }
+            })
+            jwtSign(String(partner.id), ctx)
+
+            return partner
+        } catch (error) {
+            switch (error.code) {
+                case 'P2002': throw new Error('Duplicated email')
+                default: throw new Error('Invalid Error')
+            }
+        }
+    }
+})
+
+export const partnerLogin = (t: ObjectDefinitionBlock<"Mutation">) => t.field('partnerLogin', {
+    type: 'Partner',
+    args: {
+        email: stringArg({ required: true }),
+        password: stringArg({ required: true })
+    },
+    resolve: async (_, { email, password }, ctx) => {
+        const partner = await ctx.prisma.partner.findOne({ where: { email } })
+        if (!partner) throw new Error(`No such partner found for email: ${email}`)
+
+        const valid = await bcrypt.compare(password, partner.password)
+        if (!valid) throw new Error('Invalid password')
+
+        jwtSign(String(partner.id), ctx)
+        return partner
+    }
+})
+
+export const partnerLogout = (t: ObjectDefinitionBlock<"Mutation">) => t.field('partnerLogout', {
+    type: 'Boolean',
+    resolve: async (_, { }, ctx) => {
+        ctx.expressContext.res.clearCookie(PARTNER_ACCESS_TOKEN_NAME)
+        return true
+    }
+})
+
+export const isPartnerLoggedIn = (t: ObjectDefinitionBlock<"Query">) => t.field('isPartnerLoggedIn', {
+    type: 'Boolean',
+    resolve: async (_, { }, ctx) => {
+        try {
+            const partnerId = getPartnerId(ctx)
+            const partner = await ctx.prisma.partner.findOne({ where: { id: Number(partnerId) } })
+            return !!partner
+        } catch (error) {
+            // console.error(error)
+            ctx.expressContext.res.clearCookie(PARTNER_ACCESS_TOKEN_NAME)
+            return false
+        }
+    }
+})
+

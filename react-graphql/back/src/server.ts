@@ -14,7 +14,12 @@ const app = express()
 
 const server = new ApolloServer({
   schema,
-  context: createContext
+  context: createContext,
+  playground: {
+    settings: {
+      "request.credentials": 'include'
+    }
+  }
 });
 
 

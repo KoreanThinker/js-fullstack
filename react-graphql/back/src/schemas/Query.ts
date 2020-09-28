@@ -1,16 +1,13 @@
 import { objectType } from "@nexus/schema"
-import { isLoggedIn } from "../resolvers/auth"
 import { image } from "../resolvers/image"
 import { item } from "../resolvers/item"
 import { order } from "../resolvers/order"
-import { partner } from "../resolvers/partner"
+import { iPartner, isPartnerLoggedIn, partner } from "../resolvers/partner"
 import { iUser, user } from "../resolvers/user"
 
 const Query = objectType({
     name: 'Query',
     definition(t) {
-        //auth
-        isLoggedIn(t)
         //user
         user(t)
         iUser(t)
@@ -22,6 +19,8 @@ const Query = objectType({
         order(t)
         //partner
         partner(t)
+        iPartner(t)
+        isPartnerLoggedIn(t)
     },
 })
 

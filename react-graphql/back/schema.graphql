@@ -36,9 +36,9 @@ input ItemWhereUniqueInput {
 }
 
 type Mutation {
-  login(email: String!, password: String!): User!
-  logout: Boolean!
-  signup(email: String!, name: String!, password: String!): User!
+  partnerLogin(email: String!, password: String!): Partner!
+  partnerLogout: Boolean!
+  partnerSignup(email: String!, name: String!, password: String!): Partner!
 }
 
 type Order {
@@ -70,12 +70,21 @@ type Partner {
 
 type Query {
   image(id: Int!): Image
-  isLoggedIn: Boolean!
+  iPartner: Partner
+  isPartnerLoggedIn: Boolean!
   item(id: Int!): Item
   iUser: User
   order(id: Int!): Order
   partner(id: Int!): Partner
   user(id: Int!): User
+}
+
+enum SnsLogin {
+  em
+  fa
+  go
+  ka
+  na
 }
 
 type User {
@@ -86,6 +95,7 @@ type User {
   name: String!
   orders(after: OrderWhereUniqueInput, before: OrderWhereUniqueInput, first: Int, last: Int): [Order!]!
   password: String!
+  sns: SnsLogin!
 }
 
 input UserWhereUniqueInput {

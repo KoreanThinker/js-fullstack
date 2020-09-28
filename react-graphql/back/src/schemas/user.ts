@@ -10,6 +10,7 @@ const User = objectType({
         t.model.boughts()
         t.model.createdAt()
         t.model.orders()
+        t.model.sns()
     }
 })
 

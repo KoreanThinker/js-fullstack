@@ -1,14 +1,13 @@
 import { objectType } from "@nexus/schema"
-import { login, logout, signup } from "../resolvers/auth"
+import { partnerLogin, partnerLogout, partnerSignup } from "../resolvers/partner"
 
 const Mutation = objectType({
     name: 'Mutation',
     definition(t) {
-        //auth
-        signup(t)
-        login(t)
-        logout(t)
-        //post
+        //partner
+        partnerSignup(t)
+        partnerLogin(t)
+        partnerLogout(t)
     }
 })
 

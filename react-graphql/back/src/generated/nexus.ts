@@ -36,6 +36,7 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
+  SnsLogin: "em" | "fa" | "go" | "ka" | "na"
 }
 
 export interface NexusGenScalars {
@@ -87,6 +88,7 @@ export interface NexusGenRootTypes {
     id: number; // Int!
     name: string; // String!
     password: string; // String!
+    sns: NexusGenEnums['SnsLogin']; // SnsLogin!
   }
 }
 
@@ -95,6 +97,7 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   ItemWhereUniqueInput: NexusGenInputs['ItemWhereUniqueInput'];
   OrderWhereUniqueInput: NexusGenInputs['OrderWhereUniqueInput'];
   UserWhereUniqueInput: NexusGenInputs['UserWhereUniqueInput'];
+  SnsLogin: NexusGenEnums['SnsLogin'];
   String: NexusGenScalars['String'];
   Int: NexusGenScalars['Int'];
   Float: NexusGenScalars['Float'];
@@ -125,9 +128,9 @@ export interface NexusGenFieldTypes {
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   Mutation: { // field return type
-    login: NexusGenRootTypes['User']; // User!
-    logout: boolean; // Boolean!
-    signup: NexusGenRootTypes['User']; // User!
+    partnerLogin: NexusGenRootTypes['Partner']; // Partner!
+    partnerLogout: boolean; // Boolean!
+    partnerSignup: NexusGenRootTypes['Partner']; // Partner!
   }
   Order: { // field return type
     buyer: NexusGenRootTypes['User'] | null; // User
@@ -152,7 +155,8 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     image: NexusGenRootTypes['Image'] | null; // Image
-    isLoggedIn: boolean; // Boolean!
+    iPartner: NexusGenRootTypes['Partner'] | null; // Partner
+    isPartnerLoggedIn: boolean; // Boolean!
     item: NexusGenRootTypes['Item'] | null; // Item
     iUser: NexusGenRootTypes['User'] | null; // User
     order: NexusGenRootTypes['Order'] | null; // Order
@@ -167,6 +171,7 @@ export interface NexusGenFieldTypes {
     name: string; // String!
     orders: NexusGenRootTypes['Order'][]; // [Order!]!
     password: string; // String!
+    sns: NexusGenEnums['SnsLogin']; // SnsLogin!
   }
 }
 
@@ -192,11 +197,11 @@ export interface NexusGenArgTypes {
     }
   }
   Mutation: {
-    login: { // args
+    partnerLogin: { // args
       email: string; // String!
       password: string; // String!
     }
-    signup: { // args
+    partnerSignup: { // args
       email: string; // String!
       name: string; // String!
       password: string; // String!
@@ -258,7 +263,7 @@ export type NexusGenObjectNames = "Image" | "Item" | "Mutation" | "Order" | "Par
 
 export type NexusGenInputNames = "ImageWhereUniqueInput" | "ItemWhereUniqueInput" | "OrderWhereUniqueInput" | "UserWhereUniqueInput";
 
-export type NexusGenEnumNames = never;
+export type NexusGenEnumNames = "SnsLogin";
 
 export type NexusGenInterfaceNames = never;
 

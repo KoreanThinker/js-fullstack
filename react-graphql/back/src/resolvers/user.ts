@@ -1,5 +1,5 @@
 import { intArg, ObjectDefinitionBlock } from "@nexus/schema/dist/core"
-import getUserId from "../utils/getUserId"
+import getUserId from "../utils/getPartnerId"
 import { ACCESS_TOKEN_NAME } from "../values"
 
 //Query

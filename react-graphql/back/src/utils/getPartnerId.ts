@@ -1,15 +1,15 @@
 import jwt from 'jsonwebtoken'
 import { Context } from '../context'
-import { ACCESS_TOKEN_NAME } from '../values'
+import { PARTNER_ACCESS_TOKEN_NAME } from '../values'
 
 require('dotenv').config()
 
 const getUserId = (ctx: Context) => {
-    const accessToken = ctx.expressContext.req.cookies[ACCESS_TOKEN_NAME]
+    const accessToken = ctx.expressContext.req.cookies[PARTNER_ACCESS_TOKEN_NAME]
     console.log('ACCESS_TOKEN : ' + accessToken)
     if (accessToken) {
-        const { userId } = jwt.verify(accessToken, process.env.JWT_SECRET as string) as { userId: string }
-        return userId
+        const { partnerId } = jwt.verify(accessToken, process.env.JWT_SECRET as string) as { partnerId: string }
+        return partnerId
     }
     throw new AuthError()
 }
