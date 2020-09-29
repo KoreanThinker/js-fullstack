@@ -19,17 +19,18 @@ model Partner {
 }
 
 model Order {
-  id        Int       @default(autoincrement()) @id
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  price     Int
-  itemState ItemState @default(receiving)
-  item      Item?     @relation(fields: [itemId], references: [id])
-  buyer     User?     @relation(fields: [buyerId], references: [id])
-  partner   Partner?  @relation(fields: [partnerId], references: [id])
-  buyerId   Int?
-  itemId    Int?
-  partnerId Int?
+  id            Int       @default(autoincrement()) @id
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  price         Int
+  itemState     ItemState @default(receiving)
+  item          Item?     @relation(fields: [itemId], references: [id])
+  buyer         User?     @relation(fields: [buyerId], references: [id])
+  partner       Partner?  @relation(fields: [partnerId], references: [id])
+  buyerId       Int?
+  itemId        Int?
+  partnerId     Int?
+  waybillNumber String?
 }
 
 enum ItemState {
@@ -38,6 +39,7 @@ enum ItemState {
   deliveryProgress
   deliveryCompleted
   canceled
+  confirmation
 }
 
 model Item {

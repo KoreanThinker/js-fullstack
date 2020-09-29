@@ -31,6 +31,7 @@ type Item {
 
 enum ItemState {
   canceled
+  confirmation
   deliveryCompleted
   deliveryProgress
   receiptCompleted
@@ -43,13 +44,17 @@ input ItemWhereUniqueInput {
 }
 
 type Mutation {
+  confirmationOrder(orderId: Int!): Order!
   createItem(images: [String!]!, name: String!, price: Int!): Item
   createOrder(itemId: Int!, price: Int!): Order!
   deleteItem(id: Int!): Boolean
+  deliveryCompletedOrder(orderId: Int!): Order!
+  deliveryOrder(orderId: Int!, waybillNumber: String!): Order!
   partnerCancelOrder(orderId: Int!): Order!
   partnerLogin(email: String!, password: String!): Partner!
   partnerLogout: Boolean!
   partnerSignup(email: String!, name: String!, password: String!): Partner!
+  receiveOrder(orderId: Int!): Order!
   updateItem(id: Int!, images: [String!], name: String, price: Int, published: Boolean): Item
   userCancelOrder(orderId: Int!): Order!
 }
@@ -66,6 +71,7 @@ type Order {
   partnerId: Int
   price: Int!
   updatedAt: DateTime!
+  waybillNumber: String
 }
 
 input OrderWhereUniqueInput {

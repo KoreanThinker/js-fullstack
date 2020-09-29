@@ -69,6 +69,7 @@ export const userCancelOrder = (t: ObjectDefinitionBlock<"Mutation">) => t.field
         if (!order) throw new Error('No Order')
         if (order.buyerId !== userId) throw new Error('No Access')
         if (order.itemState === 'canceled') throw new Error('Already Canceled')
+        if (order.itemState === 'confirmation') throw new Error('User Confirmed')
         if (order.itemState !== 'receiving') throw new Error('Order Already Been Started')
 
         return ctx.prisma.order.update({
@@ -87,7 +88,6 @@ export const partnerCancelOrder = (t: ObjectDefinitionBlock<"Mutation">) => t.fi
         orderId: intArg({ required: true })
     },
     resolve: async (_, { orderId }, ctx) => {
-        // todo getUser by token
         const partnerId = getPartnerId(ctx)
 
         const order = await ctx.prisma.order.findOne({ where: { id: orderId } })
@@ -99,6 +99,102 @@ export const partnerCancelOrder = (t: ObjectDefinitionBlock<"Mutation">) => t.fi
             where: { id: orderId },
             data: {
                 itemState: 'canceled'
+            }
+        })
+
+    }
+})
+
+export const receiveOrder = (t: ObjectDefinitionBlock<"Mutation">) => t.field('receiveOrder', {
+    type: 'Order',
+    args: {
+        orderId: intArg({ required: true })
+    },
+    resolve: async (_, { orderId }, ctx) => {
+        const partnerId = getPartnerId(ctx)
+
+        const order = await ctx.prisma.order.findOne({ where: { id: orderId } })
+        if (!order) throw new Error('No Order')
+        if (order.partnerId !== partnerId) throw new Error('No Access')
+        if (order.itemState !== 'receiving') throw new Error('No Access')
+
+        return ctx.prisma.order.update({
+            where: { id: orderId },
+            data: {
+                itemState: 'receiptCompleted'
+            }
+        })
+
+    }
+})
+
+export const deliveryOrder = (t: ObjectDefinitionBlock<"Mutation">) => t.field('deliveryOrder', {
+    type: 'Order',
+    args: {
+        orderId: intArg({ required: true }),
+        waybillNumber: stringArg({ required: true })
+    },
+    resolve: async (_, { orderId, waybillNumber }, ctx) => {
+        const partnerId = getPartnerId(ctx)
+
+        const order = await ctx.prisma.order.findOne({ where: { id: orderId } })
+        if (!order) throw new Error('No Order')
+        if (order.partnerId !== partnerId) throw new Error('No Access')
+        if (order.itemState !== 'receiptCompleted') throw new Error('No Access')
+
+        return ctx.prisma.order.update({
+            where: { id: orderId },
+            data: {
+                itemState: 'deliveryProgress',
+                waybillNumber
+            }
+        })
+
+    }
+})
+
+// deliveryApiPlz
+export const deliveryCompletedOrder = (t: ObjectDefinitionBlock<"Mutation">) => t.field('deliveryCompletedOrder', {
+    type: 'Order',
+    args: {
+        orderId: intArg({ required: true })
+    },
+    resolve: async (_, { orderId }, ctx) => {
+        const partnerId = getPartnerId(ctx)
+
+        const order = await ctx.prisma.order.findOne({ where: { id: orderId } })
+        if (!order) throw new Error('No Order')
+        if (order.partnerId !== partnerId) throw new Error('No Access')
+        if (order.itemState !== 'deliveryProgress') throw new Error('No Access')
+
+        return ctx.prisma.order.update({
+            where: { id: orderId },
+            data: {
+                itemState: 'deliveryCompleted'
+            }
+        })
+
+    }
+})
+
+export const confirmationOrder = (t: ObjectDefinitionBlock<"Mutation">) => t.field('confirmationOrder', {
+    type: 'Order',
+    args: {
+        orderId: intArg({ required: true })
+    },
+    resolve: async (_, { orderId }, ctx) => {
+        // todo getUser by token
+        const userId = 1
+
+        const order = await ctx.prisma.order.findOne({ where: { id: orderId } })
+        if (!order) throw new Error('No Order')
+        if (order.buyerId !== userId) throw new Error('No Access')
+        if (order.itemState !== 'deliveryCompleted') throw new Error('No Access')
+
+        return ctx.prisma.order.update({
+            where: { id: orderId },
+            data: {
+                itemState: 'confirmation'
             }
         })
 

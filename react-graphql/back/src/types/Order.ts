@@ -14,5 +14,6 @@ export const Order = objectType({
         t.model.partnerId()
         t.model.price()
         t.model.itemState()
+        t.model.waybillNumber()
     }
 })

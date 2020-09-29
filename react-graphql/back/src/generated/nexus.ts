@@ -32,7 +32,7 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
-  ItemState: "canceled" | "deliveryCompleted" | "deliveryProgress" | "receiptCompleted" | "receiving"
+  ItemState: "canceled" | "confirmation" | "deliveryCompleted" | "deliveryProgress" | "receiptCompleted" | "receiving"
   SnsLogin: "em" | "fa" | "go" | "ka" | "na"
 }
 
@@ -71,6 +71,7 @@ export interface NexusGenRootTypes {
     partnerId?: number | null; // Int
     price: number; // Int!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    waybillNumber?: string | null; // String
   }
   Partner: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -124,13 +125,17 @@ export interface NexusGenFieldTypes {
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   Mutation: { // field return type
+    confirmationOrder: NexusGenRootTypes['Order']; // Order!
     createItem: NexusGenRootTypes['Item'] | null; // Item
     createOrder: NexusGenRootTypes['Order']; // Order!
     deleteItem: boolean | null; // Boolean
+    deliveryCompletedOrder: NexusGenRootTypes['Order']; // Order!
+    deliveryOrder: NexusGenRootTypes['Order']; // Order!
     partnerCancelOrder: NexusGenRootTypes['Order']; // Order!
     partnerLogin: NexusGenRootTypes['Partner']; // Partner!
     partnerLogout: boolean; // Boolean!
     partnerSignup: NexusGenRootTypes['Partner']; // Partner!
+    receiveOrder: NexusGenRootTypes['Order']; // Order!
     updateItem: NexusGenRootTypes['Item'] | null; // Item
     userCancelOrder: NexusGenRootTypes['Order']; // Order!
   }
@@ -146,6 +151,7 @@ export interface NexusGenFieldTypes {
     partnerId: number | null; // Int
     price: number; // Int!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
+    waybillNumber: string | null; // String
   }
   Partner: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -194,6 +200,9 @@ export interface NexusGenArgTypes {
     }
   }
   Mutation: {
+    confirmationOrder: { // args
+      orderId: number; // Int!
+    }
     createItem: { // args
       images: string[]; // [String!]!
       name: string; // String!
@@ -206,6 +215,13 @@ export interface NexusGenArgTypes {
     deleteItem: { // args
       id: number; // Int!
     }
+    deliveryCompletedOrder: { // args
+      orderId: number; // Int!
+    }
+    deliveryOrder: { // args
+      orderId: number; // Int!
+      waybillNumber: string; // String!
+    }
     partnerCancelOrder: { // args
       orderId: number; // Int!
     }
@@ -217,6 +233,9 @@ export interface NexusGenArgTypes {
       email: string; // String!
       name: string; // String!
       password: string; // String!
+    }
+    receiveOrder: { // args
+      orderId: number; // Int!
     }
     updateItem: { // args
       id: number; // Int!
