@@ -29,13 +29,10 @@ export interface NexusGenInputs {
   OrderWhereUniqueInput: { // input type
     id?: number | null; // Int
   }
-  UserWhereUniqueInput: { // input type
-    email?: string | null; // String
-    id?: number | null; // Int
-  }
 }
 
 export interface NexusGenEnums {
+  ItemState: "canceled" | "deliveryCompleted" | "deliveryProgress" | "receiptCompleted" | "receiving"
   SnsLogin: "em" | "fa" | "go" | "ka" | "na"
 }
 
@@ -70,15 +67,16 @@ export interface NexusGenRootTypes {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: number; // Int!
     itemId?: number | null; // Int
+    itemState: NexusGenEnums['ItemState']; // ItemState!
     partnerId?: number | null; // Int
     price: number; // Int!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   Partner: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     email: string; // String!
     id: number; // Int!
     name: string; // String!
-    password: string; // String!
     profit: number; // Int!
   }
   Query: {};
@@ -95,7 +93,7 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   ImageWhereUniqueInput: NexusGenInputs['ImageWhereUniqueInput'];
   ItemWhereUniqueInput: NexusGenInputs['ItemWhereUniqueInput'];
   OrderWhereUniqueInput: NexusGenInputs['OrderWhereUniqueInput'];
-  UserWhereUniqueInput: NexusGenInputs['UserWhereUniqueInput'];
+  ItemState: NexusGenEnums['ItemState'];
   SnsLogin: NexusGenEnums['SnsLogin'];
   String: NexusGenScalars['String'];
   Int: NexusGenScalars['Int'];
@@ -114,7 +112,6 @@ export interface NexusGenFieldTypes {
     src: string; // String!
   }
   Item: { // field return type
-    buyers: NexusGenRootTypes['User'][]; // [User!]!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: number; // Int!
     images: NexusGenRootTypes['Image'][]; // [Image!]!
@@ -128,11 +125,14 @@ export interface NexusGenFieldTypes {
   }
   Mutation: { // field return type
     createItem: NexusGenRootTypes['Item'] | null; // Item
+    createOrder: NexusGenRootTypes['Order']; // Order!
     deleteItem: boolean | null; // Boolean
+    partnerCancelOrder: NexusGenRootTypes['Order']; // Order!
     partnerLogin: NexusGenRootTypes['Partner']; // Partner!
     partnerLogout: boolean; // Boolean!
     partnerSignup: NexusGenRootTypes['Partner']; // Partner!
     updateItem: NexusGenRootTypes['Item'] | null; // Item
+    userCancelOrder: NexusGenRootTypes['Order']; // Order!
   }
   Order: { // field return type
     buyer: NexusGenRootTypes['User'] | null; // User
@@ -141,9 +141,11 @@ export interface NexusGenFieldTypes {
     id: number; // Int!
     item: NexusGenRootTypes['Item'] | null; // Item
     itemId: number | null; // Int
+    itemState: NexusGenEnums['ItemState']; // ItemState!
     partner: NexusGenRootTypes['Partner'] | null; // Partner
     partnerId: number | null; // Int
     price: number; // Int!
+    updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   Partner: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -152,7 +154,6 @@ export interface NexusGenFieldTypes {
     items: NexusGenRootTypes['Item'][]; // [Item!]!
     name: string; // String!
     orders: NexusGenRootTypes['Order'][]; // [Order!]!
-    password: string; // String!
     profit: number; // Int!
   }
   Query: { // field return type
@@ -162,12 +163,12 @@ export interface NexusGenFieldTypes {
     item: NexusGenRootTypes['Item'] | null; // Item
     items: NexusGenRootTypes['Item'][] | null; // [Item!]
     iUser: NexusGenRootTypes['User'] | null; // User
+    newOrder: NexusGenRootTypes['Order'][]; // [Order!]!
     order: NexusGenRootTypes['Order'] | null; // Order
     partner: NexusGenRootTypes['Partner'] | null; // Partner
     user: NexusGenRootTypes['User'] | null; // User
   }
   User: { // field return type
-    boughts: NexusGenRootTypes['Item'][]; // [Item!]!
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     email: string; // String!
     id: number; // Int!
@@ -179,12 +180,6 @@ export interface NexusGenFieldTypes {
 
 export interface NexusGenArgTypes {
   Item: {
-    buyers: { // args
-      after?: NexusGenInputs['UserWhereUniqueInput'] | null; // UserWhereUniqueInput
-      before?: NexusGenInputs['UserWhereUniqueInput'] | null; // UserWhereUniqueInput
-      first?: number | null; // Int
-      last?: number | null; // Int
-    }
     images: { // args
       after?: NexusGenInputs['ImageWhereUniqueInput'] | null; // ImageWhereUniqueInput
       before?: NexusGenInputs['ImageWhereUniqueInput'] | null; // ImageWhereUniqueInput
@@ -204,8 +199,15 @@ export interface NexusGenArgTypes {
       name: string; // String!
       price: number; // Int!
     }
+    createOrder: { // args
+      itemId: number; // Int!
+      price: number; // Int!
+    }
     deleteItem: { // args
       id: number; // Int!
+    }
+    partnerCancelOrder: { // args
+      orderId: number; // Int!
     }
     partnerLogin: { // args
       email: string; // String!
@@ -222,6 +224,9 @@ export interface NexusGenArgTypes {
       name?: string | null; // String
       price?: number | null; // Int
       published?: boolean | null; // Boolean
+    }
+    userCancelOrder: { // args
+      orderId: number; // Int!
     }
   }
   Partner: {
@@ -256,12 +261,6 @@ export interface NexusGenArgTypes {
     }
   }
   User: {
-    boughts: { // args
-      after?: NexusGenInputs['ItemWhereUniqueInput'] | null; // ItemWhereUniqueInput
-      before?: NexusGenInputs['ItemWhereUniqueInput'] | null; // ItemWhereUniqueInput
-      first?: number | null; // Int
-      last?: number | null; // Int
-    }
     orders: { // args
       after?: NexusGenInputs['OrderWhereUniqueInput'] | null; // OrderWhereUniqueInput
       before?: NexusGenInputs['OrderWhereUniqueInput'] | null; // OrderWhereUniqueInput
@@ -278,9 +277,9 @@ export interface NexusGenInheritedFields {}
 
 export type NexusGenObjectNames = "Image" | "Item" | "Mutation" | "Order" | "Partner" | "Query" | "User";
 
-export type NexusGenInputNames = "ImageWhereUniqueInput" | "ItemWhereUniqueInput" | "OrderWhereUniqueInput" | "UserWhereUniqueInput";
+export type NexusGenInputNames = "ImageWhereUniqueInput" | "ItemWhereUniqueInput" | "OrderWhereUniqueInput";
 
-export type NexusGenEnumNames = "SnsLogin";
+export type NexusGenEnumNames = "ItemState" | "SnsLogin";
 
 export type NexusGenInterfaceNames = never;
 

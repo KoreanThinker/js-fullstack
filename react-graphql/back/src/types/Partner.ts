@@ -6,7 +6,7 @@ export const Partner = objectType({
         t.model.id()
         t.model.name()
         t.model.email()
-        t.model.password()
+        // t.model.password()
         t.model.createdAt()
         t.model.items()
         t.model.orders()

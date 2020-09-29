@@ -1,5 +1,6 @@
 import { objectType } from "@nexus/schema"
 import { createItem, deleteItem, updateItem } from "../resolvers/item"
+import { createOrder, partnerCancelOrder, userCancelOrder } from "../resolvers/order"
 import { partnerLogin, partnerLogout, partnerSignup } from "../resolvers/partner"
 
 export const Mutation = objectType({
@@ -13,5 +14,9 @@ export const Mutation = objectType({
         createItem(t)
         deleteItem(t)
         updateItem(t)
+        //order
+        createOrder(t)
+        userCancelOrder(t)
+        partnerCancelOrder(t)
     }
 })

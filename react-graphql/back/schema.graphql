@@ -17,7 +17,6 @@ input ImageWhereUniqueInput {
 }
 
 type Item {
-  buyers(after: UserWhereUniqueInput, before: UserWhereUniqueInput, first: Int, last: Int): [User!]!
   createdAt: DateTime!
   id: Int!
   images(after: ImageWhereUniqueInput, before: ImageWhereUniqueInput, first: Int, last: Int): [Image!]!
@@ -30,6 +29,14 @@ type Item {
   updatedAt: DateTime!
 }
 
+enum ItemState {
+  canceled
+  deliveryCompleted
+  deliveryProgress
+  receiptCompleted
+  receiving
+}
+
 input ItemWhereUniqueInput {
   id: Int
   name: String
@@ -37,11 +44,14 @@ input ItemWhereUniqueInput {
 
 type Mutation {
   createItem(images: [String!]!, name: String!, price: Int!): Item
+  createOrder(itemId: Int!, price: Int!): Order!
   deleteItem(id: Int!): Boolean
+  partnerCancelOrder(orderId: Int!): Order!
   partnerLogin(email: String!, password: String!): Partner!
   partnerLogout: Boolean!
   partnerSignup(email: String!, name: String!, password: String!): Partner!
   updateItem(id: Int!, images: [String!], name: String, price: Int, published: Boolean): Item
+  userCancelOrder(orderId: Int!): Order!
 }
 
 type Order {
@@ -51,9 +61,11 @@ type Order {
   id: Int!
   item: Item
   itemId: Int
+  itemState: ItemState!
   partner: Partner
   partnerId: Int
   price: Int!
+  updatedAt: DateTime!
 }
 
 input OrderWhereUniqueInput {
@@ -67,7 +79,6 @@ type Partner {
   items(after: ItemWhereUniqueInput, before: ItemWhereUniqueInput, first: Int, last: Int): [Item!]!
   name: String!
   orders(after: OrderWhereUniqueInput, before: OrderWhereUniqueInput, first: Int, last: Int): [Order!]!
-  password: String!
   profit: Int!
 }
 
@@ -78,6 +89,7 @@ type Query {
   item(id: Int!): Item
   items: [Item!]
   iUser: User
+  newOrder: [Order!]!
   order(id: Int!): Order
   partner(id: Int!): Partner
   user(id: Int!): User
@@ -92,16 +104,10 @@ enum SnsLogin {
 }
 
 type User {
-  boughts(after: ItemWhereUniqueInput, before: ItemWhereUniqueInput, first: Int, last: Int): [Item!]!
   createdAt: DateTime!
   email: String!
   id: Int!
   name: String!
   orders(after: OrderWhereUniqueInput, before: OrderWhereUniqueInput, first: Int, last: Int): [Order!]!
   sns: SnsLogin!
-}
-
-input UserWhereUniqueInput {
-  email: String
-  id: Int
 }

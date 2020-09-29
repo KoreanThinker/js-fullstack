@@ -7,10 +7,12 @@ export const Order = objectType({
         t.model.buyer()
         t.model.buyerId()
         t.model.createdAt()
+        t.model.updatedAt()
         t.model.item()
         t.model.itemId()
         t.model.partner()
         t.model.partnerId()
         t.model.price()
+        t.model.itemState()
     }
 })
