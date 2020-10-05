@@ -27,8 +27,12 @@ App.getInitialProps = async (appContext: AppContext) => {
   const QUERYS = [IS_LOGGED_IN, ...(PAGE_QUERYS || [])]
 
   for (const [index, query] of QUERYS.entries()) {
-    const { data } = await apolloClient.query({ query, context: appContext.ctx.req, fetchPolicy: 'network-only' })
-    console.log('SSR DATA', index, data)
+    try {
+      const { data } = await apolloClient.query({ query, context: appContext.ctx.req, fetchPolicy: 'network-only' })
+      console.log('SSR DATA', index, data)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return { pageProps: { initialApolloState: apolloClient.cache.extract() } }

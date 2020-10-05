@@ -16,7 +16,7 @@ interface IsLoggedInVars {
 
 }
 export const useIsLoggedIn = () => createQueryHook<IsLoggedInData, IsLoggedInVars>(IS_LOGGED_IN, {
-  fetchPolicy: 'cache-first'
+  fetchPolicy: 'cache-only'
 }) // SSR
 
 // MUTATION/SIGNUP

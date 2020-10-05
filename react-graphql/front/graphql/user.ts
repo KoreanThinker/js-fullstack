@@ -21,4 +21,4 @@ interface IUserData {
 interface IUserVars {
 
 }
-export const useIUser = () => createQueryHook<IUserData, IUserVars>(I_USER) // SSR 
+export const useIUser = () => createQueryHook<IUserData, IUserVars>(I_USER, { fetchPolicy: 'cache-only' }) // SSR 
