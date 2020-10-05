@@ -155,6 +155,4 @@ const ConsoleLayout: React.FC = ({ children }) => {
     )
 }
 
-
-
 export default ConsoleLayout

@@ -1,21 +1,16 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import '../styles/global.css'
 import 'antd/dist/antd.css';
 import { ToastContainer } from 'react-toastify';
-import { ApolloProvider } from '@apollo/client';
+import { ApolloProvider, DocumentNode } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
-import { useApollo } from '../lib/apollo';
-import { AppProps } from 'next/app';
-import { GetServerSideProps } from 'next';
+import { initializeApollo, useApollo } from '../lib/apollo';
+import { AppProps, AppContext } from 'next/app';
+import { IS_LOGGED_IN } from '../graphql/auth';
 
 
-const App: React.FC<AppProps> = ({ Component, pageProps }) => {
-
+const App = ({ Component, pageProps }: AppProps) => {
   const apolloClient = useApollo(pageProps.initialApolloState)
-
-  useEffect(() => {
-    console.log('APP')
-  }, [])
 
   return <>
     <ApolloProvider client={apolloClient}>
@@ -25,9 +20,18 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   </>
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  console.log('SSR')
-  return { props: {} }
+App.getInitialProps = async (appContext: AppContext) => {
+  const apolloClient = initializeApollo()
+
+  const { QUERYS: PAGE_QUERYS } = require(`.${appContext.router.pathname}`) as { QUERYS?: DocumentNode[] } // get gqls from page's QUERYS
+  const QUERYS = [IS_LOGGED_IN, ...(PAGE_QUERYS || [])]
+
+  for (const [index, query] of QUERYS.entries()) {
+    const { data } = await apolloClient.query({ query, context: appContext.ctx.req, fetchPolicy: 'network-only' })
+    console.log('SSR DATA', index, data)
+  }
+
+  return { pageProps: { initialApolloState: apolloClient.cache.extract() } }
 }
 
 export default App

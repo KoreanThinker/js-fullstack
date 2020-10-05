@@ -1,12 +1,10 @@
 import { Button, Form, Input, Space } from 'antd'
-import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import React, { useCallback, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import styled from 'styled-components'
-import { initializeApollo } from '../lib/apollo'
 import Layout from '../components/Layout'
-import { IS_LOGGED_IN, useIsLoggedIn, useLogin } from '../graphql/auth'
+import { useIsLoggedIn, useLogin } from '../graphql/auth'
 
 
 
@@ -83,13 +81,6 @@ const login = () => {
             </Container>
         </Layout>
     )
-}
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const apolloClient = initializeApollo()
-    await apolloClient.query({ query: IS_LOGGED_IN, context: context.req, fetchPolicy: 'network-only' })
-
-    return { props: { initialApolloState: apolloClient.cache.extract() } }
 }
 
 export default login
