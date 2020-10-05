@@ -26,11 +26,11 @@ const login = () => {
     const [loginRequest, { loading, data, error }] = useLogin()
 
     useEffect(() => { //when user already loggedin
-        if (isLoggedInData?.isLoggedIn) router.replace('/')
+        if (isLoggedInData?.isPartnerLoggedIn) router.replace('/')
     }, [isLoggedInData])
 
     useEffect(() => { // success login
-        if (data?.login?.id) router.replace('/')
+        if (data?.partnerLogin?.id) router.replace('/')
     }, [data])
 
     useEffect(() => { //fail login

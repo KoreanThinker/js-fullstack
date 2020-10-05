@@ -6,29 +6,29 @@ import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
 // QUERY/IS_LOGGED_IN
 export const IS_LOGGED_IN = gql`
   query {
-    isLoggedIn
+    isPartnerLoggedIn
   }
 `
 interface IsLoggedInData {
-  isLoggedIn: boolean
+  isPartnerLoggedIn: boolean
 }
 interface IsLoggedInVars {
 
 }
 export const useIsLoggedIn = () => createQueryHook<IsLoggedInData, IsLoggedInVars>(IS_LOGGED_IN, {
   fetchPolicy: 'cache-first'
-}) // SSR 
+}) // SSR
 
 // MUTATION/SIGNUP
 const SIGHUP = gql`
   mutation ($email: String!, $password: String!, $name: String!) {
-    signup(email: $email, password: $password, name: $name) {
+    partnerSignup(email: $email, password: $password, name: $name) {
         id
     }
   }
 `
 interface SignupData {
-  signup: {
+  partnerSignup: {
     id: string
   }
 }
@@ -42,13 +42,13 @@ export const useSignup = () => createMutationHook<SignupData, SignupVars>(SIGHUP
 // MUTATION/LOGIN
 const LOGIN = gql`
   mutation ($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
+    partnerLogin(email: $email, password: $password) {
         id
     }
   }
 `
 interface LoginData {
-  login: {
+  partnerLogin: {
     id: string
   }
 }
@@ -61,11 +61,11 @@ export const useLogin = () => createMutationHook<LoginData, LoginVars>(LOGIN)
 // MUTATION/LOGOUT
 const LOGOUT = gql`
   mutation {
-    logout 
+    partnerLogout 
   }
 `
 interface LogoutData {
-  logout: boolean
+  partnerLogout: boolean
 }
 interface LogoutVars {
 

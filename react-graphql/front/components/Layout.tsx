@@ -42,7 +42,7 @@ const Layout: React.FC = ({ children }) => {
     const router = useRouter()
     const [logoutRequest] = useLogout()
     const { data, refetch } = useIsLoggedIn()
-    const isLoggedIn = data?.isLoggedIn
+    const isLoggedIn = data?.isPartnerLoggedIn
 
 
     const navigate = useCallback((route: string) => () => {

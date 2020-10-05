@@ -109,8 +109,8 @@ const ConsoleLayout: React.FC = ({ children }) => {
             <Layout>
                 <Header >
                     <Space>
-                        <Link href='/console'><a><Icon src='/icon.png' /></a></Link>
-                        <div style={{ color: '#fff', fontSize: 24 }} >Console</div>
+                        <Link href='/'><a><Icon src='/icon.png' /></a></Link>
+                        <Link href='/console'><a><div style={{ color: '#fff', fontSize: 24 }} >Console</div></a></Link>
                         {/* <Menu theme="dark" mode="horizontal">
                         <Menu.Item key="1">nav 1</Menu.Item>
                         <Menu.Item key="2">nav 2</Menu.Item>

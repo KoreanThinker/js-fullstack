@@ -4,7 +4,7 @@ import { createQueryHook } from "../lib/createApolloHook"
 // QUERY/IS_LOGGED_IN
 export const I_USER = gql`
   query {
-    iUser {
+    iPartner {
         id
         name
         email
@@ -12,11 +12,11 @@ export const I_USER = gql`
   }
 `
 interface IUserData {
-    iUser: {
-        id: string
-        name: string
-        email: string
-    }
+  iPartner: {
+    id: string
+    name: string
+    email: string
+  }
 }
 interface IUserVars {
 

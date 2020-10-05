@@ -23,11 +23,11 @@ const signup = () => {
     const [signupRequrest, { loading, data, error }] = useSignup()
 
     useEffect(() => { //when user already loggedin
-        if (isLoggedInData?.isLoggedIn) router.replace('/')
+        if (isLoggedInData?.isPartnerLoggedIn) router.replace('/')
     }, [isLoggedInData])
 
     useEffect(() => {
-        if (data?.signup?.id) router.replace('/')
+        if (data?.partnerSignup?.id) router.replace('/')
     }, [data])
 
     useEffect(() => {

@@ -8,14 +8,14 @@ const LoginRequire: React.FC = ({ children }) => {
     const { data } = useIsLoggedIn()
 
     useEffect(() => {
-        if (!data?.isLoggedIn) {
+        if (!data?.isPartnerLoggedIn) {
             alert('No Access')
             router.replace('/')
         }
-    }, [!data?.isLoggedIn])
+    }, [!data?.isPartnerLoggedIn])
 
 
-    if (!data?.isLoggedIn) return null
+    if (!data?.isPartnerLoggedIn) return null
     return <>{children}</>
 }
 
