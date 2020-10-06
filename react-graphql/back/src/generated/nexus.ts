@@ -116,6 +116,7 @@ export interface NexusGenFieldTypes {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: number; // Int!
     images: NexusGenRootTypes['Image'][]; // [Image!]!
+    mainImage: string; // String!
     name: string; // String!
     order: NexusGenRootTypes['Order'][]; // [Order!]!
     partner: NexusGenRootTypes['Partner'] | null; // Partner

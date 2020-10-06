@@ -1,4 +1,4 @@
-import { inputObjectType, objectType } from "@nexus/schema"
+import { objectType } from "@nexus/schema"
 
 export const Item = objectType({
     name: 'Item',
@@ -13,5 +13,13 @@ export const Item = objectType({
         t.model.price()
         t.model.published()
         t.model.updatedAt()
+        t.string('mainImage', async ({ id }, { }, ctx) => {
+            const images = await ctx.prisma.image.findMany({
+                where: { itemId: id },
+                orderBy: { createdAt: 'desc' },
+                take: 1
+            })
+            return images[0].src
+        })
     }
 })

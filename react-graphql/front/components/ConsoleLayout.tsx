@@ -74,6 +74,7 @@ const Content = styled(AntdLayout.Content)({
 })
 
 const ChildrenContainer = styled.div({
+    flexGrow: 1
 })
 
 const Footer = styled(AntdLayout.Footer)({

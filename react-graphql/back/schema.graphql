@@ -20,6 +20,7 @@ type Item {
   createdAt: DateTime!
   id: Int!
   images(after: ImageWhereUniqueInput, before: ImageWhereUniqueInput, first: Int, last: Int): [Image!]!
+  mainImage: String!
   name: String!
   order(after: OrderWhereUniqueInput, before: OrderWhereUniqueInput, first: Int, last: Int): [Order!]!
   partner: Partner

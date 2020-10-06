@@ -20,7 +20,7 @@ export const useIsLoggedIn = () => createQueryHook<IsLoggedInData, IsLoggedInVar
 }) // SSR
 
 // MUTATION/SIGNUP
-const SIGHUP = gql`
+const SIGNUP = gql`
   mutation ($email: String!, $password: String!, $name: String!) {
     partnerSignup(email: $email, password: $password, name: $name) {
         id
@@ -37,7 +37,7 @@ interface SignupVars {
   password: string
   name: string
 }
-export const useSignup = () => createMutationHook<SignupData, SignupVars>(SIGHUP)
+export const useSignup = () => createMutationHook<SignupData, SignupVars>(SIGNUP)
 
 // MUTATION/LOGIN
 const LOGIN = gql`

@@ -10,7 +10,7 @@ const IS_DEVELOPMENT = process.env.NODE_ENV === 'development'
 const fetcher = async (context: GetServerSidePropsContext<ParsedUrlQuery>, querys: DocumentNode[]) => {
     IS_DEVELOPMENT && console.log('SSR START', context.req.url)
     const apolloClient = initializeApollo()
-    for (const [index, query] of querys.concat(COMMON_QUERYS).entries()) {
+    for (const [index, query] of COMMON_QUERYS.concat(querys).entries()) {
         try {
             const { data } = await apolloClient.query({ query, context: context.req, fetchPolicy: 'network-only' })
             IS_DEVELOPMENT && console.log('SSR DATA', index, data)

@@ -22,6 +22,7 @@
 
 # TODO
 front, app에서 로그인 front에서 post, app 에서 인피니티스크롤 front & app chatting
+- css ssr
 - console
 - JWT 인증 (kakao, facebook) app
 - code push
@@ -33,4 +34,3 @@ front, app에서 로그인 front에서 post, app 에서 인피니티스크롤 fr
 # KNOWLEDGE
 - 실무에서는 SubDomain으로 프론트 Main, Partner, Console 나누고 백엔드 엔드포인트도 유저, 파트너, 어드민으로 나누자?? 모르겠다
 - api null 리턴해야되나 없는 데이터라고 경고 띄어야되나
-- useApollo initialCommonApolloState랑 initialApolloState 합칠때 뎁스 깊어지면 어떻게 되려나
