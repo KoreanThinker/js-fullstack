@@ -1,10 +1,12 @@
 import { Button, Form, Input, Space } from 'antd'
+import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import React, { useCallback, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import styled from 'styled-components'
 import Layout from '../components/Layout'
 import { useIsLoggedIn, useLogin } from '../graphql/auth'
+import fetcher from '../lib/SSRQueryFetcher'
 
 
 
@@ -81,6 +83,11 @@ const login = () => {
             </Container>
         </Layout>
     )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const initialApolloState = await fetcher(context, [])
+    return { props: { initialApolloState } }
 }
 
 export default login

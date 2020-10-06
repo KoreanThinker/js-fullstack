@@ -2,11 +2,10 @@ import React from 'react'
 import '../styles/global.css'
 import 'antd/dist/antd.css';
 import { ToastContainer } from 'react-toastify';
-import { ApolloProvider, DocumentNode } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client';
 import 'react-toastify/dist/ReactToastify.css';
-import { initializeApollo, useApollo } from '../lib/apollo';
-import { AppProps, AppContext } from 'next/app';
-import { IS_LOGGED_IN } from '../graphql/auth';
+import { useApollo } from '../lib/apollo';
+import { AppProps } from 'next/app';
 
 
 const App = ({ Component, pageProps }: AppProps) => {
@@ -18,24 +17,6 @@ const App = ({ Component, pageProps }: AppProps) => {
       <ToastContainer />
     </ApolloProvider>
   </>
-}
-
-App.getInitialProps = async (appContext: AppContext) => {
-  const apolloClient = initializeApollo()
-
-  const { QUERYS: PAGE_QUERYS } = require(`.${appContext.router.pathname}`) as { QUERYS?: DocumentNode[] } // get gqls from page's QUERYS
-  const QUERYS = [IS_LOGGED_IN, ...(PAGE_QUERYS || [])]
-
-  for (const [index, query] of QUERYS.entries()) {
-    try {
-      const { data } = await apolloClient.query({ query, context: appContext.ctx.req, fetchPolicy: 'network-only' })
-      console.log('SSR DATA', index, data)
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  return { pageProps: { initialApolloState: apolloClient.cache.extract() } }
 }
 
 export default App

@@ -1,12 +1,12 @@
 import { GetServerSideProps } from 'next'
 import React from 'react'
-import ConsoleLayout from '../../components/ConsoleLayout'
-import fetcher from '../../lib/SSRQueryFetcher'
+import ConsoleLayout from '../../../components/ConsoleLayout'
+import fetcher from '../../../lib/SSRQueryFetcher'
 
-const console = () => {
+const newOrder = () => {
     return (
         <ConsoleLayout>
-            <div>Console</div>
+            <div>new Order</div>
         </ConsoleLayout>
     )
 }
@@ -17,5 +17,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 }
 
 
-
-export default console
+export default newOrder

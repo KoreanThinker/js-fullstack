@@ -1,6 +1,8 @@
+import { GetServerSideProps } from 'next'
 import React from 'react'
 import styled from 'styled-components'
 import Layout from '../components/Layout'
+import fetcher from '../lib/SSRQueryFetcher'
 
 
 const Container = styled.div({
@@ -21,4 +23,11 @@ const home = () => {
     </Layout>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const initialApolloState = await fetcher(context, [])
+  return { props: { initialApolloState } }
+}
+
+
 export default home

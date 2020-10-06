@@ -1,6 +1,8 @@
+import { GetServerSideProps } from 'next'
 import React from 'react'
 import ConsoleLayout from '../../../components/ConsoleLayout'
 import { I_USER, useIUser } from '../../../graphql/user'
+import fetcher from '../../../lib/SSRQueryFetcher'
 
 const profile = () => {
 
@@ -17,6 +19,10 @@ const profile = () => {
     )
 }
 
-export const QUERYS = [I_USER]
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const initialApolloState = await fetcher(context, [I_USER])
+    return { props: { initialApolloState } }
+}
+
 
 export default profile

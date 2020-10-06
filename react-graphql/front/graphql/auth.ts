@@ -16,7 +16,7 @@ interface IsLoggedInVars {
 
 }
 export const useIsLoggedIn = () => createQueryHook<IsLoggedInData, IsLoggedInVars>(IS_LOGGED_IN, {
-  fetchPolicy: 'cache-only'
+  fetchPolicy: 'cache-first'
 }) // SSR
 
 // MUTATION/SIGNUP
@@ -56,7 +56,7 @@ interface LoginVars {
   email: string
   password: string
 }
-export const useLogin = () => createMutationHook<LoginData, LoginVars>(LOGIN)
+export const useLogin = () => createMutationHook<LoginData, LoginVars>(LOGIN, { errorPolicy: 'all' })
 
 // MUTATION/LOGOUT
 const LOGOUT = gql`
