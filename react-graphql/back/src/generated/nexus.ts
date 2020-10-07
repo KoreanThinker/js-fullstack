@@ -129,7 +129,7 @@ export interface NexusGenFieldTypes {
     confirmationOrder: NexusGenRootTypes['Order']; // Order!
     createItem: NexusGenRootTypes['Item'] | null; // Item
     createOrder: NexusGenRootTypes['Order']; // Order!
-    deleteItem: boolean | null; // Boolean
+    deleteItem: number | null; // Int
     deliveryCompletedOrder: NexusGenRootTypes['Order']; // Order!
     deliveryOrder: NexusGenRootTypes['Order']; // Order!
     partnerCancelOrder: NexusGenRootTypes['Order']; // Order!
@@ -170,6 +170,7 @@ export interface NexusGenFieldTypes {
     item: NexusGenRootTypes['Item'] | null; // Item
     items: NexusGenRootTypes['Item'][] | null; // [Item!]
     iUser: NexusGenRootTypes['User'] | null; // User
+    myItems: NexusGenRootTypes['Item'][] | null; // [Item!]
     newOrder: NexusGenRootTypes['Order'][]; // [Order!]!
     order: NexusGenRootTypes['Order'] | null; // Order
     partner: NexusGenRootTypes['Partner'] | null; // Partner

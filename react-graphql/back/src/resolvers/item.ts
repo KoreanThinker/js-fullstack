@@ -26,6 +26,17 @@ export const items = (t: ObjectDefinitionBlock<'Query'>) => t.list.field('items'
     }
 })
 
+export const myItems = (t: ObjectDefinitionBlock<'Query'>) => t.list.field('myItems', {
+    type: 'Item',
+    nullable: true,
+    resolve: (_, { }, ctx) => {
+        const partnerId = getPartnerId(ctx)
+        return ctx.prisma.item.findMany({
+            where: { partnerId },
+            orderBy: { createdAt: 'desc' }
+        })
+    }
+})
 
 
 //Mutation
@@ -51,7 +62,7 @@ export const createItem = (t: ObjectDefinitionBlock<'Mutation'>) => t.field('cre
 })
 
 export const deleteItem = (t: ObjectDefinitionBlock<'Mutation'>) => t.field('deleteItem', {
-    type: 'Boolean',
+    type: 'Int',
     args: {
         id: intArg({ required: true })
     },
@@ -61,7 +72,7 @@ export const deleteItem = (t: ObjectDefinitionBlock<'Mutation'>) => t.field('del
         const item = await ctx.prisma.item.findOne({ where: { id } })
         if (item?.partnerId !== partnerId) throw new Error('No Access')
         await ctx.prisma.item.delete({ where: { id } })
-        return true
+        return id
     }
 })
 

@@ -1,7 +1,20 @@
 export type IUser = {
-    id: string;
-    name: string;
-    email: string;
+    id: number
+    name: string
+    email: string
+}
+
+export type Image = {
+    id: number
+    src: string
+}
+
+export type Item = {
+    id: number
+    published: boolean
+    price: number
+    name: string
+    mainImage: string
 }
 
 export type ItemState =

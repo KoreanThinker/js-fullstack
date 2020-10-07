@@ -1,5 +1,4 @@
 import { intArg, ObjectDefinitionBlock, stringArg } from "@nexus/schema/dist/core"
-import { EROFS } from "constants"
 import getPartnerId from "../utils/getPartnerId"
 
 //Query
@@ -15,6 +14,8 @@ export const order = (t: ObjectDefinitionBlock<"Query">) => t.field('order', {
         })
     }
 })
+
+
 
 export const newOrder = (t: ObjectDefinitionBlock<"Query">) => t.list.field('newOrder', {
     type: 'Order',

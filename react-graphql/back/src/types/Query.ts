@@ -1,6 +1,6 @@
 import { objectType } from "@nexus/schema"
 import { image } from "../resolvers/image"
-import { item, items } from "../resolvers/item"
+import { item, items, myItems } from "../resolvers/item"
 import { newOrder, order } from "../resolvers/order"
 import { iPartner, isPartnerLoggedIn, partner } from "../resolvers/partner"
 import { iUser, user } from "../resolvers/user"
@@ -16,6 +16,7 @@ export const Query = objectType({
         //item
         item(t)
         items(t)
+        myItems(t)
         //order
         order(t)
         newOrder(t)

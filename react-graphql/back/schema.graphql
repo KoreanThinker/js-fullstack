@@ -48,7 +48,7 @@ type Mutation {
   confirmationOrder(orderId: Int!): Order!
   createItem(images: [String!]!, name: String!, price: Int!): Item
   createOrder(itemId: Int!, price: Int!): Order!
-  deleteItem(id: Int!): Boolean
+  deleteItem(id: Int!): Int
   deliveryCompletedOrder(orderId: Int!): Order!
   deliveryOrder(orderId: Int!, waybillNumber: String!): Order!
   partnerCancelOrder(orderId: Int!): Order!
@@ -96,6 +96,7 @@ type Query {
   item(id: Int!): Item
   items: [Item!]
   iUser: User
+  myItems: [Item!]
   newOrder: [Order!]!
   order(id: Int!): Order
   partner(id: Int!): Partner
