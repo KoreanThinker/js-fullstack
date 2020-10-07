@@ -23,7 +23,7 @@ const item = () => {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const initialApolloState = await fetcher(context, [MY_ITEM])
+    const initialApolloState = await fetcher(context, [{ query: MY_ITEM }])
     return { props: { initialApolloState } }
 }
 

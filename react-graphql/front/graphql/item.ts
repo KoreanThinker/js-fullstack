@@ -1,9 +1,39 @@
-import { gql } from "@apollo/client";
+import { gql, QueryHookOptions } from "@apollo/client";
 import { Item } from "../constants/types";
-import { initializeApollo } from "../lib/apollo";
 import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
 
+// QUERY/ITEM
+export const ITEM = gql`
+    query ($itemId: Int!){
+        item (id: $itemId) {
+            id
+            published
+            name
+            price
+            images {
+                src
+            }
+        }
+    }
+`
 
+interface ItemData {
+    item: {
+        id: number
+        name: string
+        images: { src: string }[]
+        published: boolean
+        price: number
+    }
+}
+
+interface ItemVars {
+    itemId: number
+}
+export const useItem = (options?: QueryHookOptions<ItemData, ItemVars>) => createQueryHook<ItemData, ItemVars>(ITEM, {
+    fetchPolicy: 'cache-first',
+    ...options
+}) // SSR
 
 // QUERY/MY_ITEM
 export const MY_ITEM = gql`
@@ -38,7 +68,7 @@ const DELETE_ITEM = gql`
     }
 `
 interface DeleteItemData {
-    deleteItem: number
+    partnerDeleteItem: number
 }
 interface DeleteItemVars {
     itemId: number
@@ -48,10 +78,47 @@ export const useDeleteItem = () =>
         DELETE_ITEM,
         {
             update: (cache, { data }) => {
-                console.log(data?.deleteItem)
+                console.log(data?.partnerDeleteItem)
                 cache.modify({
-                    id: cache.identify({ __ref: `Item:${data?.deleteItem}` }),
+                    id: cache.identify({ __ref: `Item:${data?.partnerDeleteItem}` }),
                     fields: (_, { DELETE }) => DELETE
                 })
             }
+        })
+
+// MUTATION/UPDATE_ITEM
+const UPDATE_ITEM = gql`
+mutation ($itemId: Int!, $name: String, $published: Boolean, $price: Int, $images: [String!]) {
+    updateItem(id: $itemId, name: $name, published:$published, price: $price, images: $images) {
+        id
+        published
+        name
+        price
+        images {
+            src
+        }
+    }
+}
+`
+interface UpdateItemData {
+    updateItem: {
+        id: number
+        name: string
+        images: { src: string }[]
+        published: boolean
+        price: number
+    }
+}
+interface UpdateItemVars {
+    itemId: number
+    name?: string
+    published?: boolean
+    price?: number
+    images?: string[]
+}
+export const useUpdateItem = () =>
+    createMutationHook<UpdateItemData, UpdateItemVars>(
+        UPDATE_ITEM,
+        {
+
         })

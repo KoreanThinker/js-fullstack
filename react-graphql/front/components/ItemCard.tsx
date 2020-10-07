@@ -1,4 +1,3 @@
-import { useApolloClient } from '@apollo/client'
 import { Avatar, Button, Space } from 'antd'
 import { useRouter } from 'next/router'
 import React, { useCallback } from 'react'
@@ -27,10 +26,6 @@ const ItemCard: React.FC<Item> = ({ id, mainImage, name, price, published }) => 
     const onDelete = useCallback(async () => {
         try {
             await deleteItemRequest({ variables: { itemId: id } })
-            // client.cache.modify({
-            //     id: client.cache.identify({ __ref: `Item:${id}` }),
-            //     fields: (_, { DELETE }) => DELETE
-            // })
         } catch (error) {
             toast.error(error)
         }

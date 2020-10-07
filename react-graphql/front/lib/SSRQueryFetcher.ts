@@ -4,15 +4,21 @@ import { ParsedUrlQuery } from "querystring"
 import { IS_LOGGED_IN } from "../graphql/auth"
 import { initializeApollo } from "./apollo"
 
-const COMMON_QUERYS = [IS_LOGGED_IN]
+interface Query {
+    query: DocumentNode,
+    variables?: any
+}
+
+const COMMON_QUERYS: Query[] = [{ query: IS_LOGGED_IN }]
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development'
 
-const fetcher = async (context: GetServerSidePropsContext<ParsedUrlQuery>, querys: DocumentNode[]) => {
+const fetcher = async (context: GetServerSidePropsContext<ParsedUrlQuery>, querys: Query[]) => {
     IS_DEVELOPMENT && console.log('SSR START', context.req.url)
     const apolloClient = initializeApollo()
-    for (const [index, query] of COMMON_QUERYS.concat(querys).entries()) {
+    for (const [index, { query, variables }] of COMMON_QUERYS.concat(querys).entries()) {
         try {
-            const { data } = await apolloClient.query({ query, context: context.req, fetchPolicy: 'network-only' })
+            console.log(variables)
+            const { data } = await apolloClient.query({ query, variables, context: context.req, fetchPolicy: 'network-only' })
             IS_DEVELOPMENT && console.log('SSR DATA', index, data)
         } catch (error) {
             IS_DEVELOPMENT && console.error('SSR ERROR', error)

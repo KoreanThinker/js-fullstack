@@ -23,7 +23,7 @@ const newOrder = () => {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const initialApolloState = await fetcher(context, [NEW_ORDER])
+    const initialApolloState = await fetcher(context, [{ query: NEW_ORDER }])
     return { props: { initialApolloState } }
 }
 

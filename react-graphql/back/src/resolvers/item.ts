@@ -1,6 +1,6 @@
 import { arg, booleanArg, intArg, ObjectDefinitionBlock, stringArg } from "@nexus/schema/dist/core"
 import getPartnerId from '../utils/getPartnerId'
-import { partner } from "./partner"
+
 //Query
 export const item = (t: ObjectDefinitionBlock<'Query'>) => t.field('item', {
     type: 'Item',
@@ -87,10 +87,11 @@ export const updateItem = (t: ObjectDefinitionBlock<'Mutation'>) => t.field('upd
     },
     nullable: true,
     resolve: async (_, { id, name, price, images, published }, ctx) => {
+        console.log(id, name, price, images, published)
         const partnerId = getPartnerId(ctx)
         const item = await ctx.prisma.item.findOne({ where: { id } })
         if (item?.partnerId !== partnerId) throw new Error('No Access')
-        return await ctx.prisma.item.update({
+        return ctx.prisma.item.update({
             where: { id },
             data: {
                 name: name || undefined,
