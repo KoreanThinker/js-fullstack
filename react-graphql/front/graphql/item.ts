@@ -11,6 +11,7 @@ export const ITEM = gql`
             name
             price
             images {
+                id
                 src
             }
         }
@@ -21,7 +22,7 @@ interface ItemData {
     item: {
         id: number
         name: string
-        images: { src: string }[]
+        images: { src: string, id: number }[]
         published: boolean
         price: number
     }
@@ -95,6 +96,7 @@ mutation ($itemId: Int!, $name: String, $published: Boolean, $price: Int, $image
         name
         price
         images {
+            id
             src
         }
     }
@@ -104,7 +106,7 @@ interface UpdateItemData {
     updateItem: {
         id: number
         name: string
-        images: { src: string }[]
+        images: { src: string, id: number }[]
         published: boolean
         price: number
     }
