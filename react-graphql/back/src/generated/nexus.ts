@@ -4,9 +4,17 @@
  */
 
 import * as Context from "../context"
-
-
-
+import { core } from "@nexus/schema"
+declare global {
+  interface NexusGenCustomInputMethods<TypeName extends string> {
+    upload<FieldName extends string>(fieldName: FieldName, opts?: core.ScalarInputFieldConfig<core.GetGen3<"inputTypes", TypeName, FieldName>>): void // "Upload";
+  }
+}
+declare global {
+  interface NexusGenCustomOutputMethods<TypeName extends string> {
+    upload<FieldName extends string>(fieldName: FieldName, ...opts: core.ScalarOutSpread<TypeName, FieldName>): void // "Upload";
+  }
+}
 declare global {
   interface NexusGenCustomOutputProperties<TypeName extends string> {
     model: NexusPrisma<TypeName, 'model'>
@@ -140,7 +148,7 @@ export interface NexusGenFieldTypes {
     partnerSignup: NexusGenRootTypes['Partner']; // Partner!
     receiveOrder: NexusGenRootTypes['Order']; // Order!
     updateItem: NexusGenRootTypes['Item'] | null; // Item
-    uploadImage: NexusGenRootTypes['Image']; // Image!
+    uploadImage: NexusGenRootTypes['Image'] | null; // Image
     userCancelOrder: NexusGenRootTypes['Order']; // Order!
   }
   Order: { // field return type

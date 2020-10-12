@@ -92,7 +92,6 @@ const ItemDetail = () => {
     const onBeforeUpload = useCallback(async (file: RcFile, FileList: RcFile[]) => {
         if (uploadLoading) return
         setUploadLoading(true)
-        // Start from here with AWS s3
         console.log(file)
         try {
             await uploadImageRequest({ variables: { image: file } })
@@ -107,6 +106,7 @@ const ItemDetail = () => {
     }, [uploadLoading])
 
     const onModalPreviewCancel = useCallback(() => setPreviewVisible(false), [])
+
 
     return (
         <ConsoleLayout>

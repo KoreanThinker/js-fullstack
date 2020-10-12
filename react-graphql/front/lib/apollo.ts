@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
-import { ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject } from '@apollo/client'
+import { ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client'
+import { createUploadLink } from 'apollo-upload-client';
 // import { concatPagination } from '@apollo/client/utilities'
 
 let apolloClient: ApolloClient<NormalizedCacheObject>
@@ -7,19 +8,11 @@ let apolloClient: ApolloClient<NormalizedCacheObject>
 function createApolloClient() {
     return new ApolloClient({
         ssrMode: typeof window === 'undefined',
-        link: new HttpLink({
-            uri: process.env.GRAPHQL_SERVER_URL, // Server URL (must be absolute)
-            credentials: 'include', // Additional fetch() options like `credentials` or `headers`
+        link: createUploadLink({
+            uri: process.env.GRAPHQL_SERVER_URL,
+            credentials: 'include',
         }),
-        cache: new InMemoryCache({
-            // typePolicies: {
-            //     Query: {
-            //         fields: {
-            //             allPosts: concatPagination(),
-            //         },
-            //     },
-            // },
-        }),
+        cache: new InMemoryCache(),
         connectToDevTools: true,
     })
 }

@@ -57,7 +57,7 @@ type Mutation {
   partnerSignup(email: String!, name: String!, password: String!): Partner!
   receiveOrder(orderId: Int!): Order!
   updateItem(id: Int!, images: [String!], name: String, price: Int, published: Boolean): Item
-  uploadImage(image: Upload!): Image!
+  uploadImage(image: Upload!): Image
   userCancelOrder(orderId: Int!): Order!
 }
 

@@ -20,9 +20,12 @@ export const uploadImage = (t: ObjectDefinitionBlock<"Mutation">) => t.field('up
     args: {
         image: arg({ type: 'Upload', required: true })
     },
-    resolve: (_, { file }, ctx) => {
-        console.log(1)
-        console.log(file)
+    nullable: true,
+    resolve: async (_, { image }, ctx) => {
+        console.log('START UPLOAD IMAGE')
+        const { filename, mimetype, createReadStream } = await image;
+        console.log(filename)
+        // const stream = createReadStream();
         return ctx.prisma.image.findOne({
             where: { id: 1 }
         })
