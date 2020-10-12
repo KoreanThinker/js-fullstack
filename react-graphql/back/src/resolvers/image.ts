@@ -1,15 +1,30 @@
-import { intArg, ObjectDefinitionBlock } from "@nexus/schema/dist/core"
+import { intArg, ObjectDefinitionBlock, arg } from "@nexus/schema/dist/core"
 
 //Query
 export const image = (t: ObjectDefinitionBlock<"Query">) => t.field('image', {
     type: 'Image',
     args: {
-        id: intArg({ required: true }),
+        id: intArg({ required: true })
     },
     nullable: true,
     resolve: (_, { id }, ctx) => {
         return ctx.prisma.image.findOne({
             where: { id: Number(id) }
+        })
+    }
+})
+
+
+export const uploadImage = (t: ObjectDefinitionBlock<"Mutation">) => t.field('uploadImage', {
+    type: 'Image',
+    args: {
+        image: arg({ type: 'Upload', required: true })
+    },
+    resolve: (_, { file }, ctx) => {
+        console.log(1)
+        console.log(file)
+        return ctx.prisma.image.findOne({
+            where: { id: 1 }
         })
     }
 })

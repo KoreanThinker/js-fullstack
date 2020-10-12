@@ -17,7 +17,7 @@ const fetcher = async (context: GetServerSidePropsContext<ParsedUrlQuery>, query
     const apolloClient = initializeApollo()
     for (const [index, { query, variables }] of COMMON_QUERYS.concat(querys).entries()) {
         try {
-            console.log(variables)
+            console.log('SSR VARIABLES', index, variables)
             const { data } = await apolloClient.query({ query, variables, context: context.req, fetchPolicy: 'network-only' })
             IS_DEVELOPMENT && console.log('SSR DATA', index, data)
         } catch (error) {

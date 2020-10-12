@@ -7,10 +7,17 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import styled from 'styled-components'
 import ConsoleLayout from '../../../components/ConsoleLayout'
+import { useUploadImage } from '../../../graphql/image'
 import { ITEM, useItem, useUpdateItem } from '../../../graphql/item'
 import getBase64 from '../../../lib/getBase64'
 import fetcher from '../../../lib/SSRQueryFetcher'
-import modify from '../profile/modify'
+
+// interface ImageFile {
+//     url: string
+//     status: string
+//     name: string
+//     uid: string
+// }
 
 const Container = styled.div({
     padding: 64
@@ -27,6 +34,7 @@ const ItemDetail = () => {
     const { id } = router.query
     const { data } = useItem({ variables: { itemId: Number(id) } })
     const [updateItemRequest, { loading, error }] = useUpdateItem()
+    const [uploadImageRequest] = useUploadImage()
 
     const [isModify, setIsModify] = useState(false)
     const [uploadLoading, setUploadLoading] = useState(false)
@@ -81,11 +89,18 @@ const ItemDetail = () => {
         return false
     }, [fileList])
 
-
     const onBeforeUpload = useCallback(async (file: RcFile, FileList: RcFile[]) => {
         if (uploadLoading) return
         setUploadLoading(true)
-        await new Promise((resolve) => setTimeout(() => { resolve() }, 5000))
+        // Start from here with AWS s3
+        console.log(file)
+        try {
+            await uploadImageRequest({ variables: { image: file } })
+        } catch (error) {
+            console.log('EEE', error)
+        }
+        // console.log(data)
+        // await new Promise((resolve) => setTimeout(() => { resolve() }, 5000))
         setUploadLoading(false)
         // setFileList(fileList.push(...))
         return
@@ -101,8 +116,10 @@ const ItemDetail = () => {
                     fileList={fileList}
                     listType='picture-card'
                     onPreview={onPreview}
+                    // action={onAction}
                     beforeUpload={onBeforeUpload}
                     onRemove={onRemove}
+                // onChange={onChange}
                 >
                     {fileList.length <= 8 && isModify && <div>
                         {uploadLoading ? <Spin /> : <PlusOutlined />}

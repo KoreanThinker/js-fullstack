@@ -43,6 +43,7 @@ export interface NexusGenScalars {
   Boolean: boolean
   ID: string
   DateTime: any
+  Upload: any
 }
 
 export interface NexusGenRootTypes {
@@ -102,6 +103,7 @@ export interface NexusGenAllTypes extends NexusGenRootTypes {
   Boolean: NexusGenScalars['Boolean'];
   ID: NexusGenScalars['ID'];
   DateTime: NexusGenScalars['DateTime'];
+  Upload: NexusGenScalars['Upload'];
 }
 
 export interface NexusGenFieldTypes {
@@ -138,6 +140,7 @@ export interface NexusGenFieldTypes {
     partnerSignup: NexusGenRootTypes['Partner']; // Partner!
     receiveOrder: NexusGenRootTypes['Order']; // Order!
     updateItem: NexusGenRootTypes['Item'] | null; // Item
+    uploadImage: NexusGenRootTypes['Image']; // Image!
     userCancelOrder: NexusGenRootTypes['Order']; // Order!
   }
   Order: { // field return type
@@ -246,6 +249,9 @@ export interface NexusGenArgTypes {
       price?: number | null; // Int
       published?: boolean | null; // Boolean
     }
+    uploadImage: { // args
+      image: NexusGenScalars['Upload']; // Upload!
+    }
     userCancelOrder: { // args
       orderId: number; // Int!
     }
@@ -304,7 +310,7 @@ export type NexusGenEnumNames = "ItemState" | "SnsLogin";
 
 export type NexusGenInterfaceNames = never;
 
-export type NexusGenScalarNames = "Boolean" | "DateTime" | "Float" | "ID" | "Int" | "String";
+export type NexusGenScalarNames = "Boolean" | "DateTime" | "Float" | "ID" | "Int" | "String" | "Upload";
 
 export type NexusGenUnionNames = never;
 
