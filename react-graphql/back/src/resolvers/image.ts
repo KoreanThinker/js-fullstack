@@ -22,11 +22,7 @@ export const uploadImage = (t: ObjectDefinitionBlock<"Mutation">) => t.field('up
     },
     nullable: true,
     resolve: async (_, { image }, ctx) => {
-        console.log('START UPLOAD IMAGE')
         const { url } = await ctx.s3Uploader.singleFileUploadResolver(image)
-        console.log(url)
-        return ctx.prisma.image.findOne({
-            where: { id: 1 }
-        })
+        return ctx.prisma.image.create({ data: { src: url } })
     }
 })

@@ -16,7 +16,6 @@ export const Item = objectType({
         t.string('mainImage', async ({ id }, { }, ctx) => {
             const images = await ctx.prisma.image.findMany({
                 where: { itemId: id },
-                orderBy: { createdAt: 'desc' },
                 take: 1
             })
             return images[0].src

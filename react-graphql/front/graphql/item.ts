@@ -89,7 +89,7 @@ export const useDeleteItem = () =>
 
 // MUTATION/UPDATE_ITEM
 const UPDATE_ITEM = gql`
-mutation ($itemId: Int!, $name: String, $published: Boolean, $price: Int, $images: [String!]) {
+mutation ($itemId: Int!, $name: String, $published: Boolean, $price: Int, $images: [Int!]) {
     updateItem(id: $itemId, name: $name, published:$published, price: $price, images: $images) {
         id
         published
@@ -116,7 +116,7 @@ interface UpdateItemVars {
     name?: string
     published?: boolean
     price?: number
-    images?: string[]
+    images?: number[]
 }
 export const useUpdateItem = () =>
     createMutationHook<UpdateItemData, UpdateItemVars>(

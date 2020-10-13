@@ -12,12 +12,12 @@ import { ITEM, useItem, useUpdateItem } from '../../../graphql/item'
 import getBase64 from '../../../lib/getBase64'
 import fetcher from '../../../lib/SSRQueryFetcher'
 
-// interface ImageFile {
-//     url: string
-//     status: string
-//     name: string
-//     uid: string
-// }
+interface ImageFile {
+    url: string
+    status: string
+    name: string
+    uid: string
+}
 
 const Container = styled.div({
     padding: 64
@@ -38,12 +38,12 @@ const ItemDetail = () => {
 
     const [isModify, setIsModify] = useState(false)
     const [uploadLoading, setUploadLoading] = useState(false)
-    const [fileList, setFileList] = useState<any[]>(
+    const [fileList, setFileList] = useState<ImageFile[]>(
         data?.item.images.map(({ src, id }) => ({
-            url: src,
-            status: 'done',
-            name: src,
+            name: id.toString(),
             uid: id.toString(),
+            url: src,
+            status: 'done'
         })) || []
     )
     const [previewVisible, setPreviewVisible] = useState(false)
@@ -58,6 +58,7 @@ const ItemDetail = () => {
         else if (fileList.length === 0) toast.error('Image must be more one')
         else {
             console.log(values)
+            console.log(fileList)
             const { price, name, published } = values
             await updateItemRequest({
                 variables: {
@@ -65,7 +66,7 @@ const ItemDetail = () => {
                     price: Number(price),
                     name,
                     published: published || false,
-                    images: fileList.map(({ url }) => url)
+                    images: fileList.map(({ name }) => Number(name))
                 }
             })
             router.back()
@@ -90,20 +91,25 @@ const ItemDetail = () => {
     }, [fileList])
 
     const onBeforeUpload = useCallback(async (file: RcFile, FileList: RcFile[]) => {
-        if (uploadLoading) return
-        setUploadLoading(true)
-        console.log(file)
         try {
-            await uploadImageRequest({ variables: { image: file } })
+            if (uploadLoading) return
+            setUploadLoading(true)
+            const { data } = await uploadImageRequest({ variables: { image: file } })
+            if (!data) throw Error('Invalid data')
+            const { id, src } = data?.uploadImage
+            const newData: ImageFile = ({
+                name: id.toString(),
+                status: 'done',
+                uid: id.toString(),
+                url: src
+            })
+            setFileList([...fileList, newData])
         } catch (error) {
-            console.log('EEE', error)
+            console.log(error)
         }
-        // console.log(data)
-        // await new Promise((resolve) => setTimeout(() => { resolve() }, 5000))
         setUploadLoading(false)
-        // setFileList(fileList.push(...))
         return
-    }, [uploadLoading])
+    }, [uploadLoading, fileList])
 
     const onModalPreviewCancel = useCallback(() => setPreviewVisible(false), [])
 
@@ -113,13 +119,12 @@ const ItemDetail = () => {
             <Container>
                 <Upload
                     disabled={!isModify || uploadLoading}
+                    //@ts-ignore
                     fileList={fileList}
                     listType='picture-card'
                     onPreview={onPreview}
-                    // action={onAction}
                     beforeUpload={onBeforeUpload}
                     onRemove={onRemove}
-                // onChange={onChange}
                 >
                     {fileList.length <= 8 && isModify && <div>
                         {uploadLoading ? <Spin /> : <PlusOutlined />}

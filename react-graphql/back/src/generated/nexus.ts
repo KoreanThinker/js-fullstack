@@ -252,7 +252,7 @@ export interface NexusGenArgTypes {
     }
     updateItem: { // args
       id: number; // Int!
-      images?: string[] | null; // [String!]
+      images?: number[] | null; // [Int!]
       name?: string | null; // String
       price?: number | null; // Int
       published?: boolean | null; // Boolean

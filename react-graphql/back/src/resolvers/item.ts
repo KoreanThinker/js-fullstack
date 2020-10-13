@@ -82,23 +82,28 @@ export const updateItem = (t: ObjectDefinitionBlock<'Mutation'>) => t.field('upd
         id: intArg({ required: true }),
         name: stringArg({ nullable: true }),
         price: intArg({ nullable: true }),
-        images: stringArg({ list: true, nullable: true }),
+        images: intArg({ list: true, nullable: true }),
         published: booleanArg({ nullable: true })
     },
     nullable: true,
     resolve: async (_, { id, name, price, images, published }, ctx) => {
-        console.log(id, name, price, images, published)
-        const partnerId = getPartnerId(ctx)
-        const item = await ctx.prisma.item.findOne({ where: { id } })
-        if (item?.partnerId !== partnerId) throw new Error('No Access')
-        return ctx.prisma.item.update({
-            where: { id },
-            data: {
-                name: name || undefined,
-                price: price || undefined,
-                published: typeof published === 'boolean' ? published : undefined,
-                images: images ? { deleteMany: { itemId: id }, create: images.map(src => ({ src })) } : undefined
-            }
-        })
+        try {
+            const partnerId = getPartnerId(ctx)
+            const item = await ctx.prisma.item.findOne({ where: { id } })
+            if (item?.partnerId !== partnerId) throw new Error('No Access')
+            return ctx.prisma.item.update({
+                where: { id },
+                data: {
+                    name: name || undefined,
+                    price: price || undefined,
+                    published: typeof published === 'boolean' ? published : undefined,
+                    images: images ? { set: images.map(id => ({ id })) } : undefined
+                }
+            })
+        } catch (error) {
+            console.log(error)
+            throw new Error(error)
+        }
+
     }
 })

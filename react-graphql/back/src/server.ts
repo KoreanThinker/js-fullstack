@@ -15,6 +15,10 @@ const app = express()
 const server = new ApolloServer({
   schema,
   context: createContext,
+  uploads: {
+    maxFileSize: 10000000,
+    maxFiles: 10
+  },
   playground: {
     settings: {
       "request.credentials": 'include'
