@@ -23,9 +23,8 @@ export const uploadImage = (t: ObjectDefinitionBlock<"Mutation">) => t.field('up
     nullable: true,
     resolve: async (_, { image }, ctx) => {
         console.log('START UPLOAD IMAGE')
-        const { filename, mimetype, createReadStream } = await image;
-        console.log(filename)
-        // const stream = createReadStream();
+        const { url } = await ctx.s3Uploader.singleFileUploadResolver(image)
+        console.log(url)
         return ctx.prisma.image.findOne({
             where: { id: 1 }
         })

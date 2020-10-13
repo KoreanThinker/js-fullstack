@@ -17,6 +17,7 @@
     "@nexus/schema": "0.15.0",
     "@prisma/cli": "^2.7.1",
     "apollo-server-express": "^2.17.0",
+    "aws-sdk": "^2.771.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
