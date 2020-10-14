@@ -1,12 +1,11 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client'
-import Config from "react-native-config";
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client'
+import { GRAPHQL_SERVER_URL } from '../../env'
 
-export const createApolloClient = () => {
-    return new ApolloClient({
-        link: createHttpLink({
-            uri: Config.GRAPHQL_SERVER_URL,
-            credentials: 'include',
-        }),
-        cache: new InMemoryCache()
-    })
-}
+export const client = new ApolloClient({
+    link: new HttpLink({
+        uri: GRAPHQL_SERVER_URL,
+        credentials: 'include',
+    }),
+    cache: new InMemoryCache(),
+    connectToDevTools: true
+})

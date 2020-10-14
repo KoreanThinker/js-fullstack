@@ -1,13 +1,16 @@
-import { ApolloProvider, useApolloClient } from '@apollo/client';
+import { ApolloClient, ApolloProvider } from '@apollo/client';
 import React from 'react'
 import { View } from 'react-native';
 import 'react-native-gesture-handler';
-import { createApolloClient } from './src/lib/apollo';
+import { client } from './src/lib/apollo';
 import Navigation from './src/screens';
+import { enableFlipperApolloDevtools } from 'react-native-flipper-apollo-devtools'
+
+//@ts-ignore
+enableFlipperApolloDevtools(client)
+
 
 const App = () => {
-
-  const client = createApolloClient()
 
   return (
     <>
