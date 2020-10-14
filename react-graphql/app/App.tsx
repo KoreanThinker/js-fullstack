@@ -1,24 +1,21 @@
+import { ApolloProvider, useApolloClient } from '@apollo/client';
 import React from 'react'
 import { View } from 'react-native';
 import 'react-native-gesture-handler';
+import { createApolloClient } from './src/lib/apollo';
 import Navigation from './src/screens';
-import configureStore from './src/store/configureStore';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
 
 const App = () => {
 
-  const { store, persistor } = configureStore()
+  const client = createApolloClient()
 
   return (
     <>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <View style={{ flex: 1 }} >
-            <Navigation />
-          </View>
-        </PersistGate>
-      </Provider>
+      <ApolloProvider client={client}>
+        <View style={{ flex: 1 }} >
+          <Navigation />
+        </View>
+      </ApolloProvider>
     </>
   )
 }
