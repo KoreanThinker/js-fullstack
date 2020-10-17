@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './HomeScreen'
 import ChatScreen from './ChatScreen';
 import PostDetailScreen from './PostDetailScreen';
+import LoginScreen from './LoginScreen';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -25,8 +26,9 @@ const Navigation = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator
-                initialRouteName='Tab'
+                initialRouteName='Login'
             >
+                <Stack.Screen name='Login' component={LoginScreen} />
                 <Stack.Screen name='Tab' component={TabNavigation} />
                 <Stack.Screen name='PostDetail' component={PostDetailScreen} />
             </Stack.Navigator>

@@ -1,29 +1,36 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 import BaseButton from '../components/BaseButton'
 import { useNavigation } from '@react-navigation/native'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import { useTest } from '../graphql/auth'
+import { useIsLoggedIn, useLogin, useLogout, useTest } from '../graphql/auth'
 
 const HomeScreen = () => {
 
     const { navigate } = useNavigation()
-    const { data } = useTest({ fetchPolicy: 'network-only' })
+    const [loginRequest] = useLogin()
+    const [logoutRequest] = useLogout()
+    const { data, refetch } = useIsLoggedIn()
 
-    useEffect(() => {
-        console.log('START')
-        fetch('http://10.0.2.2:4000')
-            .then(res => console.log(res))
-            .catch(e => console.error(e))
+    const onLogin = useCallback(async () => {
+        await loginRequest({ variables: { email: '123@gmail.com', password: '123123' } })
+        // refetch()
+    }, [])
+
+    const onLogout = useCallback(async () => {
+        await logoutRequest()
+        // refetch()
     }, [])
 
     return (
         <View style={{ flex: 1 }} >
-            <BaseButton
-                style={{ flex: 1 }}
-                onPress={() => navigate('PostDetail')}
-            >
-                <Icon name='home' size={50} />
+            <BaseButton onPress={() => refetch()} >
+                <Text>login : {data?.isPartnerLoggedIn ? 'true' : 'false'}</Text>
+            </BaseButton>
+            <BaseButton onPress={onLogin} >
+                <Text>Login</Text>
+            </BaseButton>
+            <BaseButton onPress={onLogout}>
+                <Text>Logout</Text>
             </BaseButton>
         </View>
     )

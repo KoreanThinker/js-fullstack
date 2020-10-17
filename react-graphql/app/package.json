@@ -7,7 +7,7 @@
     "ios": "react-native run-ios",
     "android-release": "react-native run-android --variant=release",
     "ios-release": "react-native run-ios --variant=release",
-    "pod": "npx pod-install ios",
+    "pod": "pod-install ios",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
