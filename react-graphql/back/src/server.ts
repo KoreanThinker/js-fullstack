@@ -22,7 +22,7 @@ const server = new ApolloServer({
   playground: {
     settings: {
       "request.credentials": 'include'
-    }
+    },
   }
 });
 

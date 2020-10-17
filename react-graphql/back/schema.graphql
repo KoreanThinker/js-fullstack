@@ -44,6 +44,15 @@ input ItemWhereUniqueInput {
   name: String
 }
 
+type IUser {
+  createdAt: DateTime!
+  email: String!
+  id: Int!
+  name: String!
+  orders(after: OrderWhereUniqueInput, before: OrderWhereUniqueInput, first: Int, last: Int): [Order!]!
+  sns: SnsLogin!
+}
+
 type Mutation {
   confirmationOrder(orderId: Int!): Order!
   createItem(images: [String!]!, name: String!, price: Int!): Item
@@ -59,6 +68,8 @@ type Mutation {
   updateItem(id: Int!, images: [Int!], name: String, price: Int, published: Boolean): Item
   uploadImage(image: Upload!): Image
   userCancelOrder(orderId: Int!): Order!
+  userLogin(email: String!, password: String!): IUser!
+  userLogout: IUser
 }
 
 type Order {
@@ -96,7 +107,7 @@ type Query {
   isPartnerLoggedIn: Boolean!
   item(id: Int!): Item
   items: [Item!]
-  iUser: User
+  iUser: IUser
   myItems: [Item!]
   newOrder: [Order!]!
   order(id: Int!): Order

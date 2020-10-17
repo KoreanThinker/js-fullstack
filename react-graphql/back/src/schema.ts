@@ -4,9 +4,10 @@ import { makeSchema } from '@nexus/schema'
 
 import * as types from './types'
 import * as scalars from './scalars'
+import { iUser, userLogin, userLogout } from "./resolvers/user";
 
 export const schema = makeSchema({
-    types: [scalars, types],
+    types: [scalars, types, userLogout, userLogin, iUser],
     plugins: [nexusSchemaPrisma({})],
     outputs: {
         schema: __dirname + '/../schema.graphql',
