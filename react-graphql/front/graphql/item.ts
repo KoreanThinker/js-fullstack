@@ -79,7 +79,6 @@ export const useDeleteItem = () =>
         DELETE_ITEM,
         {
             update: (cache, { data }) => {
-                console.log(data?.partnerDeleteItem)
                 cache.modify({
                     id: cache.identify({ __ref: `Item:${data?.partnerDeleteItem}` }),
                     fields: (_, { DELETE }) => DELETE

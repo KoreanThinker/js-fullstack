@@ -1,95 +1,72 @@
-import { gql } from "@apollo/client";
+import { gql, useApolloClient } from "@apollo/client";
 import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
 
-
-
-// QUERY/TEST
-export const TEST = gql`
+// QUERY/I_USER
+export const I_USER = gql`
   query {
-    user (id: 1) {
-    orders {
-      id
-      item {
-id}
-    }
-  }
-  }
-`
-interface TestData {
-  user: any
-}
-interface TestVars {
-
-}
-export const useTest = (options?: any) => createQueryHook<TestData, TestVars>(TEST, options)
-
-
-
-// QUERY/IS_LOGGED_IN
-export const IS_LOGGED_IN = gql`
-  query {
-    isPartnerLoggedIn
-  }
-`
-interface IsLoggedInData {
-  isPartnerLoggedIn: boolean
-}
-interface IsLoggedInVars {
-
-}
-export const useIsLoggedIn = () => createQueryHook<IsLoggedInData, IsLoggedInVars>(IS_LOGGED_IN, {
-  fetchPolicy: 'network-only'
-}) // SSR
-
-// MUTATION/SIGNUP
-const SIGNUP = gql`
-  mutation ($email: String!, $password: String!, $name: String!) {
-    partnerSignup(email: $email, password: $password, name: $name) {
-        id
+    iUser {
+      name
+      email
     }
   }
 `
-interface SignupData {
-  partnerSignup: {
-    id: string
+interface IUserData {
+  iUser: {
+    name: string
+    email: string
   }
 }
-interface SignupVars {
-  email: string
-  password: string
-  name: string
+interface IUserVars {
+
 }
-export const useSignup = () => createMutationHook<SignupData, SignupVars>(SIGNUP)
+export const useIUser = (options?: any) => createQueryHook<IUserData, IUserVars>(I_USER, {
+  fetchPolicy: 'cache-first',
+  ...options,
+
+})
 
 // MUTATION/LOGIN
 const LOGIN = gql`
   mutation ($email: String!, $password: String!) {
-    partnerLogin(email: $email, password: $password) {
-        id
+    userLogin(email: $email, password: $password) {
+        email
+        name
     }
   }
 `
 interface LoginData {
-  partnerLogin: {
-    id: string
+  userLogin: {
+    email: string
+    name: string
+    id: number
   }
 }
 interface LoginVars {
   email: string
   password: string
 }
-export const useLogin = () => createMutationHook<LoginData, LoginVars>(LOGIN, { errorPolicy: 'all' })
+export const useLogin = () => createMutationHook<LoginData, LoginVars>(LOGIN, {
+  errorPolicy: 'all'
+})
 
 // MUTATION/LOGOUT
 const LOGOUT = gql`
   mutation {
-    partnerLogout 
+    userLogout 
   }
 `
 interface LogoutData {
-  partnerLogout: boolean
+  userLogout: null
 }
 interface LogoutVars {
 
 }
-export const useLogout = () => createMutationHook<LogoutData, LogoutVars>(LOGOUT)
+export const useLogout = () => createMutationHook<LogoutData, LogoutVars>(LOGOUT, {
+  update: (cache, { data }) => {
+    if (!data) return
+    cache.modify({
+      id: cache.identify({ __typename: 'IUser' }),
+      fields: (_, { DELETE }) => DELETE
+    })
+  }
+})

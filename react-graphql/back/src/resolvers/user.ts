@@ -24,11 +24,11 @@ export const iUser = (t: ObjectDefinitionBlock<"Query">) => t.field('iUser', {
     resolve: async (_, { }, ctx) => {
         try {
             const userId = getUserId(ctx)
-            console.log(userId)
-            const user = ctx.prisma.user.findOne({
+            const user = await ctx.prisma.user.findOne({
                 where: { id: Number(userId) }
             })
             if (!user) throw new Error('Invalid User')
+            // user.id = -1 // used in apollo cache
             return user
         } catch (error) {
             ctx.expressContext.res.clearCookie(USER_ACCESS_TOKEN_NAME)
@@ -50,7 +50,7 @@ export const userLogin = mutationField('userLogin', {
 
         // const valid = await bcrypt.compare(password, user.password)
         // if (!valid) throw new Error('Invalid password')
-
+        // user.id = -1 // used in apollo cache
         jwtUserSign(String(user.id), ctx)
         return user
     }
