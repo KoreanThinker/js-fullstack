@@ -1,28 +1,19 @@
-import { useNavigation } from '@react-navigation/native'
 import React, { useCallback, useEffect } from 'react'
-import { StyleSheet, Text, TextInput, ToastAndroid, View } from 'react-native'
+import { StyleSheet, Text, TextInput, View } from 'react-native'
 import BaseButton from '../components/BaseButton'
-import { useIUser, useLogin } from '../graphql/auth'
 import useInput from '../hooks/useInput'
+import useLoginProcess from '../hooks/useAuth'
 
 const LoginScreen = () => {
 
-    const { dispatch } = useNavigation()
     const [email, onEmailChange] = useInput()
     const [password, onPasswordChange] = useInput()
-    const { data, refetch } = useIUser({ fetchPolicy: 'network_only' })
-    const [loginRequest] = useLogin()
+    const { login, checkIsLoggedIn } = useLoginProcess()
 
-    useEffect(() => {
-        if (data?.iUser) { //loggedIn
-            console.log('loggedin', data.iUser)
-            // dispatch({ target: 'Tab', type: 'replace' })
-        }
-    }, [data])
+    useEffect(() => { checkIsLoggedIn() }, [])
 
     const onLogin = useCallback(async () => {
-        await loginRequest({ variables: { email, password } })
-        await refetch()
+        await login(email, password)
     }, [email, password])
 
     return (

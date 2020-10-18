@@ -1,12 +1,13 @@
-import { gql, useApolloClient } from "@apollo/client";
+import { gql, QueryHookOptions, useApolloClient } from "@apollo/client";
 import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
 
 // QUERY/I_USER
 export const I_USER = gql`
-  query {
+  query IUser {
     iUser {
       name
       email
+      id
     }
   }
 `
@@ -19,10 +20,8 @@ interface IUserData {
 interface IUserVars {
 
 }
-export const useIUser = (options?: any) => createQueryHook<IUserData, IUserVars>(I_USER, {
-  fetchPolicy: 'cache-first',
-  ...options,
-
+export const useIUser = (options?: QueryHookOptions) => createQueryHook<IUserData, IUserVars>(I_USER, {
+  ...options
 })
 
 // MUTATION/LOGIN
@@ -52,7 +51,9 @@ export const useLogin = () => createMutationHook<LoginData, LoginVars>(LOGIN, {
 // MUTATION/LOGOUT
 const LOGOUT = gql`
   mutation {
-    userLogout 
+    userLogout {
+      name
+    }
   }
 `
 interface LogoutData {
@@ -62,11 +63,5 @@ interface LogoutVars {
 
 }
 export const useLogout = () => createMutationHook<LogoutData, LogoutVars>(LOGOUT, {
-  update: (cache, { data }) => {
-    if (!data) return
-    cache.modify({
-      id: cache.identify({ __typename: 'IUser' }),
-      fields: (_, { DELETE }) => DELETE
-    })
-  }
+
 })
