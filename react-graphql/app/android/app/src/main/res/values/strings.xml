@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">rn graphql</string>
+    <string name="facebook_app_id">635459677124021</string>
+    <string name="fb_login_protocol_scheme">fb635459677124021</string>
 </resources>

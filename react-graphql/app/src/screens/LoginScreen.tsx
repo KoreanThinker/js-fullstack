@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
-import { StyleSheet, TextInput, View } from 'react-native'
+import { StyleSheet, TextInput, ToastAndroid, View } from 'react-native'
+import { LoginManager, AccessToken } from "react-native-fbsdk";
 import BaseButton from '../components/BaseButton'
 import useInput from '../hooks/useInput'
 import useLoginProcess from '../hooks/useAuth'
@@ -21,8 +22,17 @@ const LoginScreen = () => {
 
     }, [])
 
-    const onFacebook = useCallback(() => {
-
+    const onFacebook = useCallback(async () => {
+        try {
+            const { grantedPermissions } = await LoginManager.logInWithPermissions(["public_profile"])
+            if (!grantedPermissions) throw new Error('No Permissions')
+            const token = await AccessToken.getCurrentAccessToken()
+            if (!token) throw new Error('No Token')
+            console.log(token.accessToken)
+        } catch (error) {
+            console.log(error)
+            ToastAndroid.show('Error:Try again', ToastAndroid.SHORT)
+        }
     }, [])
 
     return (
