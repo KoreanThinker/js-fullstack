@@ -1,6 +1,7 @@
 import { useApolloClient } from "@apollo/client"
 import { StackActions, useNavigation } from "@react-navigation/native"
 import { useCallback } from "react"
+import { LoginManager } from "react-native-fbsdk"
 import { I_USER, useLogin, useLogout } from "../graphql/auth"
 
 const useAuth = () => {
@@ -27,6 +28,7 @@ const useAuth = () => {
     const logout = useCallback(async () => {
         await logoutRequest()
         await client.resetStore()
+        LoginManager.logOut()
         dispatch(StackActions.replace('Login'))
     }, [])
 
