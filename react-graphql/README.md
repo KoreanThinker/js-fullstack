@@ -22,14 +22,14 @@
 
 # TODO
 front, app에서 로그인 front에서 post, app 에서 인피니티스크롤 front & app chatting
-- app apollo & remove redux
-- app login
-- JWT 인증 (kakao, facebook) app
+- app deep link
+- app eamil signup
+- (kakao, facebook) login app
+- code push
+- 결제모듈
 - css ssr
 - console
-- code push
 - search
-- 결제모듈
 - https (nginx)
 - back cookie domain
 

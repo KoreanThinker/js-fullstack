@@ -1,4 +1,4 @@
-package com.app;
+package com.rngraphqlfullstack;
 
 import android.app.Application;
 import android.content.Context;
