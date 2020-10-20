@@ -1,11 +1,11 @@
-import { intArg, mutationField, ObjectDefinitionBlock, stringArg } from "@nexus/schema/dist/core"
+import { intArg, mutationField, queryField, stringArg } from "@nexus/schema"
 import getUserId from "../utils/getUserId"
 import bcrypt from 'bcrypt'
 import { USER_ACCESS_TOKEN_NAME } from "../values"
 import jwtUserSign from "../utils/jwtUserSign"
 
 //Query
-export const user = (t: ObjectDefinitionBlock<"Query">) => t.field('user', {
+export const user = queryField('user', {
     type: 'User',
     args: {
         id: intArg({ required: true }),
@@ -18,7 +18,7 @@ export const user = (t: ObjectDefinitionBlock<"Query">) => t.field('user', {
     }
 })
 
-export const iUser = (t: ObjectDefinitionBlock<"Query">) => t.field('iUser', {
+export const iUser = queryField('iUser', {
     type: 'IUser',
     nullable: true,
     resolve: async (_, { }, ctx) => {

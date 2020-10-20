@@ -1,8 +1,8 @@
-import { arg, booleanArg, intArg, ObjectDefinitionBlock, stringArg } from "@nexus/schema/dist/core"
+import { booleanArg, intArg, mutationField, queryField, stringArg } from "@nexus/schema"
 import getPartnerId from '../utils/getPartnerId'
 
 //Query
-export const item = (t: ObjectDefinitionBlock<'Query'>) => t.field('item', {
+export const item = queryField('item', {
     type: 'Item',
     args: {
         id: intArg({ required: true }),
@@ -15,8 +15,9 @@ export const item = (t: ObjectDefinitionBlock<'Query'>) => t.field('item', {
     }
 })
 
-export const items = (t: ObjectDefinitionBlock<'Query'>) => t.list.field('items', {
+export const items = queryField('items', {
     type: 'Item',
+    list: true,
     nullable: true,
     resolve: (_, { }, ctx) => {
         return ctx.prisma.item.findMany({
@@ -26,8 +27,9 @@ export const items = (t: ObjectDefinitionBlock<'Query'>) => t.list.field('items'
     }
 })
 
-export const myItems = (t: ObjectDefinitionBlock<'Query'>) => t.list.field('myItems', {
+export const myItems = queryField('myItems', {
     type: 'Item',
+    list: true,
     nullable: true,
     resolve: (_, { }, ctx) => {
         const partnerId = getPartnerId(ctx)
@@ -40,7 +42,7 @@ export const myItems = (t: ObjectDefinitionBlock<'Query'>) => t.list.field('myIt
 
 
 //Mutation
-export const createItem = (t: ObjectDefinitionBlock<'Mutation'>) => t.field('createItem', {
+export const createItem = mutationField('createItem', {
     type: 'Item',
     args: {
         name: stringArg({ required: true }),
@@ -61,7 +63,7 @@ export const createItem = (t: ObjectDefinitionBlock<'Mutation'>) => t.field('cre
     }
 })
 
-export const deleteItem = (t: ObjectDefinitionBlock<'Mutation'>) => t.field('deleteItem', {
+export const deleteItem = mutationField('deleteItem', {
     type: 'Int',
     args: {
         id: intArg({ required: true })
@@ -76,7 +78,7 @@ export const deleteItem = (t: ObjectDefinitionBlock<'Mutation'>) => t.field('del
     }
 })
 
-export const updateItem = (t: ObjectDefinitionBlock<'Mutation'>) => t.field('updateItem', {
+export const updateItem = mutationField('updateItem', {
     type: 'Item',
     args: {
         id: intArg({ required: true }),

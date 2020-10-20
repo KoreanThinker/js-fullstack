@@ -1,7 +1,5 @@
 export * from './Image'
 export * from './Item'
-export * from './Mutation'
 export * from './Order'
 export * from './Partner'
-export * from './Query'
 export * from './User'

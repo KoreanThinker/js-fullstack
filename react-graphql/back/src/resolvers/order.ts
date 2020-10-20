@@ -1,8 +1,8 @@
-import { intArg, ObjectDefinitionBlock, stringArg } from "@nexus/schema/dist/core"
+import { intArg, mutationField, queryField, stringArg } from "@nexus/schema"
 import getPartnerId from "../utils/getPartnerId"
 
 //Query
-export const order = (t: ObjectDefinitionBlock<"Query">) => t.field('order', {
+export const order = queryField('order', {
     type: 'Order',
     args: {
         id: intArg({ required: true }),
@@ -17,8 +17,9 @@ export const order = (t: ObjectDefinitionBlock<"Query">) => t.field('order', {
 
 
 
-export const newOrder = (t: ObjectDefinitionBlock<"Query">) => t.list.field('newOrder', {
+export const newOrder = queryField('newOrder', {
     type: 'Order',
+    list: true,
     resolve: (_, { }, ctx) => {
         const partnerId = getPartnerId(ctx)
         return ctx.prisma.order.findMany({
@@ -30,7 +31,7 @@ export const newOrder = (t: ObjectDefinitionBlock<"Query">) => t.list.field('new
 
 
 // Mutation
-export const createOrder = (t: ObjectDefinitionBlock<"Mutation">) => t.field('createOrder', {
+export const createOrder = mutationField('createOrder', {
     type: 'Order',
     args: {
         price: intArg({ required: true }),
@@ -57,7 +58,7 @@ export const createOrder = (t: ObjectDefinitionBlock<"Mutation">) => t.field('cr
     }
 })
 
-export const userCancelOrder = (t: ObjectDefinitionBlock<"Mutation">) => t.field('userCancelOrder', {
+export const userCancelOrder = mutationField('userCancelOrder', {
     type: 'Order',
     args: {
         orderId: intArg({ required: true })
@@ -83,7 +84,7 @@ export const userCancelOrder = (t: ObjectDefinitionBlock<"Mutation">) => t.field
     }
 })
 
-export const partnerCancelOrder = (t: ObjectDefinitionBlock<"Mutation">) => t.field('partnerCancelOrder', {
+export const partnerCancelOrder = mutationField('partnerCancelOrder', {
     type: 'Order',
     args: {
         orderId: intArg({ required: true })
@@ -106,7 +107,7 @@ export const partnerCancelOrder = (t: ObjectDefinitionBlock<"Mutation">) => t.fi
     }
 })
 
-export const receiveOrder = (t: ObjectDefinitionBlock<"Mutation">) => t.field('receiveOrder', {
+export const receiveOrder = mutationField('receiveOrder', {
     type: 'Order',
     args: {
         orderId: intArg({ required: true })
@@ -129,7 +130,7 @@ export const receiveOrder = (t: ObjectDefinitionBlock<"Mutation">) => t.field('r
     }
 })
 
-export const deliveryOrder = (t: ObjectDefinitionBlock<"Mutation">) => t.field('deliveryOrder', {
+export const deliveryOrder = mutationField('deliveryOrder', {
     type: 'Order',
     args: {
         orderId: intArg({ required: true }),
@@ -155,7 +156,7 @@ export const deliveryOrder = (t: ObjectDefinitionBlock<"Mutation">) => t.field('
 })
 
 // deliveryApiPlz
-export const deliveryCompletedOrder = (t: ObjectDefinitionBlock<"Mutation">) => t.field('deliveryCompletedOrder', {
+export const deliveryCompletedOrder = mutationField('deliveryCompletedOrder', {
     type: 'Order',
     args: {
         orderId: intArg({ required: true })
@@ -178,7 +179,7 @@ export const deliveryCompletedOrder = (t: ObjectDefinitionBlock<"Mutation">) => 
     }
 })
 
-export const confirmationOrder = (t: ObjectDefinitionBlock<"Mutation">) => t.field('confirmationOrder', {
+export const confirmationOrder = mutationField('confirmationOrder', {
     type: 'Order',
     args: {
         orderId: intArg({ required: true })

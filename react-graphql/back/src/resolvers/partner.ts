@@ -1,4 +1,4 @@
-import { intArg, ObjectDefinitionBlock, stringArg } from "@nexus/schema/dist/core"
+import { intArg, mutationField, queryField, stringArg } from "@nexus/schema"
 import bcrypt from 'bcrypt'
 import getPartnerId from '../utils/getPartnerId'
 import jwtSign from '../utils/jwtPartnerSign'
@@ -6,7 +6,7 @@ import { PARTNER_ACCESS_TOKEN_NAME } from '../values'
 
 
 //Query
-export const partner = (t: ObjectDefinitionBlock<"Query">) => t.field('partner', {
+export const partner = queryField('partner', {
     type: 'Partner',
     args: {
         id: intArg({ required: true }),
@@ -19,7 +19,7 @@ export const partner = (t: ObjectDefinitionBlock<"Query">) => t.field('partner',
     }
 })
 
-export const iPartner = (t: ObjectDefinitionBlock<"Query">) => t.field('iPartner', {
+export const iPartner = queryField('iPartner', {
     type: 'Partner',
     nullable: true,
     resolve: async (_, { }, ctx) => {
@@ -38,9 +38,25 @@ export const iPartner = (t: ObjectDefinitionBlock<"Query">) => t.field('iPartner
     }
 })
 
+export const isPartnerLoggedIn = queryField('isPartnerLoggedIn', {
+    type: 'Boolean',
+    resolve: async (_, { }, ctx) => {
+        try {
+            const partnerId = getPartnerId(ctx)
+            const partner = await ctx.prisma.partner.findOne({ where: { id: Number(partnerId) } })
+            return !!partner
+        } catch (error) {
+            // console.error(error)
+            ctx.expressContext.res.clearCookie(PARTNER_ACCESS_TOKEN_NAME)
+            return false
+        }
+    }
+})
+
+
 
 //Mutation
-export const partnerSignup = (t: ObjectDefinitionBlock<"Mutation">) => t.field('partnerSignup', {
+export const partnerSignup = mutationField('partnerSignup', {
     type: 'Partner',
     args: {
         email: stringArg({ required: true }),
@@ -69,7 +85,7 @@ export const partnerSignup = (t: ObjectDefinitionBlock<"Mutation">) => t.field('
     }
 })
 
-export const partnerLogin = (t: ObjectDefinitionBlock<"Mutation">) => t.field('partnerLogin', {
+export const partnerLogin = mutationField('partnerLogin', {
     type: 'Partner',
     args: {
         email: stringArg({ required: true }),
@@ -87,26 +103,11 @@ export const partnerLogin = (t: ObjectDefinitionBlock<"Mutation">) => t.field('p
     }
 })
 
-export const partnerLogout = (t: ObjectDefinitionBlock<"Mutation">) => t.field('partnerLogout', {
+export const partnerLogout = mutationField('partnerLogout', {
     type: 'Boolean',
     resolve: async (_, { }, ctx) => {
         ctx.expressContext.res.clearCookie(PARTNER_ACCESS_TOKEN_NAME)
         return true
-    }
-})
-
-export const isPartnerLoggedIn = (t: ObjectDefinitionBlock<"Query">) => t.field('isPartnerLoggedIn', {
-    type: 'Boolean',
-    resolve: async (_, { }, ctx) => {
-        try {
-            const partnerId = getPartnerId(ctx)
-            const partner = await ctx.prisma.partner.findOne({ where: { id: Number(partnerId) } })
-            return !!partner
-        } catch (error) {
-            // console.error(error)
-            ctx.expressContext.res.clearCookie(PARTNER_ACCESS_TOKEN_NAME)
-            return false
-        }
     }
 })
 

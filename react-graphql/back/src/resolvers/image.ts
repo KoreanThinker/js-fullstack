@@ -1,7 +1,7 @@
-import { intArg, ObjectDefinitionBlock, arg } from "@nexus/schema/dist/core"
+import { intArg, arg, queryField, mutationField } from "@nexus/schema"
 
 //Query
-export const image = (t: ObjectDefinitionBlock<"Query">) => t.field('image', {
+export const image = queryField('image', {
     type: 'Image',
     args: {
         id: intArg({ required: true })
@@ -14,8 +14,8 @@ export const image = (t: ObjectDefinitionBlock<"Query">) => t.field('image', {
     }
 })
 
-
-export const uploadImage = (t: ObjectDefinitionBlock<"Mutation">) => t.field('uploadImage', {
+//Mutation
+export const uploadImage = mutationField('uploadImage', {
     type: 'Image',
     args: {
         image: arg({ type: 'Upload', required: true })
