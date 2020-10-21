@@ -2,4 +2,5 @@
     <string name="app_name">rn graphql</string>
     <string name="facebook_app_id">635459677124021</string>
     <string name="fb_login_protocol_scheme">fb635459677124021</string>
+    <string name="kakao_app_key">4ed43ce9b4e038314160d9daeb322c2b</string>
 </resources>

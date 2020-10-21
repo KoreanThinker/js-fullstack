@@ -3,14 +3,15 @@ import { StyleSheet, TextInput, ToastAndroid, View } from 'react-native'
 import { LoginManager, AccessToken } from "react-native-fbsdk";
 import BaseButton from '../components/BaseButton'
 import useInput from '../hooks/useInput'
-import useLoginProcess from '../hooks/useAuth'
+import useAuth from '../hooks/useAuth'
 import BaseText from '../components/BaseText'
+import KakaoLogins, { KAKAO_AUTH_TYPES } from '@react-native-seoul/kakao-login';
 
 const LoginScreen = () => {
 
     const [email, onEmailChange] = useInput()
     const [password, onPasswordChange] = useInput()
-    const { login, checkIsLoggedIn } = useLoginProcess()
+    const { login, checkIsLoggedIn } = useAuth()
 
     useEffect(() => { checkIsLoggedIn() }, [])
 
@@ -18,8 +19,14 @@ const LoginScreen = () => {
         await login(email, password)
     }, [email, password])
 
-    const onKakao = useCallback(() => {
-
+    const onKakao = useCallback(async () => {
+        try {
+            const token = await KakaoLogins.login([KAKAO_AUTH_TYPES.Talk])
+            console.log(token)
+        } catch (error) {
+            console.log(error)
+            ToastAndroid.show('Error:Try again', ToastAndroid.SHORT)
+        }
     }, [])
 
     const onFacebook = useCallback(async () => {

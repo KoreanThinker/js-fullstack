@@ -1,4 +1,5 @@
 import { useApolloClient } from "@apollo/client"
+import KakaoLogins from "@react-native-seoul/kakao-login"
 import { StackActions, useNavigation } from "@react-navigation/native"
 import { useCallback } from "react"
 import { LoginManager } from "react-native-fbsdk"
@@ -26,10 +27,16 @@ const useAuth = () => {
     }, [])
 
     const logout = useCallback(async () => {
-        await logoutRequest()
-        await client.resetStore()
-        LoginManager.logOut()
-        dispatch(StackActions.replace('Login'))
+        try {
+            await logoutRequest()
+            await client.resetStore()
+            LoginManager.logOut()
+            await KakaoLogins.logout() // if no refresh token throw error!
+        } catch (error) {
+            console.log(error)
+        } finally {
+            dispatch(StackActions.replace('Login'))
+        }
     }, [])
 
 
