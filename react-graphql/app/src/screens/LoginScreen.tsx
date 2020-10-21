@@ -21,6 +21,7 @@ const LoginScreen = () => {
 
     const onKakao = useCallback(async () => {
         try {
+            console.log('START KAKAO LOGIN')
             const token = await KakaoLogins.login([KAKAO_AUTH_TYPES.Talk])
             console.log(token)
         } catch (error) {

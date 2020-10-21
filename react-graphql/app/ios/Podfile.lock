@@ -81,6 +81,25 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
+  - kakao-login (2.10.1):
+    - KakaoOpenSDK (~> 1.21.0)
+    - React
+  - KakaoOpenSDK (1.21.1):
+    - KakaoOpenSDK/KakaoCommon (= 1.21.1)
+    - KakaoOpenSDK/KakaoLink (= 1.21.1)
+    - KakaoOpenSDK/KakaoMessageTemplate (= 1.21.1)
+    - KakaoOpenSDK/KakaoNavi (= 1.21.1)
+    - KakaoOpenSDK/KakaoOpenSDK (= 1.21.1)
+    - KakaoOpenSDK/KakaoPlusFriend (= 1.21.1)
+  - KakaoOpenSDK/KakaoCommon (1.21.1)
+  - KakaoOpenSDK/KakaoLink (1.21.1):
+    - KakaoOpenSDK/KakaoCommon
+  - KakaoOpenSDK/KakaoMessageTemplate (1.21.1)
+  - KakaoOpenSDK/KakaoNavi (1.21.1):
+    - KakaoOpenSDK/KakaoCommon
+  - KakaoOpenSDK/KakaoOpenSDK (1.21.1)
+  - KakaoOpenSDK/KakaoPlusFriend (1.21.1):
+    - KakaoOpenSDK/KakaoCommon
   - OpenSSL-Universal (1.0.2.19):
     - OpenSSL-Universal/Static (= 1.0.2.19)
   - OpenSSL-Universal/Static (1.0.2.19)
@@ -369,6 +388,7 @@ DEPENDENCIES:
   - FlipperKit/SKIOSNetworkPlugin (~> 0.41.1)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - "kakao-login (from `../node_modules/@react-native-seoul/kakao-login`)"
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
   - React (from `../node_modules/react-native/`)
@@ -417,6 +437,7 @@ SPEC REPOS:
     - Flipper-PeerTalk
     - Flipper-RSocket
     - FlipperKit
+    - KakaoOpenSDK
     - OpenSSL-Universal
     - YogaKit
 
@@ -431,6 +452,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  kakao-login:
+    :path: "../node_modules/@react-native-seoul/kakao-login"
   RCTRequired:
     :path: "../node_modules/react-native/Libraries/RCTRequired"
   RCTTypeSafety:
@@ -511,6 +534,8 @@ SPEC CHECKSUMS:
   FlipperKit: bc68102cd4952a258a23c9c1b316c7bec1fecf83
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
+  kakao-login: 7111f3ee3231418c4bcd310d273651a637a46eac
+  KakaoOpenSDK: 7a7b728491fc199bf2186fec5bbf2c70ba14f474
   OpenSSL-Universal: 8b48cc0d10c1b2923617dfe5c178aa9ed2689355
   RCTRequired: f13f25e7b12f925f1f6a6a8c69d929a03c0129fe
   RCTTypeSafety: 44982c5c8e43ff4141eb519a8ddc88059acd1f3a
@@ -544,6 +569,6 @@ SPEC CHECKSUMS:
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 93914e9e7b987f8c206db834efedfa02938bcf13
+PODFILE CHECKSUM: debb6828d7b03e5cfc1d4367f3cac6eff9da7518
 
 COCOAPODS: 1.9.3

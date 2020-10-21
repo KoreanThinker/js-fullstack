@@ -8,6 +8,12 @@
 			<string>fb-messenger-api</string>
 			<string>fbauth2</string>
 			<string>fbshareextension</string>
+			<string>kakao4ed43ce9b4e038314160d9daeb322c2b</string>
+			<string>kakaokompassauth</string>
+			<string>storykompassauth</string>
+			<string>kakaolink</string>
+			<string>kakaotalk-5.9.7</string>
+			<string>storylink</string>
 		</array>
 		<key>CFBundleURLTypes</key>
 		<array>
@@ -15,9 +21,12 @@
 				<key>CFBundleURLSchemes</key>
 				<array>
 					<string>fb635459677124021</string>
+					<string>kakao4ed43ce9b4e038314160d9daeb322c2b</string>
 				</array>
 			</dict>
 		</array>
+		<key>KAKAO_APP_KEY</key>
+		<string>4ed43ce9b4e038314160d9daeb322c2b</string>
 		<key>FacebookAppID</key>
 		<string>635459677124021</string>
 		<key>FacebookDisplayName</key>

@@ -3,6 +3,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import <KakaoOpenSDK/KakaoOpenSDK.h>
 #if RCT_DEV
 #import <React/RCTDevLoadingView.h>
 #endif
@@ -14,6 +15,7 @@
 #import <FlipperKitNetworkPlugin/FlipperKitNetworkPlugin.h>
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
+
 
 
 static void InitializeFlipper(UIApplication *application) {
@@ -31,26 +33,31 @@ static void InitializeFlipper(UIApplication *application) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [KOSession sharedSession].automaticPeriodicRefresh = YES;
+  
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif
-
+  
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
-  #if RCT_DEV
+#if RCT_DEV
   [bridge moduleForClass:[RCTDevLoadingView class]];
 #endif
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"app"
                                             initialProperties:nil];
-
+  
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
-
+  
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   return YES;
+}
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    [KOSession handleDidEnterBackground];
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
@@ -61,5 +68,30 @@ static void InitializeFlipper(UIApplication *application) {
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
 }
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+  if ([KOSession isKakaoAccountLoginCallback:url]) {
+    return [KOSession handleOpenURL:url];
+  }
+  
+  return false;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+            options:(NSDictionary<NSString *,id> *)options {
+  if ([KOSession isKakaoAccountLoginCallback:url]) {
+    return [KOSession handleOpenURL:url];
+  }
+  
+  return false;
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    [KOSession handleDidBecomeActive];
+}
+
 
 @end

@@ -8,10 +8,10 @@ target 'app' do
   
   use_react_native!(:path => config["reactNativePath"])
 
-  target 'appTests' do
-    inherit! :complete
-    # Pods for testing
-  end
+#  target 'appTests' do
+#    inherit! :complete
+#    # Pods for testing
+#  end
 
   # Enables Flipper.
   #
@@ -23,11 +23,11 @@ target 'app' do
   end
 end
 
-target 'app-tvOS' do
-  # Pods for app-tvOS
-
-  target 'app-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-end
+#target 'app-tvOS' do
+#  # Pods for app-tvOS
+#
+#  target 'app-tvOSTests' do
+#    inherit! :search_paths
+#    # Pods for testing
+#  end
+#end

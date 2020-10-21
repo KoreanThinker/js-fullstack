@@ -1,1 +1,1 @@
-# JS_fullstack
+This project pursue the awesome architecture.
