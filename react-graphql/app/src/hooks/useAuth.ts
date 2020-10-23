@@ -1,15 +1,16 @@
 import { useApolloClient } from "@apollo/client"
-import KakaoLogins from "@react-native-seoul/kakao-login"
 import { StackActions, useNavigation } from "@react-navigation/native"
 import { useCallback } from "react"
-import { LoginManager } from "react-native-fbsdk"
-import { I_USER, useLogin, useLogout } from "../graphql/auth"
+import KakaoLogins, { KAKAO_AUTH_TYPES } from '@react-native-seoul/kakao-login';
+import { LoginManager, AccessToken } from "react-native-fbsdk";
+import { I_USER, useLogout, useKakaoLogin, useFacebookLogin } from "../graphql/auth"
 
 const useAuth = () => {
 
     const client = useApolloClient()
     const { dispatch } = useNavigation()
-    const [loginRequset] = useLogin()
+    const [kakaoLoginRequest] = useKakaoLogin()
+    const [facebookLoginRequest] = useFacebookLogin()
     const [logoutRequest] = useLogout()
 
     const checkIsLoggedIn = useCallback(async () => {
@@ -21,10 +22,31 @@ const useAuth = () => {
         }
     }, [])
 
-    const login = useCallback(async (email: string, password: string) => {
-        await loginRequset({ variables: { email, password } })
-        dispatch(StackActions.replace('Tab'))
+    const kakaoLogin = useCallback(async () => {
+        try {
+            const token = await KakaoLogins.login([KAKAO_AUTH_TYPES.Talk])
+            console.log(token)
+            await kakaoLoginRequest({ variables: { token: token.accessToken } })
+            dispatch(StackActions.replace('Tab'))
+        } catch (error) {
+            console.log(error)
+        }
     }, [])
+
+    const facebookLogin = useCallback(async () => {
+        try {
+            const { grantedPermissions } = await LoginManager.logInWithPermissions(["public_profile"])
+            if (!grantedPermissions) throw new Error('No Permissions')
+            const token = await AccessToken.getCurrentAccessToken()
+            if (!token) throw new Error('No Token')
+            console.log(token)
+            await facebookLoginRequest({ variables: { token: token.accessToken } })
+            dispatch(StackActions.replace('Tab'))
+        } catch (error) {
+            console.log(error)
+        }
+    }, [])
+
 
     const logout = useCallback(async () => {
         try {
@@ -40,7 +62,12 @@ const useAuth = () => {
     }, [])
 
 
-    return { login, logout, checkIsLoggedIn }
+    return {
+        checkIsLoggedIn,
+        kakaoLogin,
+        facebookLogin,
+        logout
+    }
 }
 
 export default useAuth

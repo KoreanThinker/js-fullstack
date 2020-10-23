@@ -65,3 +65,39 @@ interface LogoutVars {
 export const useLogout = () => createMutationHook<LogoutData, LogoutVars>(LOGOUT, {
 
 })
+
+// MUTATION/FACEBOOK_LOGIN
+const FACEBOOK_LOGIN = gql`
+   mutation ($token: String!) {
+    userFacebookLogin(token: $token) {
+      id
+    }
+  }
+`
+interface FacebookLoginData {
+  userFacebookLogin: null
+}
+interface FacebookLoginVars {
+  token: string
+}
+export const useFacebookLogin = () => createMutationHook<FacebookLoginData, FacebookLoginVars>(FACEBOOK_LOGIN, {
+
+})
+
+// MUTATION/KAKAO_LOGIN
+const KAKAO_LOGIN = gql`
+   mutation ($token: String!) {
+    userKakaoLogin(token: $token) {
+      id
+    }
+  }
+`
+interface KakaoLoginData {
+  userKakaoLogin: null
+}
+interface KakaoLoginVars {
+  token: string
+}
+export const useKakaoLogin = () => createMutationHook<KakaoLoginData, KakaoLoginVars>(KAKAO_LOGIN, {
+
+})

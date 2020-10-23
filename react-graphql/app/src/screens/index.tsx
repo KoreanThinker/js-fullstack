@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { NavigationContainer, NavigationContainerRef, StackActions } from '@react-navigation/native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -7,9 +7,6 @@ import HomeScreen from './HomeScreen'
 import ChatScreen from './ChatScreen';
 import PostDetailScreen from './PostDetailScreen';
 import LoginScreen from './LoginScreen';
-import { View } from 'react-native';
-import { I_USER, useIUser } from '../graphql/auth';
-import { useApolloClient } from '@apollo/client';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
