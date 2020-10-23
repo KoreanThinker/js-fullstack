@@ -1,7 +1,7 @@
 import { intArg, mutationField, queryField, stringArg } from "@nexus/schema"
 import bcrypt from 'bcrypt'
 import getPartnerId from '../utils/getPartnerId'
-import jwtSign from '../utils/jwtPartnerSign'
+import jwtPartnerSign from '../utils/jwtPartnerSign'
 import { PARTNER_ACCESS_TOKEN_NAME } from '../values'
 
 
@@ -73,7 +73,7 @@ export const partnerSignup = mutationField('partnerSignup', {
                     name
                 }
             })
-            jwtSign(String(partner.id), ctx)
+            jwtPartnerSign(String(partner.id), ctx)
 
             return partner
         } catch (error) {
@@ -98,7 +98,7 @@ export const partnerLogin = mutationField('partnerLogin', {
         const valid = await bcrypt.compare(password, partner.password)
         if (!valid) throw new Error('Invalid password')
 
-        jwtSign(String(partner.id), ctx)
+        jwtPartnerSign(String(partner.id), ctx)
         return partner
     }
 })

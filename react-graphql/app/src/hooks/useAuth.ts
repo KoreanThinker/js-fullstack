@@ -25,7 +25,6 @@ const useAuth = () => {
     const kakaoLogin = useCallback(async () => {
         try {
             const token = await KakaoLogins.login([KAKAO_AUTH_TYPES.Talk])
-            console.log(token)
             await kakaoLoginRequest({ variables: { token: token.accessToken } })
             dispatch(StackActions.replace('Tab'))
         } catch (error) {
@@ -37,9 +36,10 @@ const useAuth = () => {
         try {
             const { grantedPermissions } = await LoginManager.logInWithPermissions(["public_profile"])
             if (!grantedPermissions) throw new Error('No Permissions')
+
             const token = await AccessToken.getCurrentAccessToken()
             if (!token) throw new Error('No Token')
-            console.log(token)
+
             await facebookLoginRequest({ variables: { token: token.accessToken } })
             dispatch(StackActions.replace('Tab'))
         } catch (error) {

@@ -12,14 +12,14 @@ export const User = objectType({
     }
 })
 
-export const IUser = objectType({
-    name: 'IUser',
-    definition(t) {
-        t.model('User').id()
-        t.model('User').name()
-        t.model('User').email()
-        t.model('User').createdAt()
-        t.model('User').orders()
-        t.model('User').sns()
-    }
-})
+// export const IUser = objectType({
+//     name: 'IUser',
+//     definition(t) {
+//         t.model('User').id()
+//         t.model('User').name()
+//         t.model('User').email()
+//         t.model('User').createdAt()
+//         t.model('User').orders()
+//         t.model('User').sns()
+//     }
+// })
