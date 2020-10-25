@@ -3,9 +3,9 @@ import { StyleSheet, Text, View, Pressable } from 'react-native'
 import BaseButton from '../components/BaseButton'
 import { useApolloClient } from '@apollo/client'
 import useAuth from '../hooks/useAuth'
+import { useRoute } from '@react-navigation/native'
 
 const HomeScreen = () => {
-
     const client = useApolloClient()
     const { logout } = useAuth()
 

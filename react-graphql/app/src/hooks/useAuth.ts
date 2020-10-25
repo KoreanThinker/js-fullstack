@@ -1,6 +1,6 @@
 import { useApolloClient } from "@apollo/client"
 import { StackActions, useNavigation } from "@react-navigation/native"
-import { useCallback } from "react"
+import { useCallback, useState } from "react"
 import KakaoLogins, { KAKAO_AUTH_TYPES } from '@react-native-seoul/kakao-login';
 import { LoginManager, AccessToken } from "react-native-fbsdk";
 import { I_USER, useLogout, useKakaoLogin, useFacebookLogin } from "../graphql/auth"
@@ -8,15 +8,20 @@ import { I_USER, useLogout, useKakaoLogin, useFacebookLogin } from "../graphql/a
 const useAuth = () => {
 
     const client = useApolloClient()
-    const { dispatch } = useNavigation()
+    const { dispatch, reset } = useNavigation()
     const [kakaoLoginRequest] = useKakaoLogin()
     const [facebookLoginRequest] = useFacebookLogin()
     const [logoutRequest] = useLogout()
+    const [itemId, setItemId] = useState<string | undefined>()
 
-    const checkIsLoggedIn = useCallback(async () => {
+    const checkIsLoggedIn = useCallback(async (itemId?: string) => {
         try {
+            setItemId(itemId)
             const { data } = await client.query({ query: I_USER, fetchPolicy: 'network-only' })
-            if (data) dispatch(StackActions.replace('Tab'))
+            if (data) {
+                if (itemId) reset({ index: 1, routes: [{ name: 'Tab' }, { name: 'ItemDetail', params: { itemId } }] })
+                else dispatch(StackActions.replace('Tab'))
+            }
         } catch (error) {
             console.log(error)
         }
@@ -26,11 +31,12 @@ const useAuth = () => {
         try {
             const token = await KakaoLogins.login([KAKAO_AUTH_TYPES.Talk])
             await kakaoLoginRequest({ variables: { token: token.accessToken } })
-            dispatch(StackActions.replace('Tab'))
+            if (itemId) reset({ index: 1, routes: [{ name: 'Tab' }, { name: 'ItemDetail', params: { itemId } }] })
+            else dispatch(StackActions.replace('Tab'))
         } catch (error) {
             console.log(error)
         }
-    }, [])
+    }, [itemId])
 
     const facebookLogin = useCallback(async () => {
         try {
@@ -41,11 +47,12 @@ const useAuth = () => {
             if (!token) throw new Error('No Token')
 
             await facebookLoginRequest({ variables: { token: token.accessToken } })
-            dispatch(StackActions.replace('Tab'))
+            if (itemId) reset({ index: 1, routes: [{ name: 'Tab' }, { name: 'ItemDetail', params: { itemId } }] })
+            else dispatch(StackActions.replace('Tab'))
         } catch (error) {
             console.log(error)
         }
-    }, [])
+    }, [itemId])
 
 
     const logout = useCallback(async () => {

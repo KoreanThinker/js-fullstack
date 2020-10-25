@@ -3,13 +3,18 @@ import { StyleSheet, View } from 'react-native'
 import BaseButton from '../components/BaseButton'
 import useAuth from '../hooks/useAuth'
 import BaseText from '../components/BaseText'
+import { useRoute } from '@react-navigation/native'
 
 
 const LoginScreen = () => {
 
+    const { params }: any = useRoute()
+
     const { kakaoLogin, facebookLogin, checkIsLoggedIn } = useAuth()
 
-    useEffect(() => { checkIsLoggedIn() }, [])
+    useEffect(() => {
+        checkIsLoggedIn(params?.id)
+    }, [])
 
     return (
         <View style={styles.container} >
