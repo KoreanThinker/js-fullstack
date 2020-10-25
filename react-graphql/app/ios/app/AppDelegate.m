@@ -4,6 +4,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <KakaoOpenSDK/KakaoOpenSDK.h>
+#import <React/RCTLinkingManager.h>
 #if RCT_DEV
 #import <React/RCTDevLoadingView.h>
 #endif
@@ -79,19 +80,16 @@ static void InitializeFlipper(UIApplication *application) {
   return false;
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-            options:(NSDictionary<NSString *,id> *)options {
-  if ([KOSession isKakaoAccountLoginCallback:url]) {
-    return [KOSession handleOpenURL:url];
-  }
-  
-  return false;
+- (BOOL)application:(UIApplication *)application
+   openURL:(NSURL *)url
+   options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  return [RCTLinkingManager application:application openURL:url options:options];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     [KOSession handleDidBecomeActive];
 }
-
 
 @end

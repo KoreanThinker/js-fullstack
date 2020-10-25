@@ -24,7 +24,6 @@
     "graphql": "^15.3.0",
     "react": "16.13.1",
     "react-native": "0.63.2",
-    "react-native-deep-linking": "^2.2.0",
     "react-native-fbsdk": "^2.0.0",
     "react-native-flipper": "^0.62.0",
     "react-native-flipper-apollo-devtools": "0.0.2",
