@@ -1,4 +1,4 @@
-import { objectType } from "@nexus/schema"
+import { inputObjectType, objectType } from "@nexus/schema"
 
 export const Option = objectType({
     name: 'Option',
@@ -21,5 +21,20 @@ export const OptionItem = objectType({
         t.model.option()
         t.model.optionId()
         t.model.price()
+    }
+})
+
+export const OptionItemInput = inputObjectType({
+    name: 'OptionItemInput',
+    definition(t) {
+        t.string('name', { required: true })
+        t.int('price', { required: true })
+    }
+})
+
+export const OptionsInput = inputObjectType({
+    name: 'OptionsInput',
+    definition(t) {
+        t.list.field('optionItems', { type: 'OptionItemInput', required: true })
     }
 })

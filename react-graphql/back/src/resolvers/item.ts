@@ -40,20 +40,6 @@ export const myItems = queryField('myItems', {
     }
 })
 
-export const OptionItemInput = inputObjectType({
-    name: 'OptionItemInput',
-    definition(t) {
-        t.string('name', { required: true })
-        t.int('price', { required: true })
-    }
-})
-
-export const OptionsInput = inputObjectType({
-    name: 'OptionsInput',
-    definition(t) {
-        t.list.field('optionItems', { type: 'OptionItemInput', required: true })
-    }
-})
 
 //Mutation
 export const createItem = mutationField('createItem', {
@@ -101,21 +87,31 @@ export const updateItem = mutationField('updateItem', {
         name: stringArg({ nullable: true }),
         price: intArg({ nullable: true }),
         images: intArg({ list: true, nullable: true }),
-        published: booleanArg({ nullable: true })
+        published: booleanArg({ nullable: true }),
+        options: arg({ type: 'OptionsInput', list: true, required: true })
     },
     nullable: true,
-    resolve: async (_, { id, name, price, images, published }, ctx) => {
+    resolve: async (_, { id, name, price, images, published, options }, ctx) => {
         try {
             const partnerId = getPartnerId(ctx)
             const item = await ctx.prisma.item.findOne({ where: { id } })
             if (item?.partnerId !== partnerId) throw new Error('No Access')
+            if (options) {
+                //remove cart
+                await ctx.prisma.cartItem.deleteMany({ where: { itemId: id } })
+                //remove optionItems
+                await ctx.prisma.optionItem.deleteMany({ where: { option: { itemId: id } } })
+                //remove options
+                await ctx.prisma.option.deleteMany({ where: { itemId: id } })
+            }
             return ctx.prisma.item.update({
                 where: { id },
                 data: {
                     name: name || undefined,
                     price: price || undefined,
                     published: typeof published === 'boolean' ? published : undefined,
-                    images: images ? { set: images.map(id => ({ id })) } : undefined
+                    images: images ? { set: images.map(id => ({ id })) } : undefined,
+                    options: options ? { create: options.map(({ optionItems }) => ({ optionItems: { create: optionItems.map(({ name, price }) => ({ name, price })) } })) } : undefined
                 }
             })
         } catch (error) {

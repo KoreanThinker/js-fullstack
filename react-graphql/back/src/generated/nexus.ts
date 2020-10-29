@@ -357,6 +357,7 @@ export interface NexusGenArgTypes {
       id: number; // Int!
       images?: number[] | null; // [Int!]
       name?: string | null; // String
+      options: NexusGenInputs['OptionsInput'][]; // [OptionsInput!]!
       price?: number | null; // Int
       published?: boolean | null; // Boolean
     }
