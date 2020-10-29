@@ -1,4 +1,4 @@
-import { booleanArg, intArg, mutationField, queryField, stringArg } from "@nexus/schema"
+import { arg, booleanArg, idArg, inputObjectType, intArg, mutationField, queryField, stringArg } from "@nexus/schema"
 import getPartnerId from '../utils/getPartnerId'
 
 //Query
@@ -40,6 +40,20 @@ export const myItems = queryField('myItems', {
     }
 })
 
+export const OptionItemInput = inputObjectType({
+    name: 'OptionItemInput',
+    definition(t) {
+        t.string('name', { required: true })
+        t.int('price', { required: true })
+    }
+})
+
+export const OptionsInput = inputObjectType({
+    name: 'OptionsInput',
+    definition(t) {
+        t.list.field('optionItems', { type: 'OptionItemInput', required: true })
+    }
+})
 
 //Mutation
 export const createItem = mutationField('createItem', {
@@ -47,17 +61,19 @@ export const createItem = mutationField('createItem', {
     args: {
         name: stringArg({ required: true }),
         price: intArg({ required: true }),
-        images: stringArg({ list: true, required: true })
+        images: stringArg({ list: true, required: true }),
+        options: arg({ type: 'OptionsInput', list: true, required: true })
     },
     nullable: true,
-    resolve: async (_, { name, price, images }, ctx) => {
+    resolve: async (_, { name, price, images, options }, ctx) => {
         const partnerId = getPartnerId(ctx)
         return ctx.prisma.item.create({
             data: {
                 name,
                 price,
                 images: { create: images.map((src) => ({ src })) },
-                partner: { connect: { id: partnerId } }
+                partner: { connect: { id: partnerId } },
+                options: { create: options.map(({ optionItems }) => ({ optionItems: { create: optionItems.map(({ name, price }) => ({ name, price })) } })) }
             }
         })
     }

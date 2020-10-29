@@ -9,6 +9,7 @@ export const User = objectType({
         t.model.createdAt()
         t.model.orders()
         t.model.sns()
+        t.model.cart()
     }
 })
 

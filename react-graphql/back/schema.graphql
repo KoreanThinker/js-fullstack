@@ -2,6 +2,20 @@
 ### Do not make changes to this file directly
 
 
+type CartItem {
+  createdAt: DateTime!
+  currentOptions(after: OptionItemWhereUniqueInput, before: OptionItemWhereUniqueInput, first: Int, last: Int): [OptionItem!]!
+  id: Int!
+  item: Item!
+  itemId: Int!
+  quantity: Int!
+  updatedAt: DateTime!
+}
+
+input CartItemWhereUniqueInput {
+  id: Int
+}
+
 scalar DateTime
 
 type Image {
@@ -17,11 +31,13 @@ input ImageWhereUniqueInput {
 }
 
 type Item {
+  CartItem(after: CartItemWhereUniqueInput, before: CartItemWhereUniqueInput, first: Int, last: Int): [CartItem!]!
   createdAt: DateTime!
   id: Int!
   images(after: ImageWhereUniqueInput, before: ImageWhereUniqueInput, first: Int, last: Int): [Image!]!
   mainImage: String!
   name: String!
+  options(after: OptionWhereUniqueInput, before: OptionWhereUniqueInput, first: Int, last: Int): [Option!]!
   order(after: OrderWhereUniqueInput, before: OrderWhereUniqueInput, first: Int, last: Int): [Order!]!
   partner: Partner
   partnerId: Int
@@ -45,8 +61,9 @@ input ItemWhereUniqueInput {
 }
 
 type Mutation {
+  addCart(itemId: Int!, optionItemIds: [Int!]!, quantity: Int!): CartItem!
   confirmationOrder(orderId: Int!): Order!
-  createItem(images: [String!]!, name: String!, price: Int!): Item
+  createItem(images: [String!]!, name: String!, options: [OptionsInput!]!, price: Int!): Item
   createOrder(itemId: Int!, price: Int!): Order!
   deleteItem(id: Int!): Int
   deliveryCompletedOrder(orderId: Int!): Order!
@@ -56,6 +73,7 @@ type Mutation {
   partnerLogout: Boolean!
   partnerSignup(email: String!, name: String!, password: String!): Partner!
   receiveOrder(orderId: Int!): Order!
+  removeCart(id: Int!): CartItem
   updateItem(id: Int!, images: [Int!], name: String, price: Int, published: Boolean): Item
   uploadImage(image: Upload!): Image
   userCancelOrder(orderId: Int!): Order!
@@ -63,6 +81,41 @@ type Mutation {
   userKakaoLogin(token: String!): User!
   userLogin(email: String!, password: String!): User!
   userLogout: User
+}
+
+type Option {
+  createdAt: DateTime!
+  id: Int!
+  item: Item!
+  itemId: Int!
+  optionItems(after: OptionItemWhereUniqueInput, before: OptionItemWhereUniqueInput, first: Int, last: Int): [OptionItem!]!
+  updatedAt: DateTime!
+}
+
+type OptionItem {
+  cartItems(after: CartItemWhereUniqueInput, before: CartItemWhereUniqueInput, first: Int, last: Int): [CartItem!]!
+  id: Int!
+  name: String!
+  option: Option!
+  optionId: Int!
+  price: Int!
+}
+
+input OptionItemInput {
+  name: String!
+  price: Int!
+}
+
+input OptionItemWhereUniqueInput {
+  id: Int
+}
+
+input OptionsInput {
+  optionItems: [OptionItemInput!]!
+}
+
+input OptionWhereUniqueInput {
+  id: Int
 }
 
 type Order {
@@ -120,6 +173,7 @@ enum SnsLogin {
 scalar Upload
 
 type User {
+  cart(after: CartItemWhereUniqueInput, before: CartItemWhereUniqueInput, first: Int, last: Int): [CartItem!]!
   createdAt: DateTime!
   email: String!
   id: Int!

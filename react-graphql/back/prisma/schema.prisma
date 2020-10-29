@@ -33,26 +33,49 @@ model Order {
   waybillNumber String?
 }
 
-enum ItemState {
-  receiving
-  receiptCompleted
-  deliveryProgress
-  deliveryCompleted
-  canceled
-  confirmation
-}
-
 model Item {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  published Boolean  @default(true)
-  partner   Partner? @relation(fields: [partnerId], references: [id])
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  published Boolean    @default(true)
+  partner   Partner?   @relation(fields: [partnerId], references: [id])
   partnerId Int?
   order     Order[]
   price     Int
-  name      String   @unique
+  name      String     @unique
   images    Image[]
+  CartItem  CartItem[]
+  options   Option[]
+}
+
+model Option {
+  id          Int          @id @default(autoincrement())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  optionItems OptionItem[]
+  item        Item         @relation(fields: [itemId], references: [id])
+  itemId      Int
+}
+
+model OptionItem {
+  id        Int        @id @default(autoincrement())
+  name      String
+  price     Int
+  option    Option     @relation(fields: [optionId], references: [id])
+  optionId  Int
+  cartItems CartItem[]
+}
+
+model CartItem {
+  id             Int          @id @default(autoincrement())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  quantity       Int
+  item           Item         @relation(fields: [itemId], references: [id])
+  itemId         Int
+  currentOptions OptionItem[]
+  User           User?        @relation(fields: [userId], references: [id])
+  userId         Int?
 }
 
 model Image {
@@ -64,14 +87,14 @@ model Image {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  email     String   @unique
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  email     String     @unique
   sns       SnsLogin
-  //token???
   password  String?
   name      String
   orders    Order[]
+  cart      CartItem[]
 }
 
 enum SnsLogin {
@@ -80,4 +103,13 @@ enum SnsLogin {
   fa
   go
   na
+}
+
+enum ItemState {
+  receiving
+  receiptCompleted
+  deliveryProgress
+  deliveryCompleted
+  canceled
+  confirmation
 }
