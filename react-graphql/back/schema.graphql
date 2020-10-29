@@ -74,7 +74,7 @@ type Mutation {
   partnerSignup(email: String!, name: String!, password: String!): Partner!
   receiveOrder(orderId: Int!): Order!
   removeCart(cartItemIds: [Int!]!): CartItem
-  updateItem(id: Int!, images: [Int!], name: String, options: [OptionsInput!]!, price: Int, published: Boolean): Item
+  updateItem(id: Int!, images: [Int!], name: String, options: [OptionsInput!], price: Int, published: Boolean): Item
   uploadImage(image: Upload!): Image
   userCancelOrder(orderId: Int!): Order!
   userFacebookLogin(token: String!): User!
