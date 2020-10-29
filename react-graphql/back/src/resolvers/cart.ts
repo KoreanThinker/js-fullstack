@@ -37,15 +37,16 @@ export const addCart = mutationField('addCart', {
 export const removeCart = mutationField('removeCart', {
     type: 'CartItem',
     args: {
-        id: intArg({ required: true })
+        cartItemIds: intArg({ required: true, list: true })
     },
     nullable: true,
-    resolve: async (_, { id }, ctx) => {
+    resolve: async (_, { cartItemIds }, ctx) => {
         const userId = getUserId(ctx)
-        const cartItem = await ctx.prisma.cartItem.findOne({ where: { id } })
-        if (!cartItem) throw new Error('No Cart Item')
-        if (cartItem.userId !== userId) throw new Error('No Access')
+        const user = await ctx.prisma.user.findOne({ where: { id: userId }, include: { cart: true } })
+        if (!user) throw new Error('No Access')
+        const userCartItemIds = user.cart.map(({ id }) => id)
+        if (cartItemIds.filter((id) => !userCartItemIds.includes(id)).length !== 0) throw new Error('No Item In Your Cart')
+        await ctx.prisma.cartItem.deleteMany({ where: { id: { in: cartItemIds } } })
         return null
-
     }
 })

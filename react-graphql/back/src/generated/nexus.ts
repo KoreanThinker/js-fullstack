@@ -351,7 +351,7 @@ export interface NexusGenArgTypes {
       orderId: number; // Int!
     }
     removeCart: { // args
-      id: number; // Int!
+      cartItemIds: number[]; // [Int!]!
     }
     updateItem: { // args
       id: number; // Int!
