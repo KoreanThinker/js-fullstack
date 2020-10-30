@@ -162,6 +162,7 @@ export interface NexusGenFieldTypes {
     item: NexusGenRootTypes['Item']; // Item!
     itemId: number; // Int!
     quantity: number; // Int!
+    totalPrice: number; // Int!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
   Image: { // field return type

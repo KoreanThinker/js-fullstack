@@ -9,6 +9,7 @@ type CartItem {
   item: Item!
   itemId: Int!
   quantity: Int!
+  totalPrice: Int!
   updatedAt: DateTime!
 }
 

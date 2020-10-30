@@ -1,5 +1,4 @@
 import { intArg, queryField, mutationField } from "@nexus/schema"
-import { ConfigurationServicePlaceholders } from "aws-sdk/lib/config_service_placeholders"
 import getUserId from "../utils/getUserId"
 
 //Query
