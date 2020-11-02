@@ -1,24 +1,43 @@
-import React, { useCallback, useEffect } from 'react'
-import { StyleSheet, Text, View, Pressable } from 'react-native'
-import BaseButton from '../components/BaseButton'
-import { useApolloClient } from '@apollo/client'
-import useAuth from '../hooks/useAuth'
-import { useRoute } from '@react-navigation/native'
+import React, { useCallback, useEffect, useState } from 'react'
+import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native'
+import ItemCard from '../components/Cards/ItemCard'
+import HomeHeader from '../components/Headers/HomeHeader'
+import { useItems } from '../graphql/item'
 
 const HomeScreen = () => {
-    const client = useApolloClient()
-    const { logout } = useAuth()
 
-    const onLogout = useCallback(async () => {
-        logout()
-    }, [])
+    const { data, refetch, fetchMore, loading } = useItems()
+    const [refreshing, setRefresing] = useState(false)
+
+    const onRefresh = useCallback(async () => {
+        try {
+            if (refreshing) return
+            setRefresing(true)
+            await refetch()
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setRefresing(false)
+        }
+    }, [refreshing, refetch])
 
     return (
         <View style={{ flex: 1 }} >
-
-            <BaseButton onPress={onLogout}>
-                <Text>Logout</Text>
-            </BaseButton>
+            <HomeHeader />
+            {data
+                ?
+                <FlatList
+                    onRefresh={onRefresh}
+                    refreshing={refreshing}
+                    data={data.items}
+                    renderItem={({ item }) => <ItemCard {...item} />}
+                    numColumns={2}
+                    style={{ paddingHorizontal: 16 }}
+                    columnWrapperStyle={{ justifyContent: 'space-between' }}
+                />
+                :
+                <ActivityIndicator />
+            }
         </View>
     )
 }

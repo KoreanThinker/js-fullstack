@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { LinkingOptions, NavigationContainer, NavigationContainerRef, StackActions } from '@react-navigation/native';
+import { DefaultTheme, LinkingOptions, NavigationContainer, NavigationContainerRef, StackActions, Theme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 //@ts-ignore
@@ -37,14 +37,24 @@ const linking: LinkingOptions = {
     }
 }
 
+const theme: Theme = {
+    ...DefaultTheme,
+    colors: {
+        ...DefaultTheme.colors,
+        background: '#fff'
+    }
+}
+
 const Navigation = () => {
 
     return (
         <NavigationContainer
             linking={linking}
+            theme={theme}
         >
             <Stack.Navigator
                 initialRouteName='Login'
+                headerMode='none'
             >
                 <Stack.Screen name='Login' component={LoginScreen} />
                 <Stack.Screen name='Tab' component={TabNavigation} />

@@ -22,6 +22,9 @@
 # TODO
 front, app에서 로그인 front에서 post, app 에서 인피니티스크롤 front & app chatting
 - 장바구니
+- sale
+- 아이템 좋아요
+- font
 - code push
 - 결제모듈
 - css ssr
