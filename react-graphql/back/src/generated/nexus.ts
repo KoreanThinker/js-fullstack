@@ -416,6 +416,10 @@ export interface NexusGenArgTypes {
     item: { // args
       id: number; // Int!
     }
+    items: { // args
+      limit: number; // Int!
+      offset: number; // Int!
+    }
     order: { // args
       id: number; // Int!
     }

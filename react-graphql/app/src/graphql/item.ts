@@ -3,8 +3,8 @@ import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
 
 // QUERY/ITEMS
 export const ITEMS = gql`
-  query Items {
-    items {
+  query Items ($offset: Int){
+    items(offset: $offset) {
       id
       createdAt
       price
@@ -24,8 +24,9 @@ interface ItemsData {
   items: ItemsItem[]
 }
 interface ItemsVars {
-
+  offset?: number
 }
-export const useItems = (options?: QueryHookOptions) => createQueryHook<ItemsData, ItemsVars>(ITEMS, {
-  ...options
+export const useItems = (options?: QueryHookOptions<ItemsData, ItemsVars>) => createQueryHook<ItemsData, ItemsVars>(ITEMS, {
+  ...options,
+
 })

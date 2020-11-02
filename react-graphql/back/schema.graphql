@@ -153,7 +153,7 @@ type Query {
   iPartner: Partner
   isPartnerLoggedIn: Boolean!
   item(id: Int!): Item
-  items: [Item!]
+  items(limit: Int! = 10, offset: Int! = 0): [Item!]
   iUser: User
   myItems: [Item!]
   newOrder: [Order!]!

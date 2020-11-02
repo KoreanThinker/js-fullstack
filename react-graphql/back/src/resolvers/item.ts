@@ -19,10 +19,16 @@ export const items = queryField('items', {
     type: 'Item',
     list: true,
     nullable: true,
-    resolve: (_, { }, ctx) => {
+    args: {
+        offset: intArg({ default: 0, required: true }),
+        limit: intArg({ default: 10, required: true })
+    },
+    resolve: (_, { offset, limit }, ctx) => {
         return ctx.prisma.item.findMany({
             where: { published: true },
-            orderBy: { createdAt: 'desc' }
+            orderBy: { createdAt: 'desc' },
+            skip: offset,
+            take: limit,
         })
     }
 })
