@@ -30,7 +30,8 @@ const useAuth = () => {
     const kakaoLogin = useCallback(async () => {
         try {
             const token = await KakaoLogins.login([KAKAO_AUTH_TYPES.Talk])
-            await kakaoLoginRequest({ variables: { token: token.accessToken } })
+            const { errors } = await kakaoLoginRequest({ variables: { token: token.accessToken } })
+            if (errors) throw new Error('Login Error')
             if (itemId) reset({ index: 1, routes: [{ name: 'Tab' }, { name: 'ItemDetail', params: { itemId } }] })
             else dispatch(StackActions.replace('Tab'))
         } catch (error) {
@@ -48,7 +49,8 @@ const useAuth = () => {
             const token = await AccessToken.getCurrentAccessToken()
             if (!token) throw new Error('No Token')
             console.log(2)
-            await facebookLoginRequest({ variables: { token: token.accessToken } })
+            const { errors } = await facebookLoginRequest({ variables: { token: token.accessToken } })
+            if (errors) throw new Error('Login Error')
             if (itemId) reset({ index: 1, routes: [{ name: 'Tab' }, { name: 'ItemDetail', params: { itemId } }] })
             else dispatch(StackActions.replace('Tab'))
         } catch (error) {

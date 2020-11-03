@@ -10,6 +10,8 @@ import ChatScreen from './ChatScreen';
 import ItemDetailScreen from './ItemDetail';
 import LoginScreen from './LoginScreen';
 import { Linking } from 'react-native';
+import SearchScreen from './SearchScreen';
+import SearchDetailScreen from './SearchDetailScreen';
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -59,6 +61,8 @@ const Navigation = () => {
                 <Stack.Screen name='Login' component={LoginScreen} />
                 <Stack.Screen name='Tab' component={TabNavigation} />
                 <Stack.Screen name='ItemDetail' component={ItemDetailScreen} />
+                <Stack.Screen name='Search' component={SearchScreen} />
+                <Stack.Screen name='SearchDetail' component={SearchDetailScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )

@@ -1,4 +1,5 @@
-import React from 'react'
+import { useNavigation } from '@react-navigation/native'
+import React, { useCallback } from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { WIDTH } from '../../constants/styles'
 import { ItemsItem } from '../../graphql/item'
@@ -7,8 +8,16 @@ import BaseButton from '../BaseButton'
 const CARD_WIDTH = (WIDTH - 48) / 2
 
 const ItemCard: React.FC<ItemsItem> = ({ id, mainImage, name, price }) => {
+
+    const { navigate } = useNavigation()
+
+    const onPress = useCallback(() => {
+        navigate('ItemDetail', { id })
+    }, [id])
+
     return (
         <BaseButton
+            onPress={onPress}
             style={styles.container}
         >
             <Image
