@@ -21,17 +21,13 @@
 
 # TODO
 front, app에서 로그인 front에서 post, app 에서 인피니티스크롤 front & app chatting
-- 장바구니
-- sale
-- 아이템 좋아요
-- font
-- code push
-- 결제모듈
-- css ssr
-- console
 - search
+- code push
+- header app keystore?
+- css ssr
 - https (nginx)
 - back cookie subdomain (console.name.com)
+- ci-cd
 
 # TOPIC
 - 실무에서는 SubDomain으로 프론트 Main, Partner, Console 나누고 백엔드 엔드포인트도 유저, 파트너, 어드민으로 나누자?? 모르겠다

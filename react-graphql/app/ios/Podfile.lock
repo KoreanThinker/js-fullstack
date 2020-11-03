@@ -1,4 +1,22 @@
 PODS:
+  - appcenter-analytics (3.1.2):
+    - AppCenter/Analytics
+    - AppCenterReactNativeShared
+    - React
+  - appcenter-core (3.1.2):
+    - AppCenterReactNativeShared
+    - React
+  - appcenter-crashes (3.1.2):
+    - AppCenter/Crashes
+    - AppCenterReactNativeShared
+    - React
+  - AppCenter/Analytics (3.3.4):
+    - AppCenter/Core
+  - AppCenter/Core (3.3.4)
+  - AppCenter/Crashes (3.3.4):
+    - AppCenter/Core
+  - AppCenterReactNativeShared (3.1.2):
+    - AppCenter/Core (= 3.3.4)
   - boost-for-react-native (1.63.0)
   - CocoaAsyncSocket (7.6.4)
   - CocoaLibEvent (1.0.0)
@@ -285,8 +303,8 @@ PODS:
     - React
   - react-native-flipper (0.62.0):
     - React
-  - react-native-safe-area-context (3.1.7):
-    - React
+  - react-native-safe-area-context (3.1.8):
+    - React-Core
   - React-RCTActionSheet (0.63.2):
     - React-Core/RCTActionSheetHeaders (= 0.63.2)
   - React-RCTAnimation (0.63.2):
@@ -347,16 +365,16 @@ PODS:
     - React-Core (= 0.63.2)
     - React-cxxreact (= 0.63.2)
     - React-jsi (= 0.63.2)
-  - RNCAsyncStorage (1.12.0):
-    - React
+  - RNCAsyncStorage (1.12.1):
+    - React-Core
   - RNCMaskedView (0.1.10):
     - React
   - RNGestureHandler (1.8.0):
     - React
-  - RNReanimated (1.13.0):
+  - RNReanimated (1.13.1):
     - React
-  - RNScreens (2.10.1):
-    - React
+  - RNScreens (2.12.0):
+    - React-Core
   - RNVectorIcons (7.1.0):
     - React
   - Yoga (1.14.0)
@@ -364,6 +382,9 @@ PODS:
     - Yoga (~> 1.14)
 
 DEPENDENCIES:
+  - appcenter-analytics (from `../node_modules/appcenter-analytics/ios`)
+  - appcenter-core (from `../node_modules/appcenter/ios`)
+  - appcenter-crashes (from `../node_modules/appcenter-crashes/ios`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/Libraries/FBReactNativeSpec`)
@@ -424,6 +445,8 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - AppCenter
+    - AppCenterReactNativeShared
     - boost-for-react-native
     - CocoaAsyncSocket
     - CocoaLibEvent
@@ -442,6 +465,12 @@ SPEC REPOS:
     - YogaKit
 
 EXTERNAL SOURCES:
+  appcenter-analytics:
+    :path: "../node_modules/appcenter-analytics/ios"
+  appcenter-core:
+    :path: "../node_modules/appcenter/ios"
+  appcenter-crashes:
+    :path: "../node_modules/appcenter-crashes/ios"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   FBLazyVector:
@@ -516,6 +545,11 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  AppCenter: 0487be185c038ed2ecc5ed38219af1dcd280af23
+  appcenter-analytics: 86931681ba39a34856727e415d39e7d4693ad7fe
+  appcenter-core: 1cca3f4d1f01e820710dc82e14ad2b4806a4f907
+  appcenter-crashes: 5da5dca952c3d1a3eea2d596748d94ec0412fbd1
+  AppCenterReactNativeShared: 66667cd2dfad295b84bbf0f462e0e139e2128284
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   CocoaAsyncSocket: 694058e7c0ed05a9e217d1b3c7ded962f4180845
   CocoaLibEvent: 2fab71b8bd46dd33ddb959f7928ec5909f838e3f
@@ -549,7 +583,7 @@ SPEC CHECKSUMS:
   React-jsinspector: b14e62ebe7a66e9231e9581279909f2fc3db6606
   react-native-fbsdk: 00c15d138bba6d4efa628670886fc58cec858c19
   react-native-flipper: d7e978e1cbd5810b21fa91578f9010af2fb52876
-  react-native-safe-area-context: fcece23844742b6f7f0627c3715b806a7deff946
+  react-native-safe-area-context: 01158a92c300895d79dee447e980672dc3fb85a6
   React-RCTActionSheet: 910163b6b09685a35c4ebbc52b66d1bfbbe39fc5
   React-RCTAnimation: 9a883bbe1e9d2e158d4fb53765ed64c8dc2200c6
   React-RCTBlob: 39cf0ece1927996c4466510e25d2105f67010e13
@@ -560,15 +594,15 @@ SPEC CHECKSUMS:
   React-RCTText: 1b6773e776e4b33f90468c20fe3b16ca3e224bb8
   React-RCTVibration: 4d2e726957f4087449739b595f107c0d4b6c2d2d
   ReactCommon: a0a1edbebcac5e91338371b72ffc66aa822792ce
-  RNCAsyncStorage: 3eea36d9460c5159b592f9ecbe5a77f8aca98006
+  RNCAsyncStorage: cb9a623793918c6699586281f0b51cbc38f046f9
   RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
   RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
-  RNReanimated: 89f5e0a04d1dd52fbf27e7e7030d8f80a646a3fc
-  RNScreens: b748efec66e095134c7166ca333b628cd7e6f3e2
+  RNReanimated: dd8c286ab5dd4ba36d3a7fef8bff7e08711b5476
+  RNScreens: 4b488fdf9537bbce829e2910c8cce1d17f6d9be8
   RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
 PODFILE CHECKSUM: debb6828d7b03e5cfc1d4367f3cac6eff9da7518
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.0

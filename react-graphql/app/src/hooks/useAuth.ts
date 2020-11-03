@@ -40,12 +40,14 @@ const useAuth = () => {
 
     const facebookLogin = useCallback(async () => {
         try {
+            console.log(0)
             const { grantedPermissions } = await LoginManager.logInWithPermissions(["public_profile"])
+            console.log(grantedPermissions)
             if (!grantedPermissions) throw new Error('No Permissions')
-
+            console.log(1)
             const token = await AccessToken.getCurrentAccessToken()
             if (!token) throw new Error('No Token')
-
+            console.log(2)
             await facebookLoginRequest({ variables: { token: token.accessToken } })
             if (itemId) reset({ index: 1, routes: [{ name: 'Tab' }, { name: 'ItemDetail', params: { itemId } }] })
             else dispatch(StackActions.replace('Tab'))
