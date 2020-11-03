@@ -20,7 +20,7 @@ const HomeHeader = () => {
 
     return (
         <View style={styles.container} >
-            <Text style={styles.title} >DEMO1</Text>
+            <Text style={styles.title} >DEMO2</Text>
             <Pressable
                 onPress={onSearch}
                 style={styles.inputContainer}

@@ -10,6 +10,7 @@
     "android:assembleRelease": "cd android && ./gradlew assembleRelease",
     "android:bundleRelease": "cd android && ./gradlew bundleRelease",
     "codepush:android": "appcenter codepush release-react -a coderhyun/react-graphql-android -d Staging",
+    "codepush:ios": "appcenter codepush release-react -a coderhyun/react-graphql -d Staging",
     "gradlew": "cd android && ./gradlew clean && cd ..",
     "pod": "cd ios && pod install && cd ..",
     "start": "react-native start",

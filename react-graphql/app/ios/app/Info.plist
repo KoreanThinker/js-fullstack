@@ -20,6 +20,8 @@
 		<string>$(PRODUCT_NAME)</string>
 		<key>CFBundlePackageType</key>
 		<string>APPL</string>
+		<key>CodePushDeploymentKey</key>
+		<string>pwqQwKeGoos7gDHqr8nvZMcEXjgEXWQ97ltzv</string>
 		<key>CFBundleSignature</key>
 		<string>????</string>
 		<key>CFBundleURLTypes</key>
