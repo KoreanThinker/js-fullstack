@@ -7,6 +7,7 @@ import codePush from "react-native-code-push";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { client } from './src/lib/apollo';
 import Navigation from './src/screens';
+import ContextProvider from './src/contexts';
 
 //@ts-ignore
 enableFlipperApolloDevtools(client)
@@ -16,15 +17,17 @@ const App = () => {
   return (
     <>
       <ApolloProvider client={client}>
-        <SafeAreaView style={styles.container} >
-          <Navigation />
-        </SafeAreaView>
+        <ContextProvider>
+          <SafeAreaView style={styles.container} >
+            <Navigation />
+          </SafeAreaView>
+        </ContextProvider>
       </ApolloProvider>
     </>
   )
 }
 
-export default codePush({ checkFrequency: codePush.CheckFrequency.ON_APP_RESUME })(App)
+export default codePush({ checkFrequency: codePush.CheckFrequency.ON_APP_RESUME, installMode: codePush.InstallMode.ON_NEXT_RESTART })(App)
 
 const styles = StyleSheet.create({
   container: {

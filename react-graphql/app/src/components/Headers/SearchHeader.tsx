@@ -1,67 +1,36 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback } from 'react'
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import BaseButton from '../BaseButton'
 import Icon from 'react-native-vector-icons/SimpleLineIcons'
 import Icon2 from 'react-native-vector-icons/MaterialIcons'
 import { COLOR1, GRAY } from '../../constants/styles'
-import { StackActions, useNavigation, useRoute } from '@react-navigation/native'
-import useInput from '../../hooks/useInput'
+import { useNavigation } from '@react-navigation/native'
+import useSearchKeyword from '../../hooks/useSearchKeyword'
 
 interface SearchHeaderProps {
     editable?: boolean
 }
 
-interface Route {
-    params?: {
-        keyword?: string,
-        onClear?: () => void,
-        onFocus?: () => void
-    }
-}
 
 const SearchHeader: React.FC<SearchHeaderProps> = ({ editable }) => {
 
-    const { dispatch, navigate, goBack, } = useNavigation()
-    const { params }: Route = useRoute()
-    const { value, onChange, onClear } = useInput(params?.keyword || '')
-    const input = useRef<TextInput>(null)
-
-    const onBack = useCallback(() => {
-        if (editable) goBack()
-        else {
-            (StackActions.push('Tab'))
-        }
-    }, [editable, goBack])
+    const { navigate, goBack } = useNavigation()
+    const { searchKeyword, onChange, onClear } = useSearchKeyword()
 
     const onSearch = useCallback(() => {
         if (!editable) return
-        navigate('SearchDetail', {
-            keyword: value,
-            onClear: () => onClear(),
-            onFocus: () => input.current?.focus()
-        })
-    }, [value, input, onClear])
-
-    const onTextInput = useCallback(() => {
-        if (!editable) {
-            goBack()
-            params?.onFocus && params.onFocus()
-        }
-    }, [editable, params])
+        navigate('SearchDetail')
+    }, [])
 
     const onClearBtn = useCallback(() => {
-        if (editable) onClear()
-        else {
-            params?.onClear && params.onClear()
-            goBack()
-            params?.onFocus && params.onFocus()
-        }
-    }, [onClear, editable, params])
+        onClear()
+        if (!editable) goBack()
+    }, [editable])
 
     return (
         <View style={styles.container} >
             <BaseButton
-                onPress={onBack}
+                onPress={goBack}
                 style={styles.backContainer}
             >
                 <Icon name='arrow-left' size={24} color={COLOR1} />
@@ -70,22 +39,30 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({ editable }) => {
                 style={styles.inputContainer}
             >
                 <Icon2 name='search' size={16} color='#00000076' />
-                <TextInput
-                    editable={editable}
-                    style={styles.input}
-                    maxLength={100}
-                    onSubmitEditing={onSearch}
-                    value={value}
-                    onChangeText={onChange}
-                    onTouchEnd={onTextInput}
-                    ref={input}
-                />
-                <BaseButton
+                {editable ?
+                    <TextInput
+                        editable={editable}
+                        style={styles.input}
+                        maxLength={100}
+                        onSubmitEditing={onSearch}
+                        value={searchKeyword}
+                        onChangeText={onChange}
+                        autoFocus={editable}
+                    />
+                    :
+                    <Pressable
+                        onPress={goBack}
+                        style={styles.keywordContainer}
+                    >
+                        <Text numberOfLines={1}>{searchKeyword}</Text>
+                    </Pressable>
+                }
+                <Pressable
                     onPress={onClearBtn}
                     style={styles.inputClearBtn}
                 >
                     <Icon2 name='clear' size={12} color={GRAY} />
-                </BaseButton>
+                </Pressable>
             </View>
         </View>
     )
@@ -122,7 +99,15 @@ const styles = StyleSheet.create({
     },
     input: {
         flex: 1,
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+        color: '#000',
+        paddingVertical: 0
+    },
+    keywordContainer: {
+        flex: 1,
+        paddingHorizontal: 10,
+        justifyContent: 'center',
+        height: '100%'
     },
     inputClearBtn: {
         width: 16,
