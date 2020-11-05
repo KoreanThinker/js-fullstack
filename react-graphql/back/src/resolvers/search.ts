@@ -1,13 +1,12 @@
 import { intArg, mutationField, queryField, stringArg } from "@nexus/schema"
 import getUserId from "../utils/getUserId"
 
-
 //Query
 export const search = queryField('search', {
     type: 'Search',
     args: {
         keyword: stringArg({ required: true }),
-        orderBy: stringArg({ required: true })
+        orderBy: stringArg({ required: true, default: 'Popular' })
     },
     resolve: async (_, { keyword, orderBy }, ctx) => {
         const userId = getUserId(ctx)
@@ -18,10 +17,22 @@ export const search = queryField('search', {
                 User: { connect: { id: userId } }
             }
         })
-        const items = await ctx.prisma.item.findMany({ orderBy: { createdAt: 'desc' } })
+        const items = await ctx.prisma.item.findMany({
+            where: { name: { contains: keyword }, published: true },
+            include: { order: true },
+            orderBy:
+                orderBy === 'Popular' ? { orderCount: 'desc' } :
+                    orderBy === 'Recent' ? { createdAt: 'desc' } :
+                        orderBy === 'Cheap' ? { price: 'asc' } :
+                            { price: 'desc' }
+        })
+        console.log(items)
+        const count = await ctx.prisma.item.count({
+            where: { name: { contains: keyword }, published: true },
+        })
         return {
             orderBy,
-            count: 1,
+            count,
             items
         }
 

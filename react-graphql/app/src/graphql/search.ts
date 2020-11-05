@@ -33,10 +33,10 @@ interface SearchVars {
 export const useSearch = (options?: QueryHookOptions<SearchData, SearchVars>) => createQueryHook<SearchData, SearchVars>(SEARCH, {
     ...options,
     fetchPolicy: 'network-only',
-    onCompleted: (data) => {
-        console.log(data)
-        client.cache.evict({ fieldName: 'recentSearchKeywords' }) // remove cache & refetch recent keywords
-    }
+    // onCompleted: (data) => {
+    //     console.log(data)
+    //     client.cache.evict({ fieldName: 'recentSearchKeywords' }) // remove cache & refetch recent keywords
+    // }
 })
 
 //QUERY/RECENT_SEARCH_KEYWORDS

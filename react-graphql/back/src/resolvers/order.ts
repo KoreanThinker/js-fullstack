@@ -1,5 +1,6 @@
 import { intArg, mutationField, queryField, stringArg } from "@nexus/schema"
 import getPartnerId from "../utils/getPartnerId"
+import getUserId from "../utils/getUserId"
 
 //Query
 export const order = queryField('order', {
@@ -34,21 +35,24 @@ export const newOrder = queryField('newOrder', {
 export const createOrder = mutationField('createOrder', {
     type: 'Order',
     args: {
-        price: intArg({ required: true }),
         itemId: intArg({ required: true })
     },
-    resolve: async (_, { itemId, price }, ctx) => {
+    resolve: async (_, { itemId }, ctx) => {
         // todo getUser by token
-        const userId = 1
+        const userId = getUserId(ctx)
 
         const item = await ctx.prisma.item.findOne({ where: { id: itemId } })
         if (!item) throw new Error('No Item')
-        if (item.price !== price) throw new Error('Price Error')
         if (!item.partnerId) throw new Error('No Partner')
+
+        await ctx.prisma.item.update({
+            where: { id: itemId },
+            data: { orderCount: item.orderCount + 1 }
+        })
 
         return ctx.prisma.order.create({
             data: {
-                price,
+                price: item.price,
                 buyer: { connect: { id: userId } },
                 partner: { connect: { id: item.partnerId } },
                 item: { connect: { id: itemId } }

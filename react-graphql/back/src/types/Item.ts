@@ -15,6 +15,7 @@ export const Item = objectType({
         t.model.updatedAt()
         t.model.CartItem()
         t.model.options()
+        t.model.orderCount()
         t.string('mainImage', async ({ id }, { }, ctx) => {
             const images = await ctx.prisma.image.findMany({
                 where: { itemId: id },

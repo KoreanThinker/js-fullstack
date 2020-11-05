@@ -34,18 +34,19 @@ model Order {
 }
 
 model Item {
-  id        Int        @id @default(autoincrement())
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  published Boolean    @default(true)
-  partner   Partner?   @relation(fields: [partnerId], references: [id])
-  partnerId Int?
-  order     Order[]
-  price     Int
-  name      String     @unique
-  images    Image[]
-  CartItem  CartItem[]
-  options   Option[]
+  id         Int        @id @default(autoincrement())
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  published  Boolean    @default(true)
+  partner    Partner?   @relation(fields: [partnerId], references: [id])
+  partnerId  Int?
+  order      Order[]
+  price      Int
+  name       String     @unique
+  images     Image[]
+  CartItem   CartItem[]
+  options    Option[]
+  orderCount Int        @default(0)
 }
 
 model Option {

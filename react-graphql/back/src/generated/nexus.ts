@@ -88,6 +88,7 @@ export interface NexusGenRootTypes {
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     id: number; // Int!
     name: string; // String!
+    orderCount: number; // Int!
     partnerId?: number | null; // Int
     price: number; // Int!
     published: boolean; // Boolean!
@@ -192,6 +193,7 @@ export interface NexusGenFieldTypes {
     name: string; // String!
     options: NexusGenRootTypes['Option'][]; // [Option!]!
     order: NexusGenRootTypes['Order'][]; // [Order!]!
+    orderCount: number; // Int!
     partner: NexusGenRootTypes['Partner'] | null; // Partner
     partnerId: number | null; // Int
     price: number; // Int!
@@ -350,7 +352,6 @@ export interface NexusGenArgTypes {
     }
     createOrder: { // args
       itemId: number; // Int!
-      price: number; // Int!
     }
     deleteItem: { // args
       id: number; // Int!

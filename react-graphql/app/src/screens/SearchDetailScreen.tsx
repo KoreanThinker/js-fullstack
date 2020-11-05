@@ -1,15 +1,25 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native'
+import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native'
+import BaseButton from '../components/BaseButton'
 import ItemCard from '../components/Cards/ItemCard'
 import SearchHeader from '../components/Headers/SearchHeader'
+import { GRAY } from '../constants/styles'
 import { useSearch } from '../graphql/search'
 import useSearchKeyword from '../hooks/useSearchKeyword'
+
+type OrderBy = 'Popular' | 'Recent' | 'Cheap' | 'Expensive'
+const ORDER_BY_LIST: OrderBy[] = ['Popular', 'Recent', 'Cheap', 'Expensive']
 
 const SearchDetailScreen = () => {
 
     const { searchKeyword } = useSearchKeyword()
-    const { data, refetch } = useSearch({ variables: { orderBy: '', keyword: searchKeyword } })
     const [refreshing, setRefresing] = useState(false)
+    const [orderBy, setOrderBy] = useState<OrderBy>('Popular')
+    const { data, refetch } = useSearch({ variables: { orderBy, keyword: searchKeyword } })
+
+    useEffect(() => {
+        console.log(searchKeyword)
+    }, [searchKeyword])
 
     const onRefresh = useCallback(async () => {
         try {
@@ -26,6 +36,9 @@ const SearchDetailScreen = () => {
     return (
         <View>
             <SearchHeader editable={false} />
+            <View style={styles.orderSelector} >
+                {ORDER_BY_LIST.map(v => <BaseButton key={v} onPress={() => setOrderBy(v)} style={styles.orderBtn} ><Text style={{ color: v === orderBy ? '#000' : GRAY }}>{v}</Text></BaseButton>)}
+            </View>
             <FlatList
                 onRefresh={onRefresh}
                 refreshing={refreshing}
@@ -35,10 +48,21 @@ const SearchDetailScreen = () => {
                 data={data?.search?.items || []}
                 renderItem={({ item }) => <ItemCard {...item} />}
             />
-        </View>
+        </View >
     )
 }
 
 export default SearchDetailScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    orderSelector: {
+        width: '100%',
+        height: 56,
+        flexDirection: 'row'
+    },
+    orderBtn: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
+})
