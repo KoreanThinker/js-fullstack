@@ -10,6 +10,7 @@ import { schema } from './schema'
 
 require('dotenv').config()
 
+
 const app = express()
 
 const server = new ApolloServer({
@@ -34,7 +35,7 @@ if (process.env.NODE_ENV === 'production') {
   //   credentials: true
   // }))
 } else {
-  app.use(morgan('dev'))
+  // app.use(morgan('dev'))
 }
 
 app.use(bodyParser.urlencoded({ extended: true }))

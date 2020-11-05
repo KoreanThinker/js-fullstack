@@ -74,6 +74,7 @@ type Mutation {
   partnerLogout: Boolean!
   partnerSignup(email: String!, name: String!, password: String!): Partner!
   receiveOrder(orderId: Int!): Order!
+  removeAllRecentSearchKeywords: Boolean!
   removeCart(cartItemIds: [Int!]!): CartItem
   updateItem(id: Int!, images: [Int!], name: String, options: [OptionsInput!], price: Int, published: Boolean): Item
   uploadImage(image: Upload!): Image
@@ -159,7 +160,23 @@ type Query {
   newOrder: [Order!]!
   order(id: Int!): Order
   partner(id: Int!): Partner
+  recentSearchKeywords: [SearchKeyword!]!
+  search(keyword: String!, orderBy: String!): Search!
   user(id: Int!): User
+}
+
+type Search {
+  count: Int!
+  items: [Item!]!
+  orderBy: String!
+}
+
+type SearchKeyword {
+  createdAt: DateTime!
+  id: Int!
+  keyword: String!
+  User: User
+  userId: Int
 }
 
 enum SnsLogin {

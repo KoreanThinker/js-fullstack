@@ -125,6 +125,17 @@ export interface NexusGenRootTypes {
     profit: number; // Int!
   }
   Query: {};
+  Search: { // root type
+    count: number; // Int!
+    items: NexusGenRootTypes['Item'][]; // [Item!]!
+    orderBy: string; // String!
+  }
+  SearchKeyword: { // root type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: number; // Int!
+    keyword: string; // String!
+    userId?: number | null; // Int
+  }
   User: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     email: string; // String!
@@ -200,6 +211,7 @@ export interface NexusGenFieldTypes {
     partnerLogout: boolean; // Boolean!
     partnerSignup: NexusGenRootTypes['Partner']; // Partner!
     receiveOrder: NexusGenRootTypes['Order']; // Order!
+    removeAllRecentSearchKeywords: boolean; // Boolean!
     removeCart: NexusGenRootTypes['CartItem'] | null; // CartItem
     updateItem: NexusGenRootTypes['Item'] | null; // Item
     uploadImage: NexusGenRootTypes['Image'] | null; // Image
@@ -259,7 +271,21 @@ export interface NexusGenFieldTypes {
     newOrder: NexusGenRootTypes['Order'][]; // [Order!]!
     order: NexusGenRootTypes['Order'] | null; // Order
     partner: NexusGenRootTypes['Partner'] | null; // Partner
+    recentSearchKeywords: NexusGenRootTypes['SearchKeyword'][]; // [SearchKeyword!]!
+    search: NexusGenRootTypes['Search']; // Search!
     user: NexusGenRootTypes['User'] | null; // User
+  }
+  Search: { // field return type
+    count: number; // Int!
+    items: NexusGenRootTypes['Item'][]; // [Item!]!
+    orderBy: string; // String!
+  }
+  SearchKeyword: { // field return type
+    createdAt: NexusGenScalars['DateTime']; // DateTime!
+    id: number; // Int!
+    keyword: string; // String!
+    User: NexusGenRootTypes['User'] | null; // User
+    userId: number | null; // Int
   }
   User: { // field return type
     cart: NexusGenRootTypes['CartItem'][]; // [CartItem!]!
@@ -426,6 +452,10 @@ export interface NexusGenArgTypes {
     partner: { // args
       id: number; // Int!
     }
+    search: { // args
+      keyword: string; // String!
+      orderBy: string; // String!
+    }
     user: { // args
       id: number; // Int!
     }
@@ -451,7 +481,7 @@ export interface NexusGenAbstractResolveReturnTypes {
 
 export interface NexusGenInheritedFields {}
 
-export type NexusGenObjectNames = "CartItem" | "Image" | "Item" | "Mutation" | "Option" | "OptionItem" | "Order" | "Partner" | "Query" | "User";
+export type NexusGenObjectNames = "CartItem" | "Image" | "Item" | "Mutation" | "Option" | "OptionItem" | "Order" | "Partner" | "Query" | "Search" | "SearchKeyword" | "User";
 
 export type NexusGenInputNames = "CartItemWhereUniqueInput" | "ImageWhereUniqueInput" | "ItemWhereUniqueInput" | "OptionItemInput" | "OptionItemWhereUniqueInput" | "OptionWhereUniqueInput" | "OptionsInput" | "OrderWhereUniqueInput";
 

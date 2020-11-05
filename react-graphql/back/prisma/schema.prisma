@@ -87,14 +87,23 @@ model Image {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
-  createdAt DateTime   @default(now())
-  email     String     @unique
-  sns       SnsLogin
-  password  String?
-  name      String
-  orders    Order[]
-  cart      CartItem[]
+  id                   Int             @id @default(autoincrement())
+  createdAt            DateTime        @default(now())
+  email                String          @unique
+  sns                  SnsLogin
+  password             String?
+  name                 String
+  orders               Order[]
+  cart                 CartItem[]
+  recentSearchKeywords SearchKeyword[]
+}
+
+model SearchKeyword {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  keyword   String
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
 }
 
 enum SnsLogin {

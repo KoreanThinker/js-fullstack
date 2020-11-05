@@ -1,6 +1,8 @@
 import { PrismaClient } from '@prisma/client'
+import { gql } from 'apollo-server-express'
 import { ExpressContext } from 'apollo-server-express/dist/ApolloServer'
 import { AWSS3Uploader } from './lib/s3Uploader'
+import gqlLogger from './utils/gqlLogger'
 require('dotenv').config()
 
 export const prisma = new PrismaClient()
@@ -19,6 +21,7 @@ export interface Context {
 }
 
 export const createContext = (expressContext: ExpressContext) => {
+    gqlLogger(expressContext)
     return {
         s3Uploader,
         prisma,
