@@ -18,10 +18,11 @@ export const search = queryField('search', {
                 User: { connect: { id: userId } }
             }
         })
+        const items = await ctx.prisma.item.findMany({ orderBy: { createdAt: 'desc' } })
         return {
             orderBy,
             count: 1,
-            items: []
+            items
         }
 
     }

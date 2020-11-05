@@ -22,7 +22,7 @@ export const SEARCH = gql`
 interface SearchData {
     search: {
         count: number
-        items: ItemsItem
+        items: ItemsItem[]
         orderBy: string
     }
 }
@@ -33,7 +33,8 @@ interface SearchVars {
 export const useSearch = (options?: QueryHookOptions<SearchData, SearchVars>) => createQueryHook<SearchData, SearchVars>(SEARCH, {
     ...options,
     fetchPolicy: 'network-only',
-    onCompleted: ({ search }) => {
+    onCompleted: (data) => {
+        console.log(data)
         client.cache.evict({ fieldName: 'recentSearchKeywords' }) // remove cache & refetch recent keywords
     }
 })
