@@ -6,5 +6,6 @@ export const Search = objectType({
         t.string('orderBy')
         t.int('count')
         t.list.field('items', { type: 'Item' })
+        t.string('keyword')
     }
 })

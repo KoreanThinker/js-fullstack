@@ -9,17 +9,8 @@ export const search = queryField('search', {
         orderBy: stringArg({ required: true, default: 'Popular' })
     },
     resolve: async (_, { keyword, orderBy }, ctx) => {
-        const userId = getUserId(ctx)
-        // add keyword to user data
-        await ctx.prisma.searchKeyword.create({
-            data: {
-                keyword,
-                User: { connect: { id: userId } }
-            }
-        })
         const items = await ctx.prisma.item.findMany({
             where: { name: { contains: keyword }, published: true },
-            include: { order: true },
             orderBy:
                 orderBy === 'Popular' ? { orderCount: 'desc' } :
                     orderBy === 'Recent' ? { createdAt: 'desc' } :
@@ -32,7 +23,8 @@ export const search = queryField('search', {
         return {
             orderBy,
             count,
-            items
+            items,
+            keyword
         }
 
     }

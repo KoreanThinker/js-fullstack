@@ -1,25 +1,27 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native'
+import { Route, useRoute } from '@react-navigation/native'
+import React, { useCallback, useState } from 'react'
+import { FlatList, StyleSheet, Text, View } from 'react-native'
 import BaseButton from '../components/BaseButton'
 import ItemCard from '../components/Cards/ItemCard'
 import SearchHeader from '../components/Headers/SearchHeader'
 import { GRAY } from '../constants/styles'
 import { useSearch } from '../graphql/search'
-import useSearchKeyword from '../hooks/useSearchKeyword'
+
+
+interface RouteParams {
+    searchKeyword: string
+}
 
 type OrderBy = 'Popular' | 'Recent' | 'Cheap' | 'Expensive'
 const ORDER_BY_LIST: OrderBy[] = ['Popular', 'Recent', 'Cheap', 'Expensive']
 
+
 const SearchDetailScreen = () => {
 
-    const { searchKeyword } = useSearchKeyword()
+    const { params } = useRoute<Route<'SearchDetail', RouteParams>>()
     const [refreshing, setRefresing] = useState(false)
     const [orderBy, setOrderBy] = useState<OrderBy>('Popular')
-    const { data, refetch } = useSearch({ variables: { orderBy, keyword: searchKeyword } })
-
-    useEffect(() => {
-        console.log(searchKeyword)
-    }, [searchKeyword])
+    const { data, refetch } = useSearch({ variables: { orderBy, keyword: params.searchKeyword } })
 
     const onRefresh = useCallback(async () => {
         try {

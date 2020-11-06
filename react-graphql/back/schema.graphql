@@ -169,6 +169,7 @@ type Query {
 type Search {
   count: Int!
   items: [Item!]!
+  keyword: String!
   orderBy: String!
 }
 

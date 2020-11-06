@@ -1,27 +1,20 @@
-import React, { useCallback, useEffect } from 'react'
-import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect } from 'react'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import SearchHeader from '../components/Headers/SearchHeader'
 import KeywordList from '../components/KeywordList'
 import { LIGHT_GRAY, VERY_LIGHT_GRAY } from '../constants/styles'
-import { useRecentSearchKeyword, useRemoveAllRecentSearchKeywords } from '../graphql/search'
+import useRecentSearchKeywords from '../hooks/useRecentSearchKeywords'
 import useSearchKeyword from '../hooks/useSearchKeyword'
 
 const SearchScreen = () => {
 
     const { onClear } = useSearchKeyword()
 
-    const { data } = useRecentSearchKeyword()
-    const [removeAllRecentSearchKeywordsRequest, { loading }] = useRemoveAllRecentSearchKeywords()
+    const { recentSearchKeywords, removeAllRecentSearchKeywords } = useRecentSearchKeywords()
 
     useEffect(() => {
         onClear()
     }, [])
-
-
-    const onRemoveAllRecentSearchKeywords = useCallback(async () => {
-        if (loading) return
-        await removeAllRecentSearchKeywordsRequest()
-    }, [loading])
 
     return (
         <View>
@@ -29,15 +22,12 @@ const SearchScreen = () => {
             <View style={styles.recentKeywordsContainer} >
                 <View style={styles.recentKeywordsHeader} >
                     <Text style={styles.recentKeywordHeaderText} >Recent Keywords</Text>
-                    <Pressable onPress={onRemoveAllRecentSearchKeywords} >
-                        {loading
-                            ? <ActivityIndicator />
-                            : <Text style={styles.recentKeywordHeaderText} >Remove all</Text>
-                        }
+                    <Pressable onPress={removeAllRecentSearchKeywords} >
+                        <Text style={styles.recentKeywordHeaderText} >Remove all</Text>
                     </Pressable>
                 </View>
                 <KeywordList
-                    data={data?.recentSearchKeywords.map((keyword) => keyword) || []}
+                    data={recentSearchKeywords.map((keyword) => keyword) || []}
                 />
             </View>
         </View>

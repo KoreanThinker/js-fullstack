@@ -1,9 +1,11 @@
 import { useCallback } from "react"
-import { searchKeywordVar } from "../lib/apollo/cache"
-import { useSearchKeywordQuery } from '../graphql/search'
+import { makeVar, useReactiveVar } from "@apollo/client"
+
+export const searchKeywordVar = makeVar('')
+
 const useSearchKeyword = () => {
 
-    const { data } = useSearchKeywordQuery()
+    const searchKeyword = useReactiveVar(searchKeywordVar)
 
     const onClear = useCallback(() => {
         searchKeywordVar('')
@@ -14,7 +16,7 @@ const useSearchKeyword = () => {
     }, [])
 
     return {
-        searchKeyword: data?.searchKeyword || '',
+        searchKeyword,
         onClear,
         onChange
     }

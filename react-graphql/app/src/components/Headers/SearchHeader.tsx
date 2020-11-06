@@ -6,6 +6,7 @@ import Icon2 from 'react-native-vector-icons/MaterialIcons'
 import { COLOR1, GRAY } from '../../constants/styles'
 import { useNavigation } from '@react-navigation/native'
 import useSearchKeyword from '../../hooks/useSearchKeyword'
+import useRecentSearchKeywords from '../../hooks/useRecentSearchKeywords'
 
 interface SearchHeaderProps {
     editable?: boolean
@@ -16,11 +17,13 @@ const SearchHeader: React.FC<SearchHeaderProps> = ({ editable }) => {
 
     const { navigate, goBack } = useNavigation()
     const { searchKeyword, onChange, onClear } = useSearchKeyword()
+    const { addRecentSearchKeywords } = useRecentSearchKeywords()
 
     const onSearch = useCallback(() => {
         if (!editable) return
-        navigate('SearchDetail')
-    }, [])
+        navigate('SearchDetail', { searchKeyword })
+        addRecentSearchKeywords(searchKeyword)
+    }, [searchKeyword])
 
     const onClearBtn = useCallback(() => {
         onClear()

@@ -1,6 +1,5 @@
 import { gql, QueryHookOptions } from "@apollo/client";
-import { client } from "../lib/apollo";
-import { createMutationHook, createQueryHook } from "../lib/createApolloHook";
+import { createQueryHook } from "../lib/createApolloHook";
 import { ItemsItem } from "./item";
 
 // QUERY/SEARCH
@@ -9,6 +8,7 @@ export const SEARCH = gql`
     search(keyword: $keyword, orderBy: $orderBy) {
       count
       orderBy
+      keyword
       items {
         id
         createdAt
@@ -20,71 +20,18 @@ export const SEARCH = gql`
   }
 `
 interface SearchData {
-    search: {
-        count: number
-        items: ItemsItem[]
-        orderBy: string
-    }
-}
-interface SearchVars {
+  search: {
+    count: number
+    items: ItemsItem[]
     orderBy: string
     keyword: string
+  }
+}
+interface SearchVars {
+  orderBy: string
+  keyword: string
 }
 export const useSearch = (options?: QueryHookOptions<SearchData, SearchVars>) => createQueryHook<SearchData, SearchVars>(SEARCH, {
-    ...options,
-    fetchPolicy: 'network-only',
-    // onCompleted: (data) => {
-    //     console.log(data)
-    //     client.cache.evict({ fieldName: 'recentSearchKeywords' }) // remove cache & refetch recent keywords
-    // }
-})
-
-//QUERY/RECENT_SEARCH_KEYWORDS
-export const SEARCH_KEYWORD = gql`
-    query {
-        searchKeyword @client
-    }
-`
-interface SearchKeywordData {
-    searchKeyword: string
-}
-interface SearchKeywordVars {
-
-}
-export const useSearchKeywordQuery = () => createQueryHook<SearchKeywordData, SearchKeywordVars>(SEARCH_KEYWORD, {
-
-})
-
-//QUERY/RECENT_SEARCH_KEYWORDS
-export const RECENT_SEARCH_KEYWORDS = gql`
-    query {
-        recentSearchKeywords @client
-    }
-`
-interface RecentSearchKeywordData {
-    recentSearchKeywords: string[]
-}
-interface RecentSearchKeywordVars {
-
-}
-export const useRecentSearchKeyword = () => createQueryHook<RecentSearchKeywordData, RecentSearchKeywordVars>(RECENT_SEARCH_KEYWORDS, {
-
-})
-
-//MUTATION/REMOVE_ALL_RECENT_SEARCH_KEYWORDS
-export const REMOVE_ALL_RECENT_SEARCH_KEYWORDS = gql`
-    mutation {
-        removeAllRecentSearchKeywords
-    }
-`
-interface RemoveAllRecentSearchKeywordsData {
-    removeAllRecentSearchKeywords: boolean
-}
-interface RemoveAllRecentSearchKeywordsVars {
-
-}
-export const useRemoveAllRecentSearchKeywords = () => createMutationHook<RemoveAllRecentSearchKeywordsData, RemoveAllRecentSearchKeywordsVars>(REMOVE_ALL_RECENT_SEARCH_KEYWORDS, {
-    update: (cache, { data }) => {
-        cache.evict({ fieldName: 'recentSearchKeywords' }) // remove cache & get new data
-    }
+  ...options,
+  fetchPolicy: 'network-only'
 })

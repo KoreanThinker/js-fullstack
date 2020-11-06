@@ -129,6 +129,7 @@ export interface NexusGenRootTypes {
   Search: { // root type
     count: number; // Int!
     items: NexusGenRootTypes['Item'][]; // [Item!]!
+    keyword: string; // String!
     orderBy: string; // String!
   }
   SearchKeyword: { // root type
@@ -280,6 +281,7 @@ export interface NexusGenFieldTypes {
   Search: { // field return type
     count: number; // Int!
     items: NexusGenRootTypes['Item'][]; // [Item!]!
+    keyword: string; // String!
     orderBy: string; // String!
   }
   SearchKeyword: { // field return type
