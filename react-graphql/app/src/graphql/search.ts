@@ -40,25 +40,35 @@ export const useSearch = (options?: QueryHookOptions<SearchData, SearchVars>) =>
 })
 
 //QUERY/RECENT_SEARCH_KEYWORDS
+export const SEARCH_KEYWORD = gql`
+    query {
+        searchKeyword @client
+    }
+`
+interface SearchKeywordData {
+    searchKeyword: string
+}
+interface SearchKeywordVars {
+
+}
+export const useSearchKeywordQuery = () => createQueryHook<SearchKeywordData, SearchKeywordVars>(SEARCH_KEYWORD, {
+
+})
+
+//QUERY/RECENT_SEARCH_KEYWORDS
 export const RECENT_SEARCH_KEYWORDS = gql`
     query {
-        recentSearchKeywords {
-            keyword
-            id
-        }
+        recentSearchKeywords @client
     }
 `
 interface RecentSearchKeywordData {
-    recentSearchKeywords: {
-        keyword: string
-        id: number
-    }[]
+    recentSearchKeywords: string[]
 }
 interface RecentSearchKeywordVars {
 
 }
 export const useRecentSearchKeyword = () => createQueryHook<RecentSearchKeywordData, RecentSearchKeywordVars>(RECENT_SEARCH_KEYWORDS, {
-    fetchPolicy: 'cache-and-network'
+
 })
 
 //MUTATION/REMOVE_ALL_RECENT_SEARCH_KEYWORDS

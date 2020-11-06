@@ -1,19 +1,23 @@
-import { useCallback, useContext } from "react"
-import { Context } from '../contexts'
-
+import { useCallback } from "react"
+import { searchKeywordVar } from "../lib/apollo/cache"
+import { useSearchKeywordQuery } from '../graphql/search'
 const useSearchKeyword = () => {
 
-    const { searchKeyword, setSearchKeyword } = useContext(Context)
+    const { data } = useSearchKeywordQuery()
 
     const onClear = useCallback(() => {
-        setSearchKeyword('')
+        searchKeywordVar('')
     }, [])
 
     const onChange = useCallback((t: string) => {
-        setSearchKeyword(t)
+        searchKeywordVar(t)
     }, [])
 
-    return { searchKeyword, onClear, onChange }
+    return {
+        searchKeyword: data?.searchKeyword || '',
+        onClear,
+        onChange
+    }
 }
 
 export default useSearchKeyword

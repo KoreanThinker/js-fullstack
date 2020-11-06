@@ -26,7 +26,6 @@ export const search = queryField('search', {
                         orderBy === 'Cheap' ? { price: 'asc' } :
                             { price: 'desc' }
         })
-        console.log(items)
         const count = await ctx.prisma.item.count({
             where: { name: { contains: keyword }, published: true },
         })

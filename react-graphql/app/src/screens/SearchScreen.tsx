@@ -37,7 +37,7 @@ const SearchScreen = () => {
                     </Pressable>
                 </View>
                 <KeywordList
-                    data={data?.recentSearchKeywords.map(({ keyword }) => keyword) || []}
+                    data={data?.recentSearchKeywords.map((keyword) => keyword) || []}
                 />
             </View>
         </View>

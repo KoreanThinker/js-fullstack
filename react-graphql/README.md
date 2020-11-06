@@ -3,6 +3,7 @@
 - react-native
 - typesciprt
 - apollo
+- code-push
 
 ### FRONT
 - react
@@ -21,8 +22,7 @@
 
 # TODO
 front, app에서 로그인 front에서 post, app 에서 인피니티스크롤 front & app chatting
-- search
-- context api 제거
+- context api 제거 to graphql 로 장바구니를 고려해야할듯
 - css ssr
 - https (nginx)
 - back cookie subdomain (console.name.com)
@@ -35,5 +35,4 @@ front, app에서 로그인 front에서 post, app 에서 인피니티스크롤 fr
 - back sns login 할때 token 유츌 or 다른 방법으로(다른 서비스에서 생성한 토큰도 적용될듯) token 생성시 바로 뚤림..? 책임 유저한태 있으면 상관 없긴함
 - deep link kakaotalk 에서 어떻게 열리나 썸네일은 https://로 해서 생성해줘야되나?
 - Id String or Int???
-- Recent keyword graphql 없이 ?
-- popular = like 수로 해야겠다
+- 인기순 정렬은 like 수로 해야겠다
