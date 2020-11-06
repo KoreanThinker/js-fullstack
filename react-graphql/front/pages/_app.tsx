@@ -1,9 +1,6 @@
 import React from 'react'
-import '../styles/global.css'
-import 'antd/dist/antd.css';
 import { ToastContainer } from 'react-toastify';
 import { ApolloProvider } from '@apollo/client';
-import 'react-toastify/dist/ReactToastify.css';
 import { useApollo } from '../lib/apollo';
 import { AppProps } from 'next/app';
 

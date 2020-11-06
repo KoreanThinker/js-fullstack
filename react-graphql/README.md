@@ -22,11 +22,12 @@
 
 # TODO
 front, app에서 로그인 front에서 post, app 에서 인피니티스크롤 front & app chatting
-- context api 제거 to graphql 로 장바구니를 고려해야할듯
 - css ssr
+- hosting
 - https (nginx)
 - back cookie subdomain (console.name.com)
 - ci-cd
+- apple login
 
 # TOPIC
 - 실무에서는 SubDomain으로 프론트 Main, Partner, Console 나누고 백엔드 엔드포인트도 유저, 파트너, 어드민으로 나누자?? 모르겠다
