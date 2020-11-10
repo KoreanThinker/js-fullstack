@@ -1,12 +1,12 @@
 version: '3'
 services: 
-    # back:
-    #     build: '/back'
-    #     ports: 
-    #         - "5000:5000"
-    front:
-        build: './front'
-        # environment: 
-        #     - GRAPHQL_SERVER_URL=http://localhost:4000/graphql
-        ports:
-            - "80:80"
+    back:
+        build: './back'
+        ports: 
+            - "4000:4000"
+    # front:
+    #     build: './front'
+    #     # environment: 
+    #     #     - GRAPHQL_SERVER_URL=http://localhost:4000/graphql
+    #     ports:
+    #         - "80:80"

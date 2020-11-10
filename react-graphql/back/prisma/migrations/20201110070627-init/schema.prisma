@@ -1,0 +1,125 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url = "***"
+}
+
+model Partner {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  email     String   @unique
+  password  String
+  name      String
+  profit    Int      @default(0)
+  items     Item[]
+  orders    Order[]
+}
+
+model Order {
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  price         Int
+  itemState     ItemState @default(receiving)
+  item          Item?     @relation(fields: [itemId], references: [id])
+  buyer         User?     @relation(fields: [buyerId], references: [id])
+  partner       Partner?  @relation(fields: [partnerId], references: [id])
+  buyerId       Int?
+  itemId        Int?
+  partnerId     Int?
+  waybillNumber String?
+}
+
+model Item {
+  id         Int        @id @default(autoincrement())
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  published  Boolean    @default(true)
+  partner    Partner?   @relation(fields: [partnerId], references: [id])
+  partnerId  Int?
+  order      Order[]
+  price      Int
+  name       String     @unique
+  images     Image[]
+  CartItem   CartItem[]
+  options    Option[]
+  orderCount Int        @default(0)
+}
+
+model Option {
+  id          Int          @id @default(autoincrement())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  optionItems OptionItem[]
+  item        Item         @relation(fields: [itemId], references: [id])
+  itemId      Int
+}
+
+model OptionItem {
+  id        Int        @id @default(autoincrement())
+  name      String
+  price     Int
+  option    Option     @relation(fields: [optionId], references: [id])
+  optionId  Int
+  cartItems CartItem[]
+}
+
+model CartItem {
+  id             Int          @id @default(autoincrement())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  quantity       Int
+  item           Item         @relation(fields: [itemId], references: [id])
+  itemId         Int
+  currentOptions OptionItem[]
+  User           User?        @relation(fields: [userId], references: [id])
+  userId         Int?
+}
+
+model Image {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  src       String
+  item      Item?    @relation(fields: [itemId], references: [id])
+  itemId    Int?
+}
+
+model User {
+  id                   Int             @id @default(autoincrement())
+  createdAt            DateTime        @default(now())
+  email                String          @unique
+  sns                  SnsLogin
+  password             String?
+  name                 String
+  orders               Order[]
+  cart                 CartItem[]
+  recentSearchKeywords SearchKeyword[]
+}
+
+model SearchKeyword {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  keyword   String
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
+}
+
+enum SnsLogin {
+  em
+  ka
+  fa
+  go
+  na
+}
+
+enum ItemState {
+  receiving
+  receiptCompleted
+  deliveryProgress
+  deliveryCompleted
+  canceled
+  confirmation
+}
