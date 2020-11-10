@@ -20,7 +20,7 @@ const profile = () => {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const initialApolloState = await fetcher(context, [I_USER])
+    const initialApolloState = await fetcher(context, [{ query: I_USER }])
     return { props: { initialApolloState } }
 }
 

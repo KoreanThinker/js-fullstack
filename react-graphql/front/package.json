@@ -2,14 +2,16 @@
   "name": "front",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "build": "cross-env NODE_ENV=production next build",
+    "start": "cross-env NODE_ENV=production next start -p 80",
+    "build&start": "npm run build && npm run start"
   },
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
     "@apollo/client": "^3.2.0",
     "antd": "^4.6.5",
     "apollo-upload-client": "^14.1.2",
+    "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "graphql": "^15.3.0",
     "graphql-combine-query": "^1.2.1",

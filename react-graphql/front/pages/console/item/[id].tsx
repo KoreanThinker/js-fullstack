@@ -90,6 +90,7 @@ const ItemDetail = () => {
         return false
     }, [fileList])
 
+    //@ts-ignore
     const onBeforeUpload = useCallback(async (file: RcFile, FileList: RcFile[]) => {
         try {
             if (uploadLoading) return

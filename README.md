@@ -1,1 +1,1 @@
-This project pursue the awesome architecture.
+Clean Architecture.
