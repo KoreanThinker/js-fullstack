@@ -49,7 +49,7 @@ app.get('/', (req, res) => {
 server.applyMiddleware({
   app,
   cors: {
-    origin: 'http://localhost:80',
+    origin: 'http://localhost',
     credentials: true
   }
 })

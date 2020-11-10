@@ -28,6 +28,7 @@
 
 # TODO
 - code 난독화
+- front console 에서 refresh 시 오류, 로그인하고 콘솔 아이콘도 안생김
 - https (nginx)
 - cicd (genkins or cicd circle)
 - back cookie subdomain (console.name.com)
