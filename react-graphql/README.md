@@ -27,10 +27,9 @@
 - s3 (image hosting)
 
 # TODO
-front, app에서 로그인 front에서 post, app 에서 인피니티스크롤 front & app chatting
-- docker
-- cicd (genkins or cicd circle)
+- code 난독화
 - https (nginx)
+- cicd (genkins or cicd circle)
 - back cookie subdomain (console.name.com)
 - ci-cd
 - apple login
