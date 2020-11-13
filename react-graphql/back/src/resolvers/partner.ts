@@ -44,9 +44,10 @@ export const isPartnerLoggedIn = queryField('isPartnerLoggedIn', {
         try {
             const partnerId = getPartnerId(ctx)
             const partner = await ctx.prisma.partner.findOne({ where: { id: Number(partnerId) } })
-            return !!partner
+            if (!partner) throw new Error('No Partner')
+            return true
         } catch (error) {
-            // console.error(error)
+            console.error(error)
             ctx.expressContext.res.clearCookie(PARTNER_ACCESS_TOKEN_NAME)
             return false
         }

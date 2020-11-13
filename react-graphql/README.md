@@ -21,20 +21,22 @@
 - mysql
 
 ### DEV-OPS
+- gcp
 - docker
-- ec2
-- nginx
-- s3 (image hosting)
+- jenkins
+- git
 
 # TODO
-- code 난독화
-- front console 에서 refresh 시 오류, 로그인하고 콘솔 아이콘도 안생김
+- cloud storage
 - https (nginx)
-- cicd (genkins or cicd circle)
+- front console 에서 refresh 시 오류, 로그인하고 콘솔 아이콘도 안생김
+- genkins
+- domain 구입
 - back cookie subdomain (console.name.com)
-- ci-cd
-- apple login
 - recommendation algorithm
+- code 난독화
+
+- apple login
 
 # TOPIC
 - 실무에서는 SubDomain으로 프론트 Main, Partner, Console 나누고 백엔드 엔드포인트도 유저, 파트너, 어드민으로 나누자?? 모르겠다

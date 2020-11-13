@@ -21,7 +21,7 @@ export interface Context {
 }
 
 export const createContext = (expressContext: ExpressContext) => {
-    gqlLogger(expressContext)
+    // gqlLogger(expressContext)
     return {
         s3Uploader,
         prisma,

@@ -1,7 +1,7 @@
 {
   "name": "front",
   "scripts": {
-    "dev": "next dev",
+    "dev": "cross-env next dev",
     "build": "cross-env NODE_ENV=production next build",
     "start": "cross-env NODE_ENV=production next start -p 80",
     "build:start": "npm run build && npm run start"

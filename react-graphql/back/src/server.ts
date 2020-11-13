@@ -1,10 +1,8 @@
 import express from 'express'
 import { ApolloServer } from 'apollo-server-express'
 import morgan from 'morgan'
-import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
-
 import { createContext } from './context'
 import { schema } from './schema'
 
@@ -20,7 +18,7 @@ const server = new ApolloServer({
     maxFileSize: 10000000,
     maxFiles: 10
   },
-  playground: {
+  playground: process.env.NODE_ENV === 'production' ? false : {
     settings: {
       "request.credentials": 'include'
     },
@@ -28,32 +26,36 @@ const server = new ApolloServer({
 });
 
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(morgan('combined'))
-  // app.use(cors({
-  //   origin: ['http://xxx.com'],
-  //   credentials: true
-  // }))
-} else {
-  // app.use(morgan('dev'))
-}
+
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser(process.env.COOKIE_SECRET))
 
 app.get('/', (req, res) => {
-  res.send('Server is running');
-});
-
-
-server.applyMiddleware({
-  app,
-  cors: {
-    origin: 'http://localhost',
-    credentials: true
-  }
+  res.send('Server is running')
 })
 
-app.listen({ port: 4000 }, () => {
-  console.log(`🚀  Server ready at  http://localhost:4000${server.graphqlPath}`)
+if (process.env.NODE_ENV === 'production') {
+  app.use(morgan('combined'))
+  server.applyMiddleware({
+    app,
+    cors: {
+      origin: process.env.FRONT_URL,
+      credentials: true
+    }
+  })
+} else {
+  app.use(morgan('dev'))
+  server.applyMiddleware({
+    app,
+    cors: {
+      origin: 'http://localhost:3000',
+      credentials: true
+    }
+  })
+}
+
+const port = process.env.NODE_ENV === 'production' ? 80 : 4000
+app.listen({ port }, () => {
+  console.log(`🚀  Server ready at  http://localhost:${port}${server.graphqlPath}`)
 })

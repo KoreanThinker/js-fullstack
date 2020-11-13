@@ -8,7 +8,8 @@ const jwtPartnerSign = (partnerId: string, ctx: Context) => {
     ctx.expressContext.res.cookie(PARTNER_ACCESS_TOKEN_NAME as string, token, {
         maxAge: PARTNER_JWT_EXPRISEIN,
         httpOnly: true,
-        // secure: true
+        // secure: true,
+        // domain: process.env.NODE_ENV === 'production' && '.domain.com'
     })
     return
 }

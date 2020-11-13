@@ -1,10 +1,9 @@
 {
   "name": "back",
   "scripts": {
-    "start": "node dist/server",
+    "start": "cross-env NODE_ENV=production node dist/server",
     "dev": "ts-node-dev --notify --respawn --transpile-only src/server.ts",
     "build": "npm -s run clean && npm -s run generate && tsc",
-    "build:start": "npm run build && npm run start",
     "clean": "rm -rf dist",
     "migrate": "npm -s run migrate:save && npm -s run migrate:up",
     "migrate:save": "prisma migrate save --name init --experimental",
