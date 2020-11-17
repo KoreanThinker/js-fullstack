@@ -1,10 +1,10 @@
 version: '3'
 services: 
-    # back:
-    #     build: './back'
-    #     ports: 
-    #         - "80:4000"
+    back:
+        build: './back'
+        ports: 
+            - "4000:80"
     front:
         build: './front'
         ports:
-            - "80:8080"
+            - "3000:80"

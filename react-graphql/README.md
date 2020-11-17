@@ -27,14 +27,14 @@
 - git
 
 # TODO
-- cloud storage
-- https (nginx)
+- CORS
 - front console 에서 refresh 시 오류, 로그인하고 콘솔 아이콘도 안생김
+- cloud storage
 - genkins
-- domain 구입
-- back cookie subdomain (console.name.com)
 - recommendation algorithm
 - code 난독화
+- test db 주소 나누기
+- next 빌드하고 넘기고 싶은데 ...
 
 - apple login
 

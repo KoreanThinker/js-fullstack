@@ -1,9 +1,9 @@
 {
   "name": "front",
   "scripts": {
-    "dev": "cross-env next dev",
-    "build": "cross-env NODE_ENV=production next build",
-    "start": "cross-env NODE_ENV=production next start -p 80",
+    "dev": "cross-env GRAPHQL_SERVER_URL=http://localhost:4000/graphql next dev",
+    "build": "cross-env GRAPHQL_SERVER_URL=https://api.react-graphql.shop/graphql NODE_ENV=production next build",
+    "start": "cross-env GRAPHQL_SERVER_URL=https://api.react-graphql.shop/graphql NODE_ENV=production next start -p 80",
     "build:start": "npm run build && npm run start"
   },
   "dependencies": {
