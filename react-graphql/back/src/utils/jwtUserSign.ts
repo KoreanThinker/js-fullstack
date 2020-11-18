@@ -8,9 +8,9 @@ const jwtUserSign = (userId: string, ctx: Context) => {
     ctx.expressContext.res.cookie(USER_ACCESS_TOKEN_NAME as string, token, {
         maxAge: USER_JWT_EXPRISEIN,
         httpOnly: true,
-        sameSite: 'none',
-        secure: process.env.NODE_ENV === 'production',
-        domain: process.env.NODE_ENV === 'production' ? '.react-graphql.shop' : undefined
+        // sameSite: 'none',
+        // secure: process.env.NODE_ENV === 'production',
+        // domain: process.env.NODE_ENV === 'production' ? '.react-graphql.shop' : undefined
     })
     return
 }

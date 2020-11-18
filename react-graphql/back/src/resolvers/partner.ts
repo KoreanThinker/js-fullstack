@@ -1,6 +1,7 @@
 import { intArg, mutationField, queryField, stringArg } from "@nexus/schema"
 import bcrypt from 'bcrypt'
 import getPartnerId from '../utils/getPartnerId'
+import jwtPartnerLogout from "../utils/jwtPartnerLogout"
 import jwtPartnerSign from '../utils/jwtPartnerSign'
 import { PARTNER_ACCESS_TOKEN_NAME } from '../values'
 
@@ -107,8 +108,7 @@ export const partnerLogin = mutationField('partnerLogin', {
 export const partnerLogout = mutationField('partnerLogout', {
     type: 'Boolean',
     resolve: async (_, { }, ctx) => {
-        ctx.expressContext.res.clearCookie(PARTNER_ACCESS_TOKEN_NAME)
+        jwtPartnerLogout(ctx)
         return true
     }
 })
-
